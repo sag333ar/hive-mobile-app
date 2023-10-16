@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +42,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: const Center(
         child: Text('Hello World from Hive Mobile App'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          const platform = MethodChannel('app.the-hive-mobile/bridge');
+          var id = 'getChainProps_${DateTime.now().toIso8601String()}';
+          final String response = await platform.invokeMethod('getChainProps', {
+            'id': id,
+          });
+          log('Response received from platform is - $response');
+        },
+        child: const Icon(Icons.bolt),
       ),
     );
   }
