@@ -38,6 +38,18 @@
         });
       }
 
+      async function getFeed(identifier, type) {
+        var response = await client.database.getDiscussions(type);
+        console.log(`Response: ${JSON.stringify(response)}`);
+        replyToNative({
+          id: identifier,
+          type: "getFeed",
+          data: JSON.stringify(response),
+          valid: true,
+          error: "",
+        });
+      }
+
       function replyToNative(result) {
         // window.webkit.messageHandlers.app.postMessage(result);
         Android.postMessage(JSON.stringify(result));

@@ -47,6 +47,12 @@ class MainActivity: FlutterActivity() {
                         "getChainProps('$id');",
                         null
                     )
+                } else if (call.method == "getFeed" ) {
+                    val feedType = call.argument<String?>("feed_type") ?: "trending"
+                    webView?.evaluateJavascript(
+                        "getFeed('$id', '$feedType');",
+                        null
+                    )
                 }
             }
         }
