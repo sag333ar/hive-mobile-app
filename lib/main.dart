@@ -1,7 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:hive_mobile_app/resources/enum.dart';
+import 'package:hive_mobile_app/services/api_service.dart';
+import 'package:hive_mobile_app/views/home/home_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Hive Mobile App - Home Page'),
+      home: const HomeView(),
     );
   }
 }
@@ -45,12 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          const platform = MethodChannel('app.the-hive-mobile/bridge');
-          var id = 'getChainProps_${DateTime.now().toIso8601String()}';
-          final String response = await platform.invokeMethod('getChainProps', {
-            'id': id,
-          });
-          log('Response received from platform is - $response');
+          ApiService().getChainProps();
+          ApiService().getFeed(FeedType.trending);
         },
         child: const Icon(Icons.bolt),
       ),

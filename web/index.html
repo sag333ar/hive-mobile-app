@@ -40,6 +40,53 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
+    <script>
+      var client = new dhive.Client([
+        "https://api.hive.blog",
+        "https://api.deathwings.me",
+        "https://hive-api.arcange.eu",
+        "https://hived.emre.sh",
+        "https://api.openhive.network",
+        "https://rpc.ausbit.dev",
+        "https://rpc.mahdiyari.info",
+        "https://hive-api.3speak.tv",
+        "https://anyx.io",
+        "https://techcoderx.com",
+        "https://api.hive.blue",
+        "https://api.c0ff33a.uk",
+        "https://api.pharesim.me",
+        "https://hived.privex.io",
+        "https://hive.roelandp.nl",
+      ]);
+
+      async function getChainProps(identifier) {
+        const props = await client.database.getChainProperties();
+        return replyToNative({
+          id: identifier,
+          type: "getChainProps",
+          data: JSON.stringify(props),
+          valid: true,
+          error: "",
+        });
+      }
+
+      async function getFeed(identifier, type) {
+        var response = await client.database.getDiscussions(type);
+        console.log(`Response: ${JSON.stringify(response)}`);
+        return replyToNative({
+          id: identifier,
+          type: "getFeed",
+          data: JSON.stringify(response),
+          valid: true,
+          error: "",
+        });
+      }
+
+      function replyToNative(result) {
+        return JSON.stringify(result);
+      }
+    </script>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
