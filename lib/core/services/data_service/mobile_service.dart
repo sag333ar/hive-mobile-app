@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:hive_mobile_app/resources/enum.dart';
+import 'package:hive_mobile_app/core/utilities/enum.dart';
 
 const String channel = 'app.the-hive-mobile/bridge';
 const platform = MethodChannel(channel);

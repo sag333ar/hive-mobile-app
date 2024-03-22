@@ -1,5 +1,5 @@
 
-import 'package:hive_mobile_app/resources/enum.dart';
+import 'package:hive_mobile_app/core/utilities/enum.dart';
 
 Future<String> getChainPropsFromPlatform() {
   return _error();

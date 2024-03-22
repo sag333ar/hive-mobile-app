@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-import 'package:hive_mobile_app/models/feed/active_vote_model.dart';
-import 'package:hive_mobile_app/models/feed/beneficiary_model.dart';
+import 'package:hive_mobile_app/feature/feeds/models/active_vote_model.dart';
+import 'package:hive_mobile_app/feature/feeds/models/beneficiary_model.dart';
 
 class PostFeedModel {
   final int postId;
@@ -163,5 +161,4 @@ class PostFeedModel {
         percentHBD: json["percent_hbd"],
       );
 
-  static List fromRawJson(String str) => json.decode(str);
 }
