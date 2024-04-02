@@ -1,0 +1,35 @@
+import 'package:hive_mobile_app/core/utilities/save_convert.dart';
+import 'package:hive_mobile_app/feature/feeds/models/post_json_meta_data/post_json_meta_data_video.dart';
+
+class PostJsonMetadata {
+  final List<String>? tags;
+  final List<String>? image;
+  final List<String>? links;
+  final List<String>? users;
+  final String? app;
+  final PostJsonVideo? video;
+  final String? format;
+
+  const PostJsonMetadata({
+    required this.tags,
+    required this.image,
+    this.app = "",
+    this.format,
+    this.links = const [],
+    this.users = const [],
+    required this.video,
+  });
+
+  factory PostJsonMetadata.fromJson(Map<String, dynamic>? json) =>
+      PostJsonMetadata(
+        tags: asList(json, 'tags').map((e) => e.toString()).toList(),
+        image: asList(json, 'image').map((e) => e.toString()).toList(),
+        links: asList(json, 'links').map((e) => e.toString()).toList(),
+        users: asList(json, 'users').map((e) => e.toString()).toList(),
+        format: json?['format'] as String? ?? "",
+        app: asString(json, 'app'),
+        video: PostJsonVideo.fromJson(
+          asMap(json, 'video'),
+        ),
+      );
+}

@@ -1,14 +1,18 @@
+import 'dart:convert';
+
+import 'package:hive_mobile_app/core/utilities/save_convert.dart';
 import 'package:hive_mobile_app/feature/feeds/models/active_vote_model.dart';
 import 'package:hive_mobile_app/feature/feeds/models/beneficiary_model.dart';
+import 'package:hive_mobile_app/feature/feeds/models/post_json_meta_data/post_json_meta_data.dart';
 
 class PostFeedModel {
   final int postId;
-  final String? author;
+  final String author;
   final String? permlink;
   final String? category;
-  final String? title;
-  final String? body;
-  final String? jsonMetadata;
+  final String title;
+  final String body;
+  final PostJsonMetadata? jsonMetadata;
   final DateTime? created;
   final DateTime? lastUpdate;
   final int? depth;
@@ -34,11 +38,11 @@ class PostFeedModel {
 
   PostFeedModel({
     required this.postId,
-    this.author,
+    required this.author,
     this.permlink,
     this.category,
-    this.title,
-    this.body,
+    required this.title,
+    required this.body,
     this.jsonMetadata,
     this.created,
     this.lastUpdate,
@@ -71,7 +75,7 @@ class PostFeedModel {
     String? category,
     String? title,
     String? body,
-    String? jsonMetadata,
+    PostJsonMetadata? jsonMetadata,
     DateTime? created,
     DateTime? lastUpdate,
     int? depth,
@@ -129,12 +133,12 @@ class PostFeedModel {
 
   factory PostFeedModel.fromJson(Map<String, dynamic> json) => PostFeedModel(
         postId: json["post_id"],
-        author: json["author"],
+        author: asString(json, "author"),
         permlink: json["permlink"],
         category: json["category"],
-        title: json["title"],
-        body: json["body"],
-        jsonMetadata: json["json_metadata"],
+        title: asString(json, "title"),
+        body: asString(json, "body"),
+        jsonMetadata:_parseJsonMetaData(json['json_metadata']),
         created: DateTime.parse(json["created"]),
         lastUpdate: DateTime.parse(json["last_update"]),
         depth: json["depth"],
@@ -161,4 +165,17 @@ class PostFeedModel {
         percentHBD: json["percent_hbd"],
       );
 
+  static PostJsonMetadata? _parseJsonMetaData(dynamic data) {
+    if (data != null) {
+      if (data is String) {
+        Map<String, dynamic> map = json.decode(data);
+        return PostJsonMetadata.fromJson(map);
+      } else {
+        if (data is Map) {
+          return PostJsonMetadata.fromJson(data as Map<String, dynamic>);
+        }
+      }
+    }
+    return null;
+  }
 }

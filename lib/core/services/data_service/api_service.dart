@@ -3,8 +3,8 @@ import 'package:hive_mobile_app/core/models/chain_prop_model.dart';
 import 'package:hive_mobile_app/feature/feeds/models/post_feed_model.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/services/data_service/service.dart'
-    if (dart.library.io) 'package:hive_mobile_app/services/mobile_service.dart'
-    if (dart.library.html) 'package:hive_mobile_app/services/web_service.dart';
+    if (dart.library.io) 'package:hive_mobile_app/core/services/data_service/mobile_service.dart'
+    if (dart.library.html) 'package:hive_mobile_app/core/services/data_service/web_service.dart';
 
 class ApiService {
   Future<ActionSingleDataResponse<ChainPropModel>> getChainProps() async {

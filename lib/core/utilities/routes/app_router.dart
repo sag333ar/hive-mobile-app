@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
-import 'package:hive_mobile_app/feature/feeds/presentation/views/home/home_view.dart';
+import 'package:hive_mobile_app/feature/feeds/presentation/views/home/view/home_view.dart';
 
 class AppRouter {
   static GoRouter router = GoRouter(routes: routes());

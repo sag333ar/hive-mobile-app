@@ -106,9 +106,6 @@ class WebAppInterface(private val mContext: Context) {
 }
 
 data class JSEvent(
-    val type: String,
-    val error: String,
-    val data: String,
     var id: String,
 )
 

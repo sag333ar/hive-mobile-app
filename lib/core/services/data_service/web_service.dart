@@ -1,12 +1,13 @@
-// ignore_for_file: avoid_web_libraries_in_flutter
 
-import 'dart:js_interop';
+// ignore_for_file: depend_on_referenced_packages, avoid_web_libraries_in_flutter
+
+import 'package:js/js.dart';
 import 'dart:js_util';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 
-
 @JS()
-external getChainProps(identifier);
+external dynamic getChainProps(identifier);
+
 Future<String> getChainPropsFromPlatform() async {
   final String chainPropId =
       'getChainProps_${DateTime.now().toIso8601String()}';
@@ -16,7 +17,8 @@ Future<String> getChainPropsFromPlatform() async {
 }
 
 @JS()
-external getFeed(identifier, type);
+external dynamic getFeed(identifier, type);
+
 Future<String> getFeedTypeFromPlatform(FeedType feedType) async {
   final String feedId = 'getFeed_${DateTime.now().toIso8601String()}';
   var promise = getFeed(feedId, enumToString(feedType));

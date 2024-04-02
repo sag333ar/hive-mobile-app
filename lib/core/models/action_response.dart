@@ -9,14 +9,16 @@ class ActionListDataResponse<T> {
   final bool valid;
   final String errorMessage;
   final ResponseStatus status;
+  final bool isSuccess;
 
   ActionListDataResponse({
     this.id,
     this.type,
     this.data,
-    this.valid =false,
+    this.isSuccess = false,
+    this.valid = false,
     required this.status,
-    required this.errorMessage ,
+    required this.errorMessage,
   });
 
   factory ActionListDataResponse.fromJsonString(
@@ -35,6 +37,7 @@ class ActionListDataResponse<T> {
       status: json['valid'] && json['error'].isEmpty
           ? ResponseStatus.success
           : ResponseStatus.failed,
+      isSuccess: json['valid'] && json['error'].isEmpty,
       valid: json['valid'] as bool,
       errorMessage: json['error'] as String,
     );
@@ -47,16 +50,15 @@ class ActionSingleDataResponse<T> {
   final T? data;
   final bool valid;
   final String errorMessage;
-   final ResponseStatus status;
+  final ResponseStatus status;
 
-  ActionSingleDataResponse({
-     this.id,
-     this.type,
-     this.data,
-     this.valid = false,
-     required this.errorMessage  ,
-     required this.status
-  });
+  ActionSingleDataResponse(
+      {this.id,
+      this.type,
+      this.data,
+      this.valid = false,
+      required this.errorMessage,
+      required this.status});
 
   factory ActionSingleDataResponse.fromJsonString(
           String string, T Function(Map<String, dynamic>?) fromJson) =>

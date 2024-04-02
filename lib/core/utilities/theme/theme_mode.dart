@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class ThemeController extends ChangeNotifier {
   final Color _primaryThemeColor = const Color(0xFFE31337);
-  final Color _primaryColor = const Color(0xFF212529);
+  final Color _primaryColor =  Colors.black;
+  // final Color _primaryColor = const Color(0xFF212529);
   final Color _secondaryColor = Colors.white;
   final Color _tertiaryColor = const Color(0xFFe7e7f1);
   final Color _errorColor = Colors.red;
@@ -13,7 +14,7 @@ class ThemeController extends ChangeNotifier {
 
   final String _fontFamily = 'Poppins';
 
-  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode _themeMode = ThemeMode.dark;
 
   get themeMode => _themeMode;
 
@@ -34,7 +35,7 @@ class ThemeController extends ChangeNotifier {
       scaffoldBackgroundColor: _secondaryColor,
       primaryColor: _primaryThemeColor,
       brightness: Brightness.light,
-      dividerColor: _primaryColor,
+      dividerColor: _primaryColor.withOpacity(0.2),
       focusColor: _primaryThemeColor,
       hintColor: Colors.black54,
       dividerTheme: DividerThemeData(color: _primaryColor.withOpacity(0.1)),
@@ -108,9 +109,9 @@ class ThemeController extends ChangeNotifier {
       primaryColorDark: _secondaryColor,
       appBarTheme: AppBarTheme(backgroundColor: _primaryThemeColor),
       scaffoldBackgroundColor: _primaryColor,
-      primaryColor: _secondaryColor,
+      primaryColor: _primaryThemeColor,
       brightness: Brightness.dark,
-      dividerColor: _primaryColor,
+      dividerColor: _secondaryColor.withOpacity(0.2),
       focusColor: _primaryThemeColor,
       hintColor: Colors.white54,
       dividerTheme: DividerThemeData(color: _secondaryColor.withOpacity(0.1)),
@@ -125,7 +126,7 @@ class ThemeController extends ChangeNotifier {
           onError: Colors.redAccent,
           primary: _secondaryColor,
           secondary: _primaryColor,
-          tertiary: _tertiaryColor),
+          tertiary: Colors.grey.shade900),
       fontFamily: _fontFamily,
       iconTheme: IconThemeData(color: _secondaryColor),
       textTheme: TextTheme(
