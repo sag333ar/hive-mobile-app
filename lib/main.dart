@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
             theme: themeController.getLightTheme(),
             darkTheme: themeController.getDarkTheme(),
             themeMode: themeController.themeMode,
+            debugShowCheckedModeBanner: false,
           );
         },
       ),

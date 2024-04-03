@@ -38,6 +38,7 @@ class ThemeController extends ChangeNotifier {
       dividerColor: _primaryColor.withOpacity(0.2),
       focusColor: _primaryThemeColor,
       hintColor: Colors.black54,
+      cardColor: _lightGrey,
       dividerTheme: DividerThemeData(color: _primaryColor.withOpacity(0.1)),
       colorScheme: ColorScheme.light(
           onPrimary: _staticColor,
@@ -66,7 +67,7 @@ class ThemeController extends ChangeNotifier {
         ),
         labelLarge: TextStyle(
           fontSize: 12,
-          color: _primaryThemeColor,
+          color: _primaryColor,
           fontWeight: FontWeight.w600,
         ),
         bodySmall: TextStyle(

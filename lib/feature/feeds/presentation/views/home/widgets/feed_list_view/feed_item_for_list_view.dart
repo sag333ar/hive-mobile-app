@@ -6,8 +6,8 @@ import 'package:hive_mobile_app/feature/feeds/presentation/views/home/widgets/in
 import 'package:hive_mobile_app/feature/feeds/presentation/views/home/widgets/post_image.dart';
 import 'package:hive_mobile_app/feature/feeds/presentation/views/home/widgets/user_tile.dart';
 
-class PostItemForMobile extends StatelessWidget {
-  const PostItemForMobile({super.key, required this.item});
+class PostItemForListView extends StatelessWidget {
+  const PostItemForListView({super.key, required this.item});
 
   final PostFeedModel item;
 
@@ -36,7 +36,7 @@ class PostItemForMobile extends StatelessWidget {
               maxLines: 3,
               minFontSize: 13,
               overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.bodyLarge!
+              style: theme.textTheme.bodyMedium!
                   .copyWith(fontWeight: FontWeight.w500),
             ),
             const Padding(

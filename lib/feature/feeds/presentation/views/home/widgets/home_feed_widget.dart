@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/widgets/empty_state.dart';
 import 'package:hive_mobile_app/core/common/widgets/loading_state.dart';
 import 'package:hive_mobile_app/core/common/widgets/server_error.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/feeds/models/post_feed_model.dart';
 import 'package:hive_mobile_app/feature/feeds/presentation/views/home/controller/home_feed_controller.dart';
-import 'package:hive_mobile_app/feature/feeds/presentation/views/home/widgets/item_for_mobile.dart';
+import 'package:hive_mobile_app/feature/feeds/presentation/views/home/widgets/feed_grid_view/feed_grid_view.dart';
+import 'package:hive_mobile_app/feature/feeds/presentation/views/home/widgets/feed_list_view/feed_list_view.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class HomeFeedWidget extends StatefulWidget {
   const HomeFeedWidget({super.key, required this.feedType});
@@ -41,10 +42,9 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget>
               return _dataState();
             } else if (value == ViewState.empty) {
               return const Emptystate(
-                icon: Icons.hourglass_empty,
-                text: 'No feeds found');
+                  icon: Icons.hourglass_empty, text: 'No feeds found');
             } else if (value == ViewState.error) {
-              return  ErrorState(
+              return ErrorState(
                 showRetryButton: true,
                 onTapRetryButton: () => controller.refresh(),
               );
@@ -63,14 +63,27 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget>
           previous != next || previous.length != next.length,
       selector: (_, provider) => provider.items,
       builder: (context, items, child) {
-        return ListView.builder(
-          padding:
-              const EdgeInsets.symmetric(vertical: kScreenVerticalPaddingDigit),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            PostFeedModel item = items[index];
-            return PostItemForMobile(item: item);
+        return NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            if (notification.metrics.pixels ==
+                notification.metrics.maxScrollExtent) {
+            }
+            return true;
           },
+          child: ScreenTypeLayout.builder(
+            mobile: (_) => FeedListView(
+              items: items,
+              feedType: widget.feedType,
+            ),
+            tablet: (_) => FeedGridView(
+                pageLoader: const SizedBox.shrink(),
+                items: items,
+                feedType: widget.feedType),
+            desktop: (_) => FeedGridView(
+                pageLoader: const SizedBox.shrink(),
+                items: items,
+                feedType: widget.feedType),
+          ),
         );
       },
     );

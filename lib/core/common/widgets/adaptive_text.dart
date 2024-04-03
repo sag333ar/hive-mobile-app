@@ -35,9 +35,9 @@ class AdaptiveText extends StatelessWidget {
   }
 
   double _fontSize(BuildContext context, TextStyle style) {
-    if (context.isMobile) {
+    if (context.isMobileSize) {
       return style.fontSize!;
-    } else if (context.isTablet) {
+    } else if (context.isTabletSize) {
       return style.fontSize! + 1.5;
     } else {
       return style.fontSize! + 3;

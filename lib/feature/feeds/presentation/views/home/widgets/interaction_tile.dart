@@ -1,6 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_mobile_app/core/common/widgets/icon_with_text.dart';
 import 'package:hive_mobile_app/feature/feeds/models/post_feed_model.dart';
+import 'package:hive_mobile_app/feature/feeds/presentation/views/home/widgets/post_earnings.dart';
+import 'package:hive_mobile_app/feature/feeds/presentation/views/home/widgets/vote_icon_button.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class InteractionTile extends StatelessWidget {
@@ -18,66 +21,45 @@ class InteractionTile extends StatelessWidget {
     final iconColor = theme.primaryColorDark.withOpacity(0.7);
     const iconGap = 5.0;
     var timeAgo = timeago.format(item.created ?? DateTime.now());
-    var value =
-        double.parse(item.pendingPayoutValue?.replaceAll(" HBD", "") ?? "0.0");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.arrow_circle_up_outlined,
-                color: iconColor,
-              ),
-              const SizedBox(width: iconGap),
-              Text(
-                "\$ ${value.toStringAsFixed(2)}",
-                style: style(theme),
-              ),
-            ],
+          PostEarnings(
+            pendingPayoutvalue: item.pendingPayoutValue,
+            iconColor: iconColor,
+            iconGap: iconGap,
+            textStyle: style(theme),
           ),
           verticalDivider(theme),
-          Row(
-            children: [
-              Icon(
-                Icons.favorite,
-                color: iconColor,
-              ),
-              const SizedBox(width: iconGap),
-              Text(
-                "${item.activeVotes?.length ?? 0}",
-                style: style(theme),
-              ),
-            ],
+          VoteIconButton(
+            item: item,
+            iconColor: iconColor,
+            iconGap: iconGap,
+            textStyle: style(theme),
           ),
           verticalDivider(theme),
-          Row(
-            children: [
-              Icon(
-                Icons.comment,
-                color: iconColor,
-              ),
-              const SizedBox(width: iconGap),
-              Text(
-                "${item.children ?? 0}",
-                style: style(theme),
-              ),
-            ],
-          ),
+          IconWithText(
+            icon:  Icons.comment, 
+            iconColor: iconColor,
+            text:  "${item.children ?? 0}",
+            iconGap: iconGap,
+            textStyle: style(theme),
+            ),
           verticalDivider(theme),
           Row(
             children: [
               Icon(
                 Icons.lock_clock,
+                size: 20,
                 color: iconColor,
               ),
               const SizedBox(width: iconGap),
               AutoSizeText(
                 timeAgo,
                 maxLines: 1,
-                minFontSize: 11,
+                minFontSize: 10,
                 overflow: TextOverflow.ellipsis,
                 style: style(theme),
               ),
@@ -93,6 +75,6 @@ class InteractionTile extends StatelessWidget {
   }
 
   TextStyle style(ThemeData theme) {
-    return theme.textTheme.bodySmall!;
+    return theme.textTheme.labelLarge!;
   }
 }

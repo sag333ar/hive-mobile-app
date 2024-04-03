@@ -11,12 +11,14 @@ class PostImage extends StatelessWidget {
       required this.item,
       required this.height,
       required this.width,
+      this.isGridView = false,
       this.verticalPadding = 8});
 
   final PostFeedModel item;
   final double height;
   final double width;
   final double verticalPadding;
+  final bool isGridView;
 
   @override
   Widget build(BuildContext context) {
@@ -62,24 +64,32 @@ class PostImage extends StatelessWidget {
   }
 
   Widget _imageThumb(String url, double width, BuildContext context) {
-    return FadeInImage.assetNetwork(
-      fit: BoxFit.contain,
-      placeholder: "",
-      image: context.resizedImage(url),
-      placeholderErrorBuilder:
-          (BuildContext context, Object error, StackTrace? stackTrace) {
-        return const SizedBox.shrink();
-      },
-      imageErrorBuilder:
-          (BuildContext context, Object error, StackTrace? stackTrace) {
-        return _errorIndicator(width);
-      },
+    return Padding(
+      padding: isGridView
+          ? const EdgeInsets.only(top: 45, bottom: 70)
+          : EdgeInsets.zero,
+      child: FadeInImage.assetNetwork(
+        fit: isGridView ? BoxFit.cover : BoxFit.contain,
+        placeholder: "",
+        image: context.resizedImage(url),
+        placeholderErrorBuilder:
+            (BuildContext context, Object error, StackTrace? stackTrace) {
+          return const SizedBox.shrink();
+        },
+        imageErrorBuilder:
+            (BuildContext context, Object error, StackTrace? stackTrace) {
+          return _errorIndicator(width);
+        },
+      ),
     );
   }
 
   Widget _errorIndicator(double width) {
     return Container(
-      height: 160,
+      height: height,
+      margin: isGridView
+          ? const EdgeInsets.only(top: 45, bottom: 70)
+          : EdgeInsets.zero,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: Image.asset(

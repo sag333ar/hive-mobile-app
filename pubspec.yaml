@@ -46,6 +46,7 @@ dependencies:
   responsive_builder: ^0.7.0
   timeago: ^3.6.1
   auto_size_text: ^3.0.0
+  extended_nested_scroll_view: ^6.2.1
 
   #navigation
   go_router: ^13.2.0
@@ -53,6 +54,7 @@ dependencies:
   #localStorage
   get_storage: ^2.1.1
   flutter_secure_storage: ^9.0.0
+  reading_time: ^2.0.0
 
 dev_dependencies:
   flutter_test:
