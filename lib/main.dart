@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:hive_mobile_app/resources/enum.dart';
-import 'package:hive_mobile_app/services/api_service.dart';
-import 'package:hive_mobile_app/views/home/home_view.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:hive_mobile_app/core/utilities/routes/app_router.dart';
+import 'package:hive_mobile_app/core/utilities/enum.dart';
+import 'package:hive_mobile_app/core/services/data_service/api_service.dart';
+import 'package:hive_mobile_app/core/utilities/theme/theme_mode.dart';
+import 'package:provider/provider.dart';
+import 'core/dependency_injection/dependency_injection.dart' as get_it;
 
-void main() {
+void main() async {
+  await get_it.init();
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -12,13 +18,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hive Mobile App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeController())
+      ],
+      child: Consumer<ThemeController>(
+        builder: (context, themeController, child) {
+          return MaterialApp.router(
+            routerConfig: AppRouter.router,
+            title: 'Hive Mobile App',
+            theme: themeController.getLightTheme(),
+            darkTheme: themeController.getDarkTheme(),
+            themeMode: themeController.themeMode,
+            debugShowCheckedModeBanner: false,
+          );
+        },
       ),
-      home: const HomeView(),
     );
   }
 }
