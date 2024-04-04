@@ -1,6 +1,7 @@
 import 'package:hive_mobile_app/core/models/action_response.dart';
 import 'package:hive_mobile_app/core/models/chain_prop_model.dart';
-import 'package:hive_mobile_app/feature/feeds/models/post_feed_model.dart';
+import 'package:hive_mobile_app/feature/community/models/community/community_model.dart';
+import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/services/data_service/service.dart'
     if (dart.library.io) 'package:hive_mobile_app/core/services/data_service/mobile_service.dart'
@@ -26,6 +27,21 @@ class ApiService {
       ActionListDataResponse<PostFeedModel> response =
           ActionListDataResponse.fromJsonString(
               jsonString, (item) => PostFeedModel.fromJson(item));
+      return response;
+    } catch (e) {
+      return ActionListDataResponse(
+          status: ResponseStatus.failed, errorMessage: e.toString());
+    }
+  }
+
+  Future<ActionListDataResponse<CommunityModel>> getListOfCommunities(
+      int limit, String? lastName) async {
+    try {
+      String jsonString =
+          await getListOfCommunitiesFromPlatform(limit, lastName);
+      ActionListDataResponse<CommunityModel> response =
+          ActionListDataResponse.fromJsonString(
+              jsonString, (item) => CommunityModel.fromJson(item));
       return response;
     } catch (e) {
       return ActionListDataResponse(

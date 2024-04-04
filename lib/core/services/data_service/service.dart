@@ -9,6 +9,10 @@ Future<String> getFeedTypeFromPlatform(FeedType feedType) {
   return _error();
 }
 
+Future<String> getListOfCommunitiesFromPlatform(int limit,String? lastName){
+  return _error();
+}
+
 Future<String> _error() {
   return Future.value('error');
 }
