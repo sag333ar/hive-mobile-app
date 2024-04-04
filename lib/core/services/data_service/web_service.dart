@@ -25,3 +25,13 @@ Future<String> getFeedTypeFromPlatform(FeedType feedType) async {
   var contentData = await promiseToFuture(promise);
   return contentData;
 }
+
+@JS()
+external dynamic getListOfCommunities(identifier, limit,lastName);
+
+Future<String> getListOfCommunitiesFromPlatform(int limit,String? lastName) async {
+  final String id = 'getListOfCommunities${DateTime.now().toIso8601String()}';
+  var promise = getListOfCommunities(id, limit,lastName);
+  var contentData = await promiseToFuture(promise);
+  return contentData;
+}

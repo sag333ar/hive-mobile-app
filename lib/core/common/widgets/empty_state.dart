@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Emptystate extends StatelessWidget {
+class Emptystate extends StatefulWidget {
   const Emptystate(
       {super.key,
       required this.text,
@@ -18,36 +18,46 @@ class Emptystate extends StatelessWidget {
   final VoidCallback? onPressed;
 
   @override
+  State<Emptystate> createState() => _EmptystateState();
+}
+
+class _EmptystateState extends State<Emptystate> {
+  late final IconData icon;
+
+  @override
+  void initState() {
+    icon = Icons.hourglass_empty;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Visibility(
-          visible: icon != null,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 15.0),
-            child: Icon(
-              icon,
-              size: 100,
-              color: theme.primaryColorDark,
-            ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 15.0),
+          child: Icon(
+            icon,
+            size: 100,
+            color: theme.primaryColorDark,
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Text(text,
+          child: Text(widget.text,
               textAlign: TextAlign.center, style: theme.textTheme.displaySmall),
         ),
-        showButton
+        widget.showButton
             ? Center(
                 child: Padding(
                     padding: const EdgeInsets.only(top: 12.0),
                     child: SizedBox(
                       height: 28,
                       child: OutlinedButton(
-                        onPressed: onPressed,
+                        onPressed: widget.onPressed,
                         style: OutlinedButton.styleFrom(
                           shape: const RoundedRectangleBorder(
                               borderRadius:
@@ -57,7 +67,7 @@ class Emptystate extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          buttonText,
+                          widget.buttonText,
                           style: theme.textTheme.bodySmall!
                               .copyWith(color: theme.primaryColorLight),
                         ),

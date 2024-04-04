@@ -23,6 +23,37 @@ class MainActivity: FlutterActivity() {
     private var webView: WebView? = null
     var handlers: MutableMap<String, MethodChannel.Result> = mutableMapOf()
 
+      fun getValue(value: String?): String {
+        if (value == null) {
+            return "null"
+        }
+        return "'$value'";
+    }
+
+    fun getIntValue(value: Int?): String {
+        if (value == null) {
+            return "null"
+        }
+        return "$value";
+    }
+
+    fun getBoolValue(value: Boolean?): String {
+        if (value == null) {
+            return "null"
+        }
+        if (value == true) {
+            return "true"
+        }
+        return "false"
+    }
+
+    fun getDoubleValue(value: Double?): String {
+        if (value == null) {
+            return "null"
+        }
+        return "$value";
+    }
+
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         if (webView == null) {
@@ -42,6 +73,9 @@ class MainActivity: FlutterActivity() {
                 return@setMethodCallHandler
             } else {
                 handlers[id] = result
+
+                val limit = call.argument<Int?>("limit")
+                val lastName = call.argument<String?>("lastName") 
                 if (call.method == "getChainProps" ) {
                     webView?.evaluateJavascript(
                         "getChainProps('$id');",
@@ -51,6 +85,11 @@ class MainActivity: FlutterActivity() {
                     val feedType = call.argument<String?>("feed_type") ?: "trending"
                     webView?.evaluateJavascript(
                         "getFeed('$id', '$feedType');",
+                        null
+                    )
+                } else if (call.method == "getListOfCommunities" && limit != null ) {
+                    webView?.evaluateJavascript(
+                        "getListOfCommunities('$id', ${getIntValue(limit)},${getValue(lastName)});",
                         null
                     )
                 }

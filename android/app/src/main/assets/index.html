@@ -40,7 +40,6 @@
 
       async function getFeed(identifier, type) {
         var response = await client.database.getDiscussions(type);
-        console.log(`Response: ${JSON.stringify(response)}`);
         replyToNative({
           id: identifier,
           type: "getFeed",
@@ -49,6 +48,19 @@
           error: "",
         });
       }
+
+      async function getListOfCommunities(identifier, limit,lastName) {
+      const response = await client.hivemind.listCommunities(
+        { sort: "rank", last: lastName, limit: limit, }
+      );
+      return replyToNative({
+        id: identifier,
+        type: "getListOfCommunities",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
 
       function replyToNative(result) {
         // window.webkit.messageHandlers.app.postMessage(result);UI

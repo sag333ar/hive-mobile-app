@@ -21,3 +21,13 @@ Future<String> getFeedTypeFromPlatform(FeedType feedType) async {
   });
   return feedResponse;
 }
+
+Future<String> getListOfCommunitiesFromPlatform(int limit,String? lastName)async{
+   final String id = 'getListOfCommunities${DateTime.now().toIso8601String()}';
+  final String feedResponse = await platform.invokeMethod('getListOfCommunities', {
+    'id': id,
+    'limit': limit, 
+    'lastName': lastName
+  });
+  return feedResponse;
+}

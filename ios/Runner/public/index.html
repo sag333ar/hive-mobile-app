@@ -32,7 +32,7 @@
         replyToNative({
           id: identifier,
           type: "getChainProps",
-          data: JSON.stringify(props),
+          data: props,
           valid: true,
           error: "",
         });
@@ -43,14 +43,27 @@
         replyToNative({
           id: identifier,
           type: "getFeed",
-          data: JSON.stringify(response),
+          data: response,
           valid: true,
           error: "",
         });
       }
 
+      async function getListOfCommunities(identifier, limit,lastName) {
+      const response = await client.hivemind.listCommunities(
+        { sort: "rank", last: lastName, limit: limit, }
+      );
+      return replyToNative({
+        id: identifier,
+        type: "getListOfCommunities",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
       function replyToNative(result) {
-        window.webkit.messageHandlers.app.postMessage(result);
+        window.webkit.messageHandlers.app.postMessage(JSON.stringify(result));
       }
     </script>
   </body>

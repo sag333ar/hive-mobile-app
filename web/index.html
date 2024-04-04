@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -27,7 +28,7 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>hive_mobile_app</title>
   <link rel="manifest" href="manifest.json">
@@ -39,63 +40,76 @@
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
+
 <body>
   <script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
-    <script>
-      var client = new dhive.Client([
-        "https://api.hive.blog",
-        "https://api.deathwings.me",
-        "https://hive-api.arcange.eu",
-        "https://hived.emre.sh",
-        "https://api.openhive.network",
-        "https://rpc.ausbit.dev",
-        "https://rpc.mahdiyari.info",
-        "https://hive-api.3speak.tv",
-        "https://anyx.io",
-        "https://techcoderx.com",
-        "https://api.hive.blue",
-        "https://api.c0ff33a.uk",
-        "https://api.pharesim.me",
-        "https://hived.privex.io",
-        "https://hive.roelandp.nl",
-      ]);
-
-      async function getChainProps(identifier) {
-        const props = await client.database.getChainProperties();
-        return replyToNative({
-          id: identifier,
-          type: "getChainProps",
-          data: props,
-          valid: true,
-          error: "",
-        });
-      }
-
-      async function getFeed(identifier, type) {
-        var response = await client.database.getDiscussions(type);
-        console.log(`Response: ${JSON.stringify(response)}`);
-        return replyToNative({
-          id: identifier,
-          type: "getFeed",
-          data: response,
-          valid: true,
-          error: "",
-        });
-      }
-
-      function replyToNative(result) {
-        return JSON.stringify(result);
-      }
-    </script>
   <script>
-    window.addEventListener('load', function(ev) {
+    var client = new dhive.Client([
+      "https://api.hive.blog",
+      "https://api.deathwings.me",
+      "https://hive-api.arcange.eu",
+      "https://hived.emre.sh",
+      "https://api.openhive.network",
+      "https://rpc.ausbit.dev",
+      "https://rpc.mahdiyari.info",
+      "https://hive-api.3speak.tv",
+      "https://anyx.io",
+      "https://techcoderx.com",
+      "https://api.hive.blue",
+      "https://api.c0ff33a.uk",
+      "https://api.pharesim.me",
+      "https://hived.privex.io",
+      "https://hive.roelandp.nl",
+    ]);
+
+    async function getChainProps(identifier) {
+      const props = await client.database.getChainProperties();
+      return replyToNative({
+        id: identifier,
+        type: "getChainProps",
+        data: props,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getFeed(identifier, type) {
+      var response = await client.database.getDiscussions(type);
+      return replyToNative({
+        id: identifier,
+        type: "getFeed",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getListOfCommunities(identifier, limit,lastName) {
+      const response = await client.hivemind.listCommunities(
+        { sort: "rank", last: lastName, limit: limit, }
+      );
+      return replyToNative({
+        id: identifier,
+        type: "getListOfCommunities",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    function replyToNative(result) {
+      return JSON.stringify(result);
+    }
+  </script>
+  <script>
+    window.addEventListener('load', function (ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
+        onEntrypointLoaded: function (engineInitializer) {
+          engineInitializer.initializeEngine().then(function (appRunner) {
             appRunner.runApp();
           });
         }
@@ -103,4 +117,5 @@
     });
   </script>
 </body>
+
 </html>
