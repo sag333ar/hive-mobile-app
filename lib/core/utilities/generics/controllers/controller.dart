@@ -44,14 +44,13 @@ class Controller<T> extends ChangeNotifier with PaginationMixin {
     if (paginationCallBack == null) {
       throw UnimplementedError('Pagination Api is not set');
     }
-    ActionListDataResponse<T>? newData =
-        await loadMore<T>(apiCall: () => paginationCallBack!());
+    ActionListDataResponse<T>? newData = await loadMore<T>(
+        apiCall: () => paginationCallBack!(), notifyListeners: notifyListeners);
     if (newData != null) {
       if (newData.isSuccess) {
         addItems(newData.data!);
       }
     }
-    notifyListeners();
   }
 
   void refresh() {
@@ -62,5 +61,6 @@ class Controller<T> extends ChangeNotifier with PaginationMixin {
   @protected
   void addItems(List<T> newItems) {
     items = [...items, ...newItems];
+    notifyListeners();
   }
 }

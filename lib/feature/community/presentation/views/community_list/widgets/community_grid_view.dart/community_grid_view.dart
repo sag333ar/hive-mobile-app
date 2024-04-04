@@ -17,20 +17,21 @@ class CommunityGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveGridView(
-        childAspectRatio: 7,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          CommunityModel item = items[index];
-          return CommunityItem(
-            item: item,
-          );
-        },
-        paginationLoader: PaginationLoader(
-          pageVisibilityListener: (context) =>
-              context.select<CommunityListController, bool>(
-                  (value) => value.isNextPageLoading),
-        ),);
+      childAspectRatio: 7,
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        CommunityModel item = items[index];
+        return CommunityItem(
+          item: item,
+        );
+      },
+      paginationLoader: PaginationLoader(
+        pageVisibilityListener: (context) =>
+            context.select<CommunityListController, bool>(
+                (value) => value.isNextPageLoading),
+      ),
+    );
   }
 }

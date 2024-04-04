@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/widgets/empty_state.dart';
 import 'package:hive_mobile_app/core/common/widgets/loading_state.dart';
+import 'package:hive_mobile_app/core/common/widgets/scroll_end_listener.dart';
 import 'package:hive_mobile_app/core/common/widgets/server_error.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/community/models/community/community_model.dart';
@@ -54,14 +55,8 @@ class _CommunityListWidgetViewState extends State<CommunityListWidgetView>
           previous != next || previous.length != next.length,
       selector: (_, provider) => provider.items,
       builder: (context, items, child) {
-        return NotificationListener<ScrollNotification>(
-          onNotification: (notification) {
-            if (notification.metrics.pixels ==
-                notification.metrics.maxScrollExtent) {
-              controller.loadNextPage();
-            }
-            return true;
-          },
+        return ScrollEndListener(
+          loadNextPage: () => controller.loadNextPage(),
           child: ScreenTypeLayout.builder(
             mobile: (_) => CommunityListView(
               items: items,

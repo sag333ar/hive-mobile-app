@@ -32,17 +32,10 @@ class FeedGridView extends StatelessWidget {
           item: item,
         );
       },
-      paginationLoader: Selector<PostFeedsController, bool>(
-        selector: (_, provider) => provider.isNextPageLoading,
-        builder: (context, loading, child) {
-          return Visibility(
-              visible: loading,
-              child: PaginationLoader(
-                pageVisibilityListener: (c) {
-                  return true;
-                },
-              ));
-        },
+       paginationLoader: PaginationLoader(
+        pageVisibilityListener: (context) =>
+            context.select<PostFeedsController, bool>(
+                (value) => value.isNextPageLoading),
       ),
     );
   }
