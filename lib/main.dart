@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:hive_mobile_app/core/utilities/routes/app_router.dart';
-import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/services/data_service/api_service.dart';
+import 'package:hive_mobile_app/core/utilities/app_scroll_behaviour.dart';
+import 'package:hive_mobile_app/core/utilities/enum.dart';
+import 'package:hive_mobile_app/core/utilities/routes/app_router.dart';
 import 'package:hive_mobile_app/core/utilities/theme/theme_mode.dart';
 import 'package:provider/provider.dart';
+
 import 'core/dependency_injection/dependency_injection.dart' as get_it;
 
 void main() async {
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp.router(
             routerConfig: AppRouter.router,
             title: 'Hive Mobile App',
+            scrollBehavior: AppScrollBehavior(),
             theme: themeController.getLightTheme(),
             darkTheme: themeController.getDarkTheme(),
             themeMode: themeController.themeMode,

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class ThemeController extends ChangeNotifier {
   final Color _primaryThemeColor = const Color(0xFFE31337);
-  final Color _primaryColor =  Colors.black;
-  // final Color _primaryColor = const Color(0xFF212529);
+  final Color _primaryColor = Colors.black;
+  final Color _primaryColorTwo = const Color.fromARGB(255, 8, 8, 8);
   final Color _secondaryColor = Colors.white;
+  final Color _secondaryColorTwo = const Color(0xFFf0f0f8);
   final Color _tertiaryColor = const Color(0xFFe7e7f1);
   final Color _errorColor = Colors.red;
   final Color _successColor = Colors.lightGreen;
-  final Color _bottomSheetTileTextColor = Colors.blue;
   final Color _staticColor = Colors.white;
   final Color _lightGrey = const Color(0xFFf0f0f8);
 
@@ -18,11 +18,9 @@ class ThemeController extends ChangeNotifier {
 
   get themeMode => _themeMode;
 
-  void toggleTheme({required bool isDark}) {
-    if (isDark && _themeMode != ThemeMode.dark) {
-      _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
-      notifyListeners();
-    }
+  void toggleTheme() {
+    _themeMode = isLightTheme() ? ThemeMode.dark : ThemeMode.light;
+    notifyListeners();
   }
 
   bool isLightTheme() => _themeMode == ThemeMode.light;
@@ -46,7 +44,7 @@ class ThemeController extends ChangeNotifier {
           onTertiary: _successColor, // color used for success
           primaryContainer: _primaryThemeColor,
           secondaryContainer: const Color.fromRGBO(5, 206, 179, 1),
-          tertiaryContainer: _bottomSheetTileTextColor,
+          tertiaryContainer: _secondaryColorTwo,
           error: _errorColor,
           onError: Colors.redAccent,
           primary: _primaryColor,
@@ -122,7 +120,7 @@ class ThemeController extends ChangeNotifier {
           onSecondary: Colors.grey.shade800,
           primaryContainer: _primaryThemeColor,
           secondaryContainer: const Color.fromRGBO(5, 206, 179, 1),
-          tertiaryContainer: _bottomSheetTileTextColor,
+          tertiaryContainer: _primaryColorTwo,
           error: _errorColor,
           onError: Colors.redAccent,
           primary: _secondaryColor,

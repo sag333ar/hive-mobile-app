@@ -15,19 +15,29 @@ Future<String> getChainPropsFromPlatform() async {
 
 Future<String> getFeedTypeFromPlatform(FeedType feedType) async {
   final String feedId = 'getFeed_${DateTime.now().toIso8601String()}';
-  final String feedResponse = await platform.invokeMethod('getFeed', {
+  final String response = await platform.invokeMethod('getFeed', {
     'id': feedId,
     'feed_type': enumToString(feedType), // trending, hot, created
   });
-  return feedResponse;
+  return response;
 }
 
 Future<String> getListOfCommunitiesFromPlatform(int limit,String? lastName)async{
    final String id = 'getListOfCommunities${DateTime.now().toIso8601String()}';
-  final String feedResponse = await platform.invokeMethod('getListOfCommunities', {
+  final String response = await platform.invokeMethod('getListOfCommunities', {
     'id': id,
     'limit': limit, 
     'lastName': lastName
   });
-  return feedResponse;
+  return response;
+}
+
+Future<String> getWitnessesFromPlatform(int limit,String? lastName)async{
+   final String id = 'getWitnesses${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('getWitnesses', {
+    'id': id,
+    'limit': limit, 
+    'lastName': lastName
+  });
+  return response;
 }

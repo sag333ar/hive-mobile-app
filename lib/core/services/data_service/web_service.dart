@@ -35,3 +35,13 @@ Future<String> getListOfCommunitiesFromPlatform(int limit,String? lastName) asyn
   var contentData = await promiseToFuture(promise);
   return contentData;
 }
+
+@JS()
+external dynamic getWitnesses(identifier, limit,lastName);
+
+Future<String> getWitnessesFromPlatform(int limit,String? lastName) async {
+  final String id = 'getWitnesses${DateTime.now().toIso8601String()}';
+  var promise = getWitnesses(id, limit,lastName);
+  var contentData = await promiseToFuture(promise);
+  return contentData;
+}

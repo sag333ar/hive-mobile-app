@@ -61,6 +61,7 @@ class Controller<T> extends ChangeNotifier with PaginationMixin {
   @protected
   void addItems(List<T> newItems) {
     items = [...items, ...newItems];
+    items = items.toSet().toList();
     notifyListeners();
   }
 }

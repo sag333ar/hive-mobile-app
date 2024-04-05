@@ -20,13 +20,14 @@ class UserProfileimage extends StatelessWidget {
       height: radius,
       width: radius,
       decoration: BoxDecoration(
-          color: theme.colorScheme.tertiary,
-          shape: BoxShape.circle,
-          image: DecorationImage(
-              image: NetworkImage(
-                context.userOwnerThumb(url),
-              ),
-              fit: BoxFit.cover)),
+        color: theme.colorScheme.tertiary,
+        shape: BoxShape.circle,
+        image: DecorationImage(
+            image: NetworkImage(
+              context.userOwnerThumb(url),
+            ),
+            fit: BoxFit.cover),
+      ),
     );
   }
 }

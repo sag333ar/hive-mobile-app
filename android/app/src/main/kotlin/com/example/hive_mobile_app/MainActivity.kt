@@ -92,6 +92,11 @@ class MainActivity: FlutterActivity() {
                         "getListOfCommunities('$id', ${getIntValue(limit)},${getValue(lastName)});",
                         null
                     )
+                } else if (call.method == "getWitnesses" && limit != null ) {
+                    webView?.evaluateJavascript(
+                        "getWitnesses('$id', ${getIntValue(limit)},${getValue(lastName)});",
+                        null
+                    )
                 }
             }
         }
