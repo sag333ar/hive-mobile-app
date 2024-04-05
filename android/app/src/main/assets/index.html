@@ -1,55 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hive Mobile App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
-    <script>
-      var client = new dhive.Client([
-        "https://api.hive.blog",
-        "https://api.deathwings.me",
-        "https://hive-api.arcange.eu",
-        "https://hived.emre.sh",
-        "https://api.openhive.network",
-        "https://rpc.ausbit.dev",
-        "https://rpc.mahdiyari.info",
-        "https://hive-api.3speak.tv",
-        "https://anyx.io",
-        "https://techcoderx.com",
-        "https://api.hive.blue",
-        "https://api.c0ff33a.uk",
-        "https://api.pharesim.me",
-        "https://hived.privex.io",
-        "https://hive.roelandp.nl",
-      ]);
 
-      async function getChainProps(identifier) {
-        const props = await client.database.getChainProperties();
-        replyToNative({
-          id: identifier,
-          type: "getChainProps",
-          data: props,
-          valid: true,
-          error: "",
-        });
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hive Mobile App</title>
+</head>
 
-      async function getFeed(identifier, type) {
-        var response = await client.database.getDiscussions(type);
-        replyToNative({
-          id: identifier,
-          type: "getFeed",
-          data:response,
-          valid: true,
-          error: "",
-        });
-      }
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
+  <script>
+    var client = new dhive.Client([
+      "https://api.hive.blog",
+      "https://api.deathwings.me",
+      "https://hive-api.arcange.eu",
+      "https://hived.emre.sh",
+      "https://api.openhive.network",
+      "https://rpc.ausbit.dev",
+      "https://rpc.mahdiyari.info",
+      "https://hive-api.3speak.tv",
+      "https://anyx.io",
+      "https://techcoderx.com",
+      "https://api.hive.blue",
+      "https://api.c0ff33a.uk",
+      "https://api.pharesim.me",
+      "https://hived.privex.io",
+      "https://hive.roelandp.nl",
+    ]);
 
-      async function getListOfCommunities(identifier, limit,lastName) {
+    async function getChainProps(identifier) {
+      const props = await client.database.getChainProperties();
+      replyToNative({
+        id: identifier,
+        type: "getChainProps",
+        data: props,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getFeed(identifier, type) {
+      var response = await client.database.getDiscussions(type);
+      replyToNative({
+        id: identifier,
+        type: "getFeed",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+
+    async function getListOfCommunities(identifier, limit, lastName) {
       const response = await client.hivemind.listCommunities(
         { sort: "rank", last: lastName, limit: limit, }
       );
@@ -62,10 +65,22 @@
       });
     }
 
-      function replyToNative(result) {
-        // window.webkit.messageHandlers.app.postMessage(result);UI
-        Android.postMessage(JSON.stringify(result));
-      }
-    </script>
-  </body>
+    async function getWitnesses(identifier, limit, lastName) {
+      const response = await client.database.call("get_witnesses_by_vote", [lastName, limit]);
+      replyToNative({
+        id: identifier,
+        type: "getWitnesses",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    function replyToNative(result) {
+      // window.webkit.messageHandlers.app.postMessage(result);UI
+      Android.postMessage(JSON.stringify(result));
+    }
+  </script>
+</body>
+
 </html>

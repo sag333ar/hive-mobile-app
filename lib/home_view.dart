@@ -2,6 +2,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
 import 'package:hive_mobile_app/core/common/widgets/coloured_tab_bar.dart';
+import 'package:hive_mobile_app/core/common/widgets/drawer/drawer_menu.dart';
 import 'package:hive_mobile_app/core/common/widgets/hive_symbol_logo.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/community/presentation/views/community_list/view/community_list_widget_view.dart';
@@ -16,6 +17,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   late TabController _tabController;
   int _currentIndex = 0;
   late ThemeData theme;
@@ -53,7 +55,9 @@ class _HomeViewState extends State<HomeView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         backgroundColor: context.isMobile ? null : theme.cardColor,
+        drawer: const DrawerMenu(),
         body: ExtendedNestedScrollView(
           onlyOneScrollInBody: true,
           headerSliverBuilder: (context, _) {
