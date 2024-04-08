@@ -16,6 +16,10 @@ Future<String> getWitnessesFromPlatform(int limit, String? lastName) {
   return _error();
 }
 
+Future<String> getProposalsFromPlatform(int limit,) {
+  return _error();
+}
+
 Future<String> _error() {
   return Future.value('error');
 }

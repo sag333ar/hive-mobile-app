@@ -1,41 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
+import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/view/proposal_view.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/view/witnesses_view.dart';
 import 'package:hive_mobile_app/home_view.dart';
 
 class AppRouter {
-  static GoRouter router = GoRouter(routes: routes());
+  static GoRouter router = GoRouter(initialLocation: '/', routes: routes());
 
   static List<RouteBase> routes() {
     return [
       GoRoute(
         path: '/',
+        name: Routes.initialView,
         builder: (context, state) => const HomeView(),
       ),
       GoRoute(
-        path: '/${Routes.homeView}',
+        path: '/${Routes.homeView}/:feedType',
         name: Routes.homeView,
         builder: (context, state) {
-          return const HomeView();
+          String? feedType = state.pathParameters['feedType'];
+          return HomeView(
+            feedType: feedType != null
+                ? enumFromString(feedType, FeedType.values,
+                    defaultValue: FeedType.hot)
+                : null,
+          );
         },
+        
       ),
-       GoRoute(
+      GoRoute(
         path: '/${Routes.witnessesView}',
         name: Routes.witnessesView,
         builder: (context, state) {
           return const WitnessesView();
         },
       ),
-       GoRoute(
+      GoRoute(
         path: '/${Routes.proposalsView}',
         name: Routes.proposalsView,
         builder: (context, state) {
-          return const HomeView();
+          return const ProposalView();
         },
       ),
-
-  
     ];
   }
 

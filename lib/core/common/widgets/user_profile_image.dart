@@ -5,11 +5,11 @@ class UserProfileimage extends StatelessWidget {
   const UserProfileimage(
       {super.key,
       required this.url,
-      this.radius = 40,
+      this.radius,
       this.verticalPadding = 12});
 
   final String url;
-  final double radius;
+  final double? radius;
   final double verticalPadding;
 
   @override
@@ -17,8 +17,8 @@ class UserProfileimage extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: verticalPadding),
-      height: radius,
-      width: radius,
+      height: radius ?? 40,
+      width: radius ?? 40,
       decoration: BoxDecoration(
         color: theme.colorScheme.tertiary,
         shape: BoxShape.circle,

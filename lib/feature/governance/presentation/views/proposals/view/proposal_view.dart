@@ -8,22 +8,20 @@ import 'package:hive_mobile_app/core/common/widgets/server_error.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
-import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
-import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/controller/witnesses_controller.dart';
-import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/mobile_view/witness_mobile_widget.dart';
-import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/tablet_view/witness_tablet_widget.dart';
-import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/webview/witness_web_widget.dart';
+import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
+import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/controller/proposal_controller.dart';
+import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/widgets/proposal_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-class WitnessesView extends StatelessWidget {
-  const WitnessesView({super.key});
+class ProposalView extends StatelessWidget {
+  const ProposalView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: context.isMobile ? const Text("Witnesses") : null,
+        title: const Text("Proposals"),
         leading: BackButton(
           onPressed: () => context.platformPop(name: Routes.initialView),
         ),
@@ -32,10 +30,10 @@ class WitnessesView extends StatelessWidget {
         child: Padding(
           padding: context.isMobile ? EdgeInsets.zero : kScreenPadding,
           child: ChangeNotifierProvider(
-            create: (context) => WitnessController(),
+            create: (context) => ProposalController(),
             builder: (context, child) {
-              final controller = context.read<WitnessController>();
-              return Selector<WitnessController, ViewState>(
+              final controller = context.read<ProposalController>();
+              return Selector<ProposalController, ViewState>(
                 selector: (_, provider) => provider.viewState,
                 builder: (context, value, child) {
                   if (value == ViewState.data) {
@@ -43,7 +41,7 @@ class WitnessesView extends StatelessWidget {
                   } else if (value == ViewState.empty) {
                     return const Emptystate(
                         icon: Icons.hourglass_empty,
-                        text: 'No Witnesses found');
+                        text: 'No Proposals found');
                   } else if (value == ViewState.error) {
                     return ErrorState(
                       showRetryButton: true,
@@ -61,8 +59,8 @@ class WitnessesView extends StatelessWidget {
     );
   }
 
-  Widget _dataState(WitnessController controller) {
-    return Selector<WitnessController, List<WitnessesModel>>(
+  Widget _dataState(ProposalController controller) {
+    return Selector<ProposalController, List<ProposalModel>>(
       shouldRebuild: (previous, next) =>
           previous != next || previous.length != next.length,
       selector: (_, provider) => provider.items,
@@ -70,9 +68,9 @@ class WitnessesView extends StatelessWidget {
         return ScrollEndListener(
           loadNextPage: () => controller.loadNextPage(),
           child: ScreenTypeLayout.builder(
-            mobile: (_) => WitnessMobileWidget(items: items),
-            tablet: (_) => WitnessTabletWidget(items: items),
-            desktop: (_) => WitnessWebWidget(
+            mobile: (_) => ProposalWidget(items: items),
+            tablet: (_) => ProposalWidget(items: items),
+            desktop: (_) => ProposalWidget(
               items: items,
             ),
           ),

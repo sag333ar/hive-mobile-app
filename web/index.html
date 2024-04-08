@@ -15,7 +15,7 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="$FLUTTER_BASE_HREF">
+  <base href="/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -102,6 +102,17 @@
       return replyToNative({
         id: identifier,
         type: "getWitnesses",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getProposals(identifier, limit) {
+      const response = await client.database.call("list_proposals", [[-1], limit, "by_total_votes", "descending", "votable"]);
+      return replyToNative({
+        id: identifier,
+        type: "getProposals",
         data: response,
         valid: true,
         error: "",

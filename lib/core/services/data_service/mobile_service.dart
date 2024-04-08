@@ -41,3 +41,12 @@ Future<String> getWitnessesFromPlatform(int limit,String? lastName)async{
   });
   return response;
 }
+
+Future<String> getProposalsFromPlatform(int limit)async{
+   final String id = 'getProposals${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('getProposals', {
+    'id': id,
+    'limit': limit, 
+  });
+  return response;
+}

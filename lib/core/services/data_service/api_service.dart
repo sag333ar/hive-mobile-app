@@ -1,6 +1,7 @@
 import 'package:hive_mobile_app/core/models/action_response.dart';
 import 'package:hive_mobile_app/core/models/chain_prop_model.dart';
 import 'package:hive_mobile_app/feature/community/models/community/community_model.dart';
+import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
@@ -58,6 +59,21 @@ class ApiService {
       ActionListDataResponse<WitnessesModel> response =
           ActionListDataResponse.fromJsonString(
               jsonString, (item) => WitnessesModel.fromJson(item));
+      return response;
+    } catch (e) {
+      return ActionListDataResponse(
+          status: ResponseStatus.failed, errorMessage: e.toString());
+    }
+  }
+
+  Future<ActionListDataResponse<ProposalModel>> getProposals(
+      int limit) async {
+    try {
+      String jsonString =
+          await getProposalsFromPlatform(limit,);
+      ActionListDataResponse<ProposalModel> response =
+          ActionListDataResponse.fromJsonString(
+              jsonString, (item) => ProposalModel.fromJson(item));
       return response;
     } catch (e) {
       return ActionListDataResponse(

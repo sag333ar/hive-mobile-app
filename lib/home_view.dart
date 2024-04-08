@@ -9,7 +9,9 @@ import 'package:hive_mobile_app/feature/community/presentation/views/community_l
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/view/post_feeds_widget_view.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  const HomeView({super.key, this.feedType});
+
+  final FeedType? feedType;
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -24,9 +26,18 @@ class _HomeViewState extends State<HomeView>
 
   @override
   void initState() {
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController =
+        TabController(length: 4, vsync: this, initialIndex: _initialTabIndex);
     _tabController.addListener(_tabBarListener);
     super.initState();
+  }
+
+  int get _initialTabIndex {
+    if (widget.feedType == null) return 0;
+    if (widget.feedType == FeedType.hot) return 0;
+    if (widget.feedType == FeedType.trending) return 1;
+    if (widget.feedType == FeedType.created) return 2;
+    return 0;
   }
 
   @override
@@ -82,8 +93,9 @@ class _HomeViewState extends State<HomeView>
           },
           body: TabBarView(
             controller: _tabController,
-            physics:
-                context.isWeb ? const NeverScrollableScrollPhysics() : null,
+            physics: context.isDesktopWeb
+                ? const NeverScrollableScrollPhysics()
+                : null,
             children: const [
               PostFeedsWidgetView(feedType: FeedType.hot),
               PostFeedsWidgetView(feedType: FeedType.trending),
