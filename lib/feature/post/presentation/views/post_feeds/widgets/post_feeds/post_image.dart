@@ -22,7 +22,8 @@ class PostImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? image = item.jsonMetadata?.image?.firstOrNull;
+    String? image = item.jsonMetadata?.image?.firstOrNull ??
+        item.jsonMetadata?.images?.firstOrNull;
     final theme = Theme.of(context);
     return Container(
       color: theme.colorScheme.tertiary,
@@ -54,7 +55,8 @@ class PostImage extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: verticalPadding),
             height: height,
             width: width,
-            child: item.jsonMetadata?.image?.isNotEmpty == true
+            child: item.jsonMetadata?.image?.isNotEmpty == true ||
+                    item.jsonMetadata?.images?.isNotEmpty == true
                 ? _imageThumb(image ?? "", width, context)
                 : _errorIndicator(width),
           ),

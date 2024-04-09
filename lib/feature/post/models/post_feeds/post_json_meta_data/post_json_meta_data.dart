@@ -4,6 +4,7 @@ import 'package:hive_mobile_app/feature/post/models/post_feeds/post_json_meta_da
 class PostJsonMetadata {
   final List<String>? tags;
   final List<String>? image;
+  final List<String>? images;
   final List<String>? links;
   final List<String>? users;
   final String? app;
@@ -13,6 +14,7 @@ class PostJsonMetadata {
   const PostJsonMetadata({
     required this.tags,
     required this.image,
+    this.images = const [],
     this.app = "",
     this.format,
     this.links = const [],
@@ -24,6 +26,7 @@ class PostJsonMetadata {
       PostJsonMetadata(
         tags: asList(json, 'tags').map((e) => e.toString()).toList(),
         image: asList(json, 'image').map((e) => e.toString()).toList(),
+        images: asList(json, 'images').map((e) => e.toString()).toList(),
         links: asList(json, 'links').map((e) => e.toString()).toList(),
         users: asList(json, 'users').map((e) => e.toString()).toList(),
         format: json?['format'] as String? ?? "",
