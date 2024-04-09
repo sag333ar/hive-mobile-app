@@ -45,3 +45,13 @@ Future<String> getWitnessesFromPlatform(int limit,String? lastName) async {
   var contentData = await promiseToFuture(promise);
   return contentData;
 }
+
+@JS()
+external dynamic getProposals(identifier, limit);
+
+Future<String> getProposalsFromPlatform(int limit) async {
+  final String id = 'getProposals${DateTime.now().toIso8601String()}';
+  var promise = getProposals(id, limit);
+  var contentData = await promiseToFuture(promise);
+  return contentData;
+}

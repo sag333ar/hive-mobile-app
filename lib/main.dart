@@ -6,10 +6,12 @@ import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/utilities/routes/app_router.dart';
 import 'package:hive_mobile_app/core/utilities/theme/theme_mode.dart';
 import 'package:provider/provider.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'core/dependency_injection/dependency_injection.dart' as get_it;
 
 void main() async {
+  setPathUrlStrategy();
   await get_it.init();
   await GetStorage.init();
   runApp(const MyApp());

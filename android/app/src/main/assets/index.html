@@ -76,6 +76,17 @@
       });
     }
 
+    async function getProposals(identifier, limit) {
+      const response = await client.database.call("list_proposals", [[-1], limit, "by_total_votes", "descending", "votable"]);
+       replyToNative({
+        id: identifier,
+        type: "getProposals",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
     function replyToNative(result) {
       // window.webkit.messageHandlers.app.postMessage(result);UI
       Android.postMessage(JSON.stringify(result));

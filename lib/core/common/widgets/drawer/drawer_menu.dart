@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/drawer/drawer_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/drawer/expandable_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/inkwell_wrapper.dart';
@@ -83,7 +84,7 @@ class DrawerMenu extends StatelessWidget {
                               icon: Icons.group),
                           DrawerTile(
                               leftPadding: 30,
-                              onTap: () {},
+                              onTap: () => popAndPushNamed(context,Routes.proposalsView),
                               text: "Proposals",
                               icon: Icons.recommend),
                         ],
@@ -126,6 +127,6 @@ class DrawerMenu extends StatelessWidget {
 
   void popAndPushNamed(BuildContext context, String name) {
     context.pop();
-    context.pushNamed(name);
+    context.platformPushNamed(name);
   }
 }

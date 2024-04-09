@@ -17,7 +17,9 @@ extension LayoutAdapter on BuildContext {
 
   bool get isTablet => isMobile && isTabletSize;
 
-  bool get isWeb => !isMobile && kIsWeb;
+  bool get isDesktopWeb => !isMobile && kIsWeb;
+
+  bool get isWeb => kIsWeb;
 
   bool get isTouchScreen => isMobile || isTablet;
 

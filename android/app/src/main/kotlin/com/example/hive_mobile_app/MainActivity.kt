@@ -97,6 +97,11 @@ class MainActivity: FlutterActivity() {
                         "getWitnesses('$id', ${getIntValue(limit)},${getValue(lastName)});",
                         null
                     )
+                } else if (call.method == "getProposals" && limit != null ) {
+                    webView?.evaluateJavascript(
+                        "getProposals('$id', ${getIntValue(limit)});",
+                        null
+                    )
                 }
             }
         }

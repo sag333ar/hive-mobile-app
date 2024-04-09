@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeController extends ChangeNotifier {
+
   final Color _primaryThemeColor = const Color(0xFFE31337);
   final Color _primaryColor = Colors.black;
   final Color _primaryColorTwo = const Color.fromARGB(255, 8, 8, 8);
@@ -29,7 +30,6 @@ class ThemeController extends ChangeNotifier {
     return ThemeData(
       primaryColorLight: _secondaryColor,
       primaryColorDark: _primaryColor,
-      appBarTheme: AppBarTheme(backgroundColor: _primaryThemeColor),
       scaffoldBackgroundColor: _secondaryColor,
       primaryColor: _primaryThemeColor,
       brightness: Brightness.light,
@@ -106,7 +106,6 @@ class ThemeController extends ChangeNotifier {
     return ThemeData(
       primaryColorLight: _primaryColor,
       primaryColorDark: _secondaryColor,
-      appBarTheme: AppBarTheme(backgroundColor: _primaryThemeColor),
       scaffoldBackgroundColor: _primaryColor,
       primaryColor: _primaryThemeColor,
       brightness: Brightness.dark,
