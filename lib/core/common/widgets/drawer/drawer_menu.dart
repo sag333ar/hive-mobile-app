@@ -5,7 +5,7 @@ import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart'
 import 'package:hive_mobile_app/core/common/widgets/drawer/drawer_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/drawer/expandable_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/inkwell_wrapper.dart';
-import 'package:hive_mobile_app/core/common/widgets/user_profile_image.dart';
+import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/core/utilities/theme/theme_mode.dart';

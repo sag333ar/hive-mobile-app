@@ -56,7 +56,7 @@
       const response = await client.hivemind.listCommunities(
         { sort: "rank", last: lastName, limit: limit, }
       );
-      return replyToNative({
+      replyToNative({
         id: identifier,
         type: "getListOfCommunities",
         data: response,
@@ -78,9 +78,64 @@
 
     async function getProposals(identifier, limit) {
       const response = await client.database.call("list_proposals", [[-1], limit, "by_total_votes", "descending", "votable"]);
-       replyToNative({
+      replyToNative({
         id: identifier,
         type: "getProposals",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getFollowCount(identifier, accountName) {
+      const response = await client.database.call("get_follow_count", [accountName]);
+      replyToNative({
+        id: identifier,
+        type: "getFollowCount",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getAccountInfo(identifier, accountName) {
+      const response = await client.database.call("get_accounts", [[accountName]]);
+      replyToNative({
+        id: identifier,
+        type: "getAccountInfo",
+        data: response[0],
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getFollowing(identifier, accountName, lastName, limit) {
+      const response = await client.database.call("get_following", [accountName, lastName, "blog", limit]);
+      replyToNative({
+        id: identifier,
+        type: "getFollowing",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getFollowers(identifier, accountName, lastName, limit) {
+      const response = await client.database.call("get_followers", [accountName, lastName, "blog", limit]);
+      replyToNative({
+        id: identifier,
+        type: "getFollowers",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getAccountPosts(identifier, accountName, type, lastAuthor, lastPermlink, limit) {
+      const response = await client.hivemind.getAccountPosts({ account: accountName, sort: type, start_author: lastAuthor, start_permlink: lastPermlink, limit: limit });
+      replyToNative({
+        id: identifier,
+        type: "getAccountPosts",
         data: response,
         valid: true,
         error: "",

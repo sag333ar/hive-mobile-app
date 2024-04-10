@@ -4,16 +4,24 @@ import 'package:hive_mobile_app/core/utilities/constants.dart';
 
 class ErrorState extends StatelessWidget {
   const ErrorState(
-      {super.key, this.showRetryButton = false, this.onTapRetryButton});
+      {super.key,
+      this.showRetryButton = false,
+      this.onTapRetryButton,
+      this.isSliver = false});
 
   final bool showRetryButton;
   final Function()? onTapRetryButton;
-  
-  get kscreenHorizontalPadding => null;
+  final bool isSliver;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    return isSliver ? SliverFillRemaining(
+      child: _widget(theme),
+    ) : _widget(theme);
+  }
+
+  Container _widget(ThemeData theme) {
     return Container(
       color: Colors.transparent,
       padding: const EdgeInsets.only(
@@ -35,7 +43,7 @@ class ErrorState extends StatelessWidget {
           ),
           Text(
             "Sorry, we're unable to reach our server",
-            style:theme.textTheme.displaySmall,
+            style: theme.textTheme.displaySmall,
             textAlign: TextAlign.center,
           ),
           showRetryButton

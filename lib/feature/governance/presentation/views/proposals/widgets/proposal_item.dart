@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
+import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/text_box.dart';
 import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
 import 'package:intl/intl.dart';
 
@@ -36,6 +38,8 @@ class ProposalItem extends StatelessWidget {
                 Row(
                   children: [
                     UserImageName(
+                      onTap: () => context.platformPushNamed(Routes.userView,
+                          pathParameters: {'accountName': item.creator}),
                       name: item.creator,
                     ),
                     Expanded(
@@ -45,6 +49,8 @@ class ProposalItem extends StatelessWidget {
                       child: const Divider(),
                     )),
                     UserImageName(
+                       onTap: () => context.platformPushNamed(Routes.userView,
+                          pathParameters: {'accountName': item.receiver}),
                       reverse: true,
                       name: item.receiver,
                     ),

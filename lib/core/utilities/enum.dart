@@ -1,5 +1,9 @@
 enum FeedType { trending, hot, created }
 
+enum AccountPostType {blog,posts,comments,replies}
+
+enum FollowType {followers,following}
+
 enum ResponseStatus { success, failed, unknown }
 
 enum ViewState { loading, data, empty, error }

@@ -32,7 +32,7 @@ class PostImage extends StatelessWidget {
         children: [
           if (image != null && image.isNotEmpty)
             Image.network(
-              context.resizedImage(image),
+              context.resizedImage(image,),
               height: height,
               width: width,
               fit: BoxFit.cover,

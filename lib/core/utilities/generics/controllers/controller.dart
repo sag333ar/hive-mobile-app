@@ -18,6 +18,9 @@ class Controller<T> extends ChangeNotifier with PaginationMixin {
       if (response.data!.isNotEmpty) {
         items = response.data!;
         viewState = ViewState.data;
+        if (items.length < super.pageLimit) {
+          super.isPageEnded = true;
+        }
       } else {
         viewState = ViewState.empty;
       }
@@ -44,11 +47,14 @@ class Controller<T> extends ChangeNotifier with PaginationMixin {
     if (paginationCallBack == null) {
       throw UnimplementedError('Pagination Api is not set');
     }
-    ActionListDataResponse<T>? newData = await loadMore<T>(
-        apiCall: () => paginationCallBack!(), notifyListeners: notifyListeners);
-    if (newData != null) {
-      if (newData.isSuccess) {
-        addItems(newData.data!);
+    if (viewState == ViewState.data) {
+      ActionListDataResponse<T>? newData = await loadMore<T>(
+          apiCall: () => paginationCallBack!(),
+          notifyListeners: notifyListeners);
+      if (newData != null) {
+        if (newData.isSuccess) {
+          addItems(newData.data!);
+        }
       }
     }
   }

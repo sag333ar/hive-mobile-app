@@ -76,6 +76,11 @@ class MainActivity: FlutterActivity() {
 
                 val limit = call.argument<Int?>("limit")
                 val lastName = call.argument<String?>("lastName") 
+                val accountName = call.argument<String?>("accountName") 
+                val lastAuthor = call.argument<String?>("lastAuthor") 
+                val lastPermlink = call.argument<String?>("lastPermlink") 
+                val type = call.argument<String?>("type") 
+
                 if (call.method == "getChainProps" ) {
                     webView?.evaluateJavascript(
                         "getChainProps('$id');",
@@ -84,22 +89,47 @@ class MainActivity: FlutterActivity() {
                 } else if (call.method == "getFeed" ) {
                     val feedType = call.argument<String?>("feed_type") ?: "trending"
                     webView?.evaluateJavascript(
-                        "getFeed('$id', '$feedType');",
+                        "getFeed('$id','$feedType');",
                         null
                     )
                 } else if (call.method == "getListOfCommunities" && limit != null ) {
                     webView?.evaluateJavascript(
-                        "getListOfCommunities('$id', ${getIntValue(limit)},${getValue(lastName)});",
+                        "getListOfCommunities('$id',${getIntValue(limit)},${getValue(lastName)});",
                         null
                     )
                 } else if (call.method == "getWitnesses" && limit != null ) {
                     webView?.evaluateJavascript(
-                        "getWitnesses('$id', ${getIntValue(limit)},${getValue(lastName)});",
+                        "getWitnesses('$id',${getIntValue(limit)},${getValue(lastName)});",
                         null
                     )
                 } else if (call.method == "getProposals" && limit != null ) {
                     webView?.evaluateJavascript(
-                        "getProposals('$id', ${getIntValue(limit)});",
+                        "getProposals('$id',${getIntValue(limit)});",
+                        null
+                    )
+                } else if (call.method == "getFollowCount" && accountName != null ) {
+                    webView?.evaluateJavascript(
+                        "getFollowCount('$id','$accountName');",
+                        null
+                    )
+                } else if (call.method == "getAccountInfo" && accountName != null ) {
+                    webView?.evaluateJavascript(
+                        "getAccountInfo('$id','$accountName');",
+                        null
+                    )
+                } else if (call.method == "getFollowing" && accountName != null && limit != null ) {
+                    webView?.evaluateJavascript(
+                        "getFollowing('$id','$accountName',${getValue(lastName)},${getIntValue(limit)});",
+                        null
+                    )
+                } else if (call.method == "getFollowers" && accountName != null && limit != null) {
+                    webView?.evaluateJavascript(
+                        "getFollowers('$id','$accountName',${getValue(lastName)},${getIntValue(limit)});",
+                        null
+                    )
+                } else if (call.method == "getAccountPosts" && accountName != null && type !=null && limit !=null) {
+                    webView?.evaluateJavascript(
+                        "getAccountPosts('$id','$accountName','$type',${getValue(lastAuthor)},${getValue(lastPermlink)},${getIntValue(limit)});",
                         null
                     )
                 }

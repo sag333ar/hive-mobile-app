@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_html/flutter_html.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/widgets/post_feeds/interaction_tile.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/widgets/post_feeds/post_image.dart';
@@ -18,7 +17,7 @@ class PostItemForListView extends StatelessWidget {
       elevation: 0.5,
       margin: const EdgeInsets.fromLTRB(8, 0, 8, 8),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 15),
+        padding: const EdgeInsets.only(left: 7, right: 7, bottom: 15, top: 6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

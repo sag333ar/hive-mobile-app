@@ -9,7 +9,9 @@ class CustomListTile extends StatelessWidget {
       required this.titleText,
       this.trailing,
       this.onTap,
-      this.color, this.padding});
+      this.color,
+      this.padding,
+      this.borderRadius});
 
   final Widget leading;
   final String titleText;
@@ -17,15 +19,18 @@ class CustomListTile extends StatelessWidget {
   final EdgeInsets? padding;
   final VoidCallback? onTap;
   final Color? color;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return InkWellWrapper(
       onTap: onTap,
+      borderRadius: borderRadius,
       child: Container(
-        color: color,
-        padding: padding ?? const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+        decoration: BoxDecoration(color: color, borderRadius: borderRadius),
+        padding:
+            padding ?? const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

@@ -1,45 +1,57 @@
 import 'package:flutter/material.dart';
 
 class ResponsiveGridView extends StatelessWidget {
-  const ResponsiveGridView({
-    super.key,
-    required this.paginationLoader,
-    required this.itemCount,
-    this.childAspectRatio,
-    this.crossAxisSpacing,
-    this.mainAxisSpacing,
-    required this.itemBuilder,
-  });
+  const ResponsiveGridView(
+      {super.key,
+      this.paginationLoader,
+      required this.itemCount,
+      this.childAspectRatio,
+      this.crossAxisSpacing,
+      this.mainAxisSpacing,
+      required this.itemBuilder,
+      this.screenWidth,
+      this.isSliver = false, this.decrementedWidth});
 
-  final Widget paginationLoader;
+  final Widget? paginationLoader;
   final int itemCount;
   final double? childAspectRatio;
   final double? crossAxisSpacing;
   final double? mainAxisSpacing;
   final Widget? Function(BuildContext, int) itemBuilder;
+  final bool isSliver;
+  final double? screenWidth;
+  final double? decrementedWidth;
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = this.screenWidth ?? (MediaQuery.of(context).size.width - (decrementedWidth ?? 0));
     int crossAxisCount = getCrossAxisCount(screenWidth);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-      child: CustomScrollView(
-        controller: ScrollController(),
-        slivers: [
-          SliverGrid.builder(
-              itemCount: itemCount,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                childAspectRatio: childAspectRatio ?? 1,
-                crossAxisSpacing: crossAxisSpacing ?? 1,
-                mainAxisSpacing: mainAxisSpacing ?? 1,
-              ),
-              itemBuilder: itemBuilder),
-          SliverToBoxAdapter(child: paginationLoader),
-        ],
-      ),
-    );
+    return isSliver
+        ? _sliverGrid(crossAxisCount)
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            child: CustomScrollView(
+              shrinkWrap: true,
+              controller: ScrollController(),
+              slivers: [
+                _sliverGrid(crossAxisCount),
+                SliverToBoxAdapter(
+                    child: paginationLoader ?? const SizedBox.shrink()),
+              ],
+            ),
+          );
+  }
+
+  SliverGrid _sliverGrid(int crossAxisCount) {
+    return SliverGrid.builder(
+        itemCount: itemCount,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          childAspectRatio: childAspectRatio ?? 1,
+          crossAxisSpacing: crossAxisSpacing ?? 1,
+          mainAxisSpacing: mainAxisSpacing ?? 1,
+        ),
+        itemBuilder: itemBuilder);
   }
 
   int getCrossAxisCount(double width) {

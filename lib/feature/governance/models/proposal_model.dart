@@ -25,6 +25,8 @@ class ProposalModel {
         required this.totalVotes,
     });
 
+  get owner => null;
+
     ProposalModel copyWith({
         String? creator,
         String? dailyPay,

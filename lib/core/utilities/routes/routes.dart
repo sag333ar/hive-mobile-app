@@ -3,4 +3,14 @@ class Routes {
   static const String homeView = 'home';
   static const String witnessesView = 'witnesses';
   static const String proposalsView = 'proposals';
+
+  static const String userView = 'user';
+  static const String userBlogView = 'blog';
+  static const String userPostsView = 'posts';
+  static const String userCommentsView = 'comments';
+  static const String userRepliesView = 'replies';
+
+  static const String userFollowInfoListView = 'userFollowInfo';
+
+
 }
