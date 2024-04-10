@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/custom_list_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/dialog/link_action_dialog.dart';
 import 'package:hive_mobile_app/core/common/widgets/drawer/expandable_tile.dart';
-import 'package:hive_mobile_app/core/common/widgets/user_profile_image.dart';
+import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/witness_item_info.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/witness_link_button.dart';
@@ -21,6 +23,8 @@ class WitnessMobileItem extends StatelessWidget {
       isExpanded: false,
       expandedColor: theme.colorScheme.tertiaryContainer,
       header: CustomListTile(
+        onTap: () => context.platformPushNamed(Routes.userView,
+            pathParameters: {'accountName': item.owner}),
         padding: const EdgeInsets.only(left: kScreenHorizontalPaddingDigit),
         leading: UserProfileimage(url: item.owner),
         titleText: item.owner,
@@ -43,13 +47,14 @@ class WitnessMobileItem extends StatelessWidget {
         ),
         WitnessItemInfo(item: item),
         Padding(
-          padding: const EdgeInsets.only(
-              left: kScreenHorizontalPaddingDigit,
-              right: kScreenHorizontalPaddingDigit,
-              bottom: 15,
-              top: 5),
-          child:WitnessLinkButton(url: item.url,)
-        )
+            padding: const EdgeInsets.only(
+                left: kScreenHorizontalPaddingDigit,
+                right: kScreenHorizontalPaddingDigit,
+                bottom: 15,
+                top: 5),
+            child: WitnessLinkButton(
+              url: item.url,
+            ))
       ],
     );
   }

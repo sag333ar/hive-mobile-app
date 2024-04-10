@@ -11,4 +11,11 @@ class PostRepository {
   Future<ActionListDataResponse<PostFeedModel>> getFeeds(FeedType type) async {
     return await _apiService.getFeed(type);
   }
+
+  Future<ActionListDataResponse<PostFeedModel>> getAccountPosts(
+      String accountName, AccountPostType type, int limit,
+      {String? lastAuthor, String? lastPermlink}) async {
+    return await _apiService.getAccountPosts(
+        accountName, type, limit, lastAuthor, lastPermlink);
+  }
 }

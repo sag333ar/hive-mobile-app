@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/custom_list_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/custom_vertical_divider.dart';
-import 'package:hive_mobile_app/core/common/widgets/user_profile_image.dart';
+import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/witness_item_info.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/witness_link_button.dart';
@@ -32,6 +34,8 @@ class WitnessRankedItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 CustomListTile(
+                    onTap: () => context.platformPushNamed(Routes.userView,
+                        pathParameters: {'accountName': item.owner}),
                     leading: UserProfileimage(
                       url: item.owner,
                       radius: 45,
@@ -44,13 +48,14 @@ class WitnessRankedItem extends StatelessWidget {
                 WitnessItemInfo(item: item),
                 if (!isVerticalScroll) const Spacer(),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      left: kScreenHorizontalPaddingDigit,
-                      right: kScreenHorizontalPaddingDigit,
-                      bottom: 15,
-                      top: 5),
-                  child: WitnessLinkButton(url: item.url,)
-                )
+                    padding: const EdgeInsets.only(
+                        left: kScreenHorizontalPaddingDigit,
+                        right: kScreenHorizontalPaddingDigit,
+                        bottom: 15,
+                        top: 5),
+                    child: WitnessLinkButton(
+                      url: item.url,
+                    ))
               ],
             ),
           ),

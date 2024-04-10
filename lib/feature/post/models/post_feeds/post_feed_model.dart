@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:hive_mobile_app/core/utilities/save_convert.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/active_vote_model.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/beneficiary_model.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_json_meta_data/post_json_meta_data.dart';
 
-class PostFeedModel {
+class PostFeedModel extends Equatable {
   final int postId;
   final String author;
   final String? permlink;
@@ -138,21 +139,27 @@ class PostFeedModel {
         category: json["category"],
         title: asString(json, "title"),
         body: asString(json, "body"),
-        jsonMetadata:_parseJsonMetaData(json['json_metadata']),
+        jsonMetadata: _parseJsonMetaData(json['json_metadata']),
         created: DateTime.parse(json["created"]),
-        lastUpdate: DateTime.parse(json["last_update"]),
+        lastUpdate: json["last_update"] != null
+            ? DateTime.parse(json["last_update"])
+            : null,
         depth: json["depth"],
         children: json["children"],
         netRshares: json["net_rshares"],
-        lastPayout: DateTime.parse(json["last_payout"]),
-        cashoutTime: DateTime.parse(json["cashout_time"]),
+        lastPayout: json["last_payout"] != null
+            ? DateTime.parse(json["last_payout"])
+            : null,
+        cashoutTime: json["cashout_time"] != null
+            ? DateTime.parse(json["cashout_time"])
+            : null,
         totalPayoutValue: json["total_payout_value"],
         curatorPayoutValue: json["curator_payout_value"],
         pendingPayoutValue: json["pending_payout_value"],
         promoted: json["promoted"],
         replies: List<dynamic>.from(json["replies"].map((x) => x)),
-        bodyLength: json["body_length"],
-        authorReputation: json['author_reputation'],
+        bodyLength: asInt(json, "body_length"),
+        authorReputation: asInt(json, 'author_reputation'),
         activeVotes: List<ActiveVoteModel>.from(
             json["active_votes"].map((x) => ActiveVoteModel.fromJson(x))),
         parentAuthor: json["parent_author"],
@@ -178,4 +185,7 @@ class PostFeedModel {
     }
     return null;
   }
+
+  @override
+  List<Object?> get props => [postId, author, permlink];
 }

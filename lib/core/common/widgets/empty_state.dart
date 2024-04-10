@@ -7,6 +7,7 @@ class Emptystate extends StatefulWidget {
       this.icon,
       this.showButton = false,
       this.onPressed,
+      this.isSliver = false,
       this.buttonText = ""})
       : assert(
             !(showButton && onPressed == null), "OnTap call back is required");
@@ -16,6 +17,7 @@ class Emptystate extends StatefulWidget {
   final bool showButton;
   final String buttonText;
   final VoidCallback? onPressed;
+  final bool isSliver;
 
   @override
   State<Emptystate> createState() => _EmptystateState();
@@ -33,6 +35,14 @@ class _EmptystateState extends State<Emptystate> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    return widget.isSliver
+        ? SliverFillRemaining(
+            child: _state(theme),
+          )
+        : _state(theme);
+  }
+
+  Column _state(ThemeData theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,

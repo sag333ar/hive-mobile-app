@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/widgets/custom_list_tile.dart';
-import 'package:hive_mobile_app/core/common/widgets/user_profile_image.dart';
+import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/feature/community/models/community/community_model.dart';
 
 class CommunityItem extends StatelessWidget {

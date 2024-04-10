@@ -69,16 +69,13 @@ class _PostFeedsWidgetViewState extends State<PostFeedsWidgetView>
           child: ScreenTypeLayout.builder(
             mobile: (_) => FeedListView(
               items: items,
-              feedType: widget.feedType,
             ),
             tablet: (_) => FeedGridView(
                 pageLoader: const SizedBox.shrink(),
-                items: items,
-                feedType: widget.feedType),
+                items: items,),
             desktop: (_) => FeedGridView(
                 pageLoader: const SizedBox.shrink(),
-                items: items,
-                feedType: widget.feedType),
+                items: items,),
           ),
         );
       },

@@ -1,7 +1,7 @@
 class ActiveVoteModel {
     final String voter;
-    final int rshares;
-    final String percent;
+    final int? rshares;
+    final String? percent;
 
     ActiveVoteModel({
         required this.voter,

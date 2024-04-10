@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
 import 'package:hive_mobile_app/core/common/widgets/coloured_tab_bar.dart';
 import 'package:hive_mobile_app/core/common/widgets/drawer/drawer_menu.dart';
-import 'package:hive_mobile_app/core/common/widgets/hive_symbol_logo.dart';
+import 'package:hive_mobile_app/core/common/widgets/images/hive_symbol_logo.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/community/presentation/views/community_list/view/community_list_widget_view.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/view/post_feeds_widget_view.dart';

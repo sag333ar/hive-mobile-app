@@ -6,11 +6,15 @@ class UserProfileimage extends StatelessWidget {
       {super.key,
       required this.url,
       this.radius,
-      this.verticalPadding = 12});
+      this.verticalPadding = 12,
+      this.resize = false,
+      this.fit});
 
   final String url;
   final double? radius;
   final double verticalPadding;
+  final BoxFit? fit;
+  final bool resize;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +28,29 @@ class UserProfileimage extends StatelessWidget {
         shape: BoxShape.circle,
         image: DecorationImage(
             image: NetworkImage(
-              context.userOwnerThumb(url),
+              resize
+                  ? context.resizedImage(context.userOwnerThumb(url),
+                      height: height, width: width)
+                  : context.userOwnerThumb(url),
             ),
-            fit: BoxFit.cover),
+            fit: fit ?? BoxFit.cover),
       ),
     );
+  }
+
+  int? get width {
+    if (radius == null) {
+      return null;
+    } else {
+      return radius!.toInt() * 10;
+    }
+  }
+
+  int? get height {
+    if (radius == null) {
+      return null;
+    } else {
+      return radius!.toInt() * 6;
+    }
   }
 }

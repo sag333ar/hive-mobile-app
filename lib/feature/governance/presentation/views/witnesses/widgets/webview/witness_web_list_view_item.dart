@@ -2,9 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
+import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/custom_vertical_divider.dart';
-import 'package:hive_mobile_app/core/common/widgets/user_profile_image.dart';
+import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/witness_link_button.dart';
 
@@ -48,7 +50,10 @@ class WitnessWebListViewItem extends StatelessWidget {
                 Expanded(
                   child: ListTile(
                     contentPadding: const EdgeInsets.only(left: 5, right: 15),
-                    onTap: () {},
+                    onTap: () {
+                      context.platformPushNamed(Routes.userView,
+                          pathParameters: {'accountName': item.owner});
+                    },
                     leading: UserProfileimage(
                       url: item.owner,
                     ),
@@ -62,7 +67,8 @@ class WitnessWebListViewItem extends StatelessWidget {
                     trailing: IconButton(
                       icon: const Icon(Icons.link),
                       color: Colors.blue,
-                      onPressed: () => WitnessLinkButton.onTap(context,item.url),
+                      onPressed: () =>
+                          WitnessLinkButton.onTap(context, item.url),
                     ),
                   ),
                 ),

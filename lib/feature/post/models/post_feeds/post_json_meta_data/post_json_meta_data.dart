@@ -25,8 +25,7 @@ class PostJsonMetadata {
   factory PostJsonMetadata.fromJson(Map<String, dynamic>? json) =>
       PostJsonMetadata(
         tags: asList(json, 'tags').map((e) => e.toString()).toList(),
-        image: asList(json, 'image').map((e) => e.toString()).toList(),
-        images: asList(json, 'images').map((e) => e.toString()).toList(),
+        image: _images(json),
         links: asList(json, 'links').map((e) => e.toString()).toList(),
         users: asList(json, 'users').map((e) => e.toString()).toList(),
         format: json?['format'] as String? ?? "",
@@ -35,4 +34,12 @@ class PostJsonMetadata {
           asMap(json, 'video'),
         ),
       );
+
+  static List<String> _images(Map<String, dynamic>? json) {
+    if (json?['image'] != null) {
+      return asList(json, 'image').map((e) => e.toString()).toList();
+    } else {
+      return asList(json, 'images').map((e) => e.toString()).toList();
+    }
+  }
 }

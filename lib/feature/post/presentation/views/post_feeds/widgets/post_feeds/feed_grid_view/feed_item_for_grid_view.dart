@@ -1,10 +1,10 @@
-import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/blur_widget.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
-import 'package:hive_mobile_app/core/utilities/enum.dart';
+import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/widgets/post_feeds/comment_icon_button.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/widgets/post_feeds/post_earnings.dart';
@@ -16,10 +16,9 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class FeedItemForGridView extends StatefulWidget {
   const FeedItemForGridView(
-      {super.key, required this.item, required this.feedType});
+      {super.key, required this.item});
 
   final PostFeedModel item;
-  final FeedType feedType;
 
   @override
   State<FeedItemForGridView> createState() => _FeedItemForGridViewState();
@@ -64,7 +63,10 @@ class _FeedItemForGridViewState extends State<FeedItemForGridView> {
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            context.platformPushNamed(Routes.userView,
+                pathParameters: {'accountName': widget.item.author,});
+          },
           child: Stack(
             children: [
               PostImage(
@@ -81,8 +83,12 @@ class _FeedItemForGridViewState extends State<FeedItemForGridView> {
                   beginAlignment: Alignment.topCenter,
                   endAlignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:kScreenHorizontalPaddingDigit ),
-                    child: UserTile(item: widget.item,isGridView: true,),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: kScreenHorizontalPaddingDigit),
+                    child: UserTile(
+                      item: widget.item,
+                      isGridView: true,
+                    ),
                   ),
                 ),
               ),
@@ -114,15 +120,15 @@ class _FeedItemForGridViewState extends State<FeedItemForGridView> {
                                 timeAgo,
                                 style: theme.textTheme.labelMedium!.copyWith(
                                     fontWeight: FontWeight.w200,
-                                    color:
-                                        theme.primaryColorDark.withOpacity(0.7)),
+                                    color: theme.primaryColorDark
+                                        .withOpacity(0.7)),
                               ),
                               Text(
                                 readTime,
                                 style: theme.textTheme.labelMedium!.copyWith(
                                     fontWeight: FontWeight.w200,
-                                    color:
-                                        theme.primaryColorDark.withOpacity(0.7)),
+                                    color: theme.primaryColorDark
+                                        .withOpacity(0.7)),
                               ),
                             ],
                           ),

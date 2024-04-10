@@ -16,7 +16,32 @@ Future<String> getWitnessesFromPlatform(int limit, String? lastName) {
   return _error();
 }
 
-Future<String> getProposalsFromPlatform(int limit,) {
+Future<String> getProposalsFromPlatform(
+  int limit,
+) {
+  return _error();
+}
+
+Future<String> getFollowCountFromPlatform(String accountName) {
+  return _error();
+}
+
+Future<String> getAccountInfoFromPlatform(String accountName) {
+  return _error();
+}
+
+Future<String> getFollowingFromPlatform(
+    String accountName, String? lastName, int limit) {
+  return _error();
+}
+
+Future<String> getFollowersFromPlatform(
+    String accountName, String? lastName, int limit) {
+  return _error();
+}
+
+Future<String> getAccountPostsFromPlatform(String accountName, String type,
+    String? lastAuthor, String? lastPermlink, int limit) {
   return _error();
 }
 
