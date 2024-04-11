@@ -46,7 +46,7 @@ class _UserProfileTabBarTileState extends State<UserProfileTabBarTile> {
               style: theme.textTheme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                   color: widget.isSelected
-                      ? theme.colorScheme.primary
+                      ? theme.colorScheme.onPrimary
                       : isHovered
                           ? theme.colorScheme.primary.withOpacity(0.8)
                           : null),

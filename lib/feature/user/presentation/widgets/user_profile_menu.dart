@@ -6,6 +6,7 @@ import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.da
 import 'package:hive_mobile_app/core/utilities/act.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
+import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_author_reputation.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_follow_info/user_profile_follow_info.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_manabar.dart';
 import 'package:intl/intl.dart';
@@ -24,10 +25,24 @@ class UserProfileMenu extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          UserProfileimage(
-            fit: BoxFit.contain,
-            url: item.name,
-            radius: 100,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  UserProfileimage(
+                    fit: BoxFit.contain,
+                    url: item.name,
+                    radius: 100,
+                  ),
+                  const Positioned(
+                    bottom: 10,
+                    right: 0,
+                    child: UserProfileAuthorReputation())
+                ],
+              ),
+            ],
           ),
           const Gap(12),
           Text(
@@ -57,7 +72,7 @@ class UserProfileMenu extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20.0),
               child: UserProfileManaBar(
                   icon: Icons.thumb_up,
-                  manabarColor: Colors.green,
+                  manabarColor: Colors.greenAccent.withOpacity(0.85),
                   mana: item.votingManabar!.currentMana ?? 0,
                   toolTip: 'Upvote Mana'),
             ),
@@ -78,24 +93,24 @@ class UserProfileMenu extends StatelessWidget {
             direction: Axis.vertical,
             accountName: item.name,
           ),
-          if (item.postingJsonMetadata?.profile?.location != null)
+          if (item.location != null && item.location!.isNotEmpty)
             IconWithText(
                 expand: true,
                 iconGap: 10,
                 icon: Icons.location_on,
-                text: item.postingJsonMetadata!.profile!.location!),
-          if (item.postingJsonMetadata?.profile?.website != null)
+                text: item.location!),
+          if (item.website != null && item.website!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 5.0),
               child: IconWithText(
+                  maxlines: 2,
                   expand: true,
                   onTap: () {
-                    Act.launchThisUrl(
-                        item.postingJsonMetadata!.profile!.website!);
+                    Act.launchThisUrl(item.website!);
                   },
                   iconGap: 10,
                   icon: Icons.public,
-                  text: item.postingJsonMetadata!.profile!.website!),
+                  text: item.website!),
             ),
           Padding(
             padding: const EdgeInsets.only(top: 5.0),

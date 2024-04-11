@@ -11,7 +11,8 @@ class IconWithText extends StatelessWidget {
       this.textStyle,
       this.onTap,
       this.expand = false,
-      required this.text});
+      required this.text,
+      this.maxlines});
   final IconData icon;
   final Color? iconColor;
   final double? iconGap;
@@ -19,6 +20,7 @@ class IconWithText extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
   final bool expand;
+  final int? maxlines;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class IconWithText extends StatelessWidget {
   AutoSizeText _text(ThemeData theme) {
     return AutoSizeText(
       text,
-      maxLines: 1,
+      maxLines: maxlines ?? 1,
       minFontSize: 10,
       overflow: TextOverflow.ellipsis,
       style: textStyle ??

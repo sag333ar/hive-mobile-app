@@ -22,7 +22,7 @@ class UserProfileFollowMuteButtons extends StatelessWidget {
             child: Text(
               'Follow',
               style: theme.textTheme.bodySmall!
-                  .copyWith(color: theme.colorScheme.primary),
+                  .copyWith(color: theme.colorScheme.onPrimary),
             ),
           ),
         ),
@@ -37,7 +37,7 @@ class UserProfileFollowMuteButtons extends StatelessWidget {
             child: Text(
               'Mute',
               style: theme.textTheme.bodySmall!
-                  .copyWith(color: theme.colorScheme.primary),
+                  .copyWith(color: theme.colorScheme.onPrimary),
             ),
           ),
         ),

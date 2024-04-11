@@ -111,7 +111,7 @@ class _UserProfileWebViewWidgetState extends State<UserProfileWebViewWidget> {
           offset: offset > 300 && context.isDesktopSize
               ? Offset.zero
               : const Offset(-0, -1),
-          duration: const Duration(milliseconds: 250),
+          duration: const Duration(milliseconds: 50),
           child: Container(
             width: 300,
             color: theme.colorScheme.tertiaryContainer,

@@ -63,15 +63,18 @@ class _UserProfileManaBarState extends State<UserProfileManaBar> {
                   width: width,
                   duration: const Duration(milliseconds: 500),
                   decoration: BoxDecoration(
-                      border: Border.all(color: widget.manabarColor),
-                      color: widget.manabarColor,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(40))),
+                    border: Border.all(color: widget.manabarColor),
+                    color: widget.manabarColor,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(40),
+                    ),
+                  ),
                 ),
                 Center(
                   child: Text(
                     "100 %",
-                    style: theme.textTheme.bodySmall,
+                    style: theme.textTheme.bodySmall!
+                        .copyWith(color: theme.colorScheme.onPrimary),
                   ),
                 )
               ],

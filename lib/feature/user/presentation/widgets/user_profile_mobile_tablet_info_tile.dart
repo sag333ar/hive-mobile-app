@@ -34,8 +34,11 @@ class UserProfileMobileTabletInfoTile extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                         FollowInfo(direction: Axis.horizontal,accountName: data.name,),
-                        if (data.postingJsonMetadata?.profile?.location != null)
+                        FollowInfo(
+                          direction: Axis.horizontal,
+                          accountName: data.name,
+                        ),
+                        if (data.location != null && data.location!.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: TextBox(
@@ -48,16 +51,14 @@ class UserProfileMobileTabletInfoTile extends StatelessWidget {
                                   horizontal: kScreenHorizontalPaddingDigit,
                                   vertical: 5),
                               backgroundColor: Colors.transparent,
-                              text:
-                                  data.postingJsonMetadata!.profile!.location!,
+                              text: data.location!,
                             ),
                           ),
-                        if (data.postingJsonMetadata?.profile?.website != null)
+                        if (data.website != null && data.website!.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: TextBox(
-                              onTap: () => Act.launchThisUrl(
-                                  data.postingJsonMetadata!.profile!.website!),
+                              onTap: () => Act.launchThisUrl(data.website!),
                               showBorder: true,
                               mainAxisAlignment: MainAxisAlignment.center,
                               borderRadius: 40,
@@ -66,7 +67,7 @@ class UserProfileMobileTabletInfoTile extends StatelessWidget {
                                   horizontal: kScreenHorizontalPaddingDigit,
                                   vertical: 5),
                               backgroundColor: Colors.transparent,
-                              text: data.postingJsonMetadata!.profile!.website!,
+                              text: data.website!,
                             ),
                           ),
                         Padding(
@@ -88,11 +89,11 @@ class UserProfileMobileTabletInfoTile extends StatelessWidget {
                     ),
                   ),
                 )),
-            if (!context.isMobile) const Gap(10),
-            if (!context.isMobile) const Divider()
+            if (context.isWeb) const Gap(10),
+            if (context.isWeb) const Divider()
           ],
         ),
-        if (context.isMobile)
+        if (!context.isWeb)
           const Positioned(bottom: -25, left: 0, right: 0, child: Divider())
       ],
     );

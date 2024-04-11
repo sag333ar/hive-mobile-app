@@ -316,6 +316,14 @@ class UserModel {
         witnessesVotedFor: witnessesVotedFor ?? this.witnessesVotedFor,
       );
 
+  String? get location {
+    return postingJsonMetadata?.profile?.location;
+  }
+
+  String? get website {
+    return postingJsonMetadata?.profile?.website;
+  }
+
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         active: json["active"] == null
             ? null

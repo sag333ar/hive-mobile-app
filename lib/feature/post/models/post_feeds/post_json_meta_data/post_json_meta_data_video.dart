@@ -1,5 +1,5 @@
 import 'package:hive_mobile_app/core/utilities/save_convert.dart';
-import 'package:hive_mobile_app/feature/post/models/post_feeds/post_json_meta_data/postJsonMetaDataVideoInfo';
+import 'package:hive_mobile_app/feature/post/models/post_feeds/post_json_meta_data/post_json_meta_data_video_info.dart';
 
 class PostJsonVideo {
   final PostJsonVideoInfo info;

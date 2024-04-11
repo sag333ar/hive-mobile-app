@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
 import 'package:hive_mobile_app/core/common/widgets/responsive_layout.dart';
 import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
+import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_author_reputation.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_follow_mute_buttons.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_manabar.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_mobile_tablet_info_tile.dart';
@@ -30,11 +32,24 @@ class UserProfileUserInfo extends StatelessWidget {
                 const Padding(
                   padding:
                       EdgeInsets.only(right: kScreenHorizontalPaddingDigit),
-                  child: UserProfileFollowMuteButtons(),
+                  child: Row(
+                    children: [
+                      UserProfileAuthorReputation(
+                        isFilled: false,
+                      ),
+                      Gap(10),
+                      UserProfileFollowMuteButtons(),
+                    ],
+                  ),
+                ),
+              if (context.isMobile)
+                const Padding(
+                  padding: EdgeInsets.only(right: 15.0),
+                  child: UserProfileAuthorReputation(isFilled: false,),
                 ),
             ],
             title: UserImageName(
-              name:data.name,
+              name: data.name,
               textStyle: theme.textTheme.bodyMedium,
             ),
           ),
@@ -64,7 +79,6 @@ class UserProfileUserInfo extends StatelessWidget {
     ]);
   }
 
-  
   Padding _manabar(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -76,13 +90,12 @@ class UserProfileUserInfo extends StatelessWidget {
           if (data.votingManabar != null)
             Padding(
               padding: EdgeInsets.only(
-                  right: data.downvoteManabar != null &&
-                          !context.isMobileSize
+                  right: data.downvoteManabar != null && !context.isMobileSize
                       ? 25
                       : 0.0),
               child: UserProfileManaBar(
                   icon: Icons.thumb_up,
-                  manabarColor: Colors.green,
+                  manabarColor: Colors.greenAccent.withOpacity(0.85),
                   mana: data.votingManabar!.currentMana ?? 0,
                   toolTip: 'Upvote Mana'),
             ),
@@ -90,7 +103,7 @@ class UserProfileUserInfo extends StatelessWidget {
             UserProfileManaBar(
                 icon: Icons.thumb_down,
                 manabarColor: Colors.red,
-                mana:data.downvoteManabar!.currentMana ?? 0,
+                mana: data.downvoteManabar!.currentMana ?? 0,
                 toolTip: 'DownVote Mana'),
         ],
       ),

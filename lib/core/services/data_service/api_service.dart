@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math' as math;
+
 import 'package:hive_mobile_app/core/models/action_response.dart';
 import 'package:hive_mobile_app/core/models/chain_prop_model.dart';
 import 'package:hive_mobile_app/feature/community/models/community/community_model.dart';
@@ -11,6 +14,7 @@ import 'package:hive_mobile_app/core/services/data_service/service.dart'
 import 'package:hive_mobile_app/feature/user/models/follow_count_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_info_model.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
+import 'package:http/http.dart' as http;
 
 class ApiService {
   Future<ActionSingleDataResponse<ChainPropModel>> getChainProps() async {
@@ -162,5 +166,45 @@ class ApiService {
       return ActionListDataResponse(
           status: ResponseStatus.failed, errorMessage: e.toString());
     }
+  }
+
+  Future<int> getUserReputation(String accountName) async {
+    try {
+      var headers = {
+        'accept': 'application/json, text/plain, */*',
+        'content-type': 'application/json',
+      };
+      var request = http.Request('POST', Uri.parse('https://api.hive.blog/'));
+      request.body = json.encode({
+        "id": 0,
+        "jsonrpc": "2.0",
+        "method": "condenser_api.get_account_reputations",
+        "params": [accountName, 1]
+      });
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+      final jsonString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return _parseAuthorReputation(
+            (json.decode(jsonString)['result'][0]['reputation']));
+      } else {
+        throw 'failed';
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  int _parseAuthorReputation(int rawRep) {
+    String rep = rawRep.toString();
+    bool neg = rep.startsWith("-");
+    rep = neg ? rep.substring(1) : rep;
+    double out = math.log(int.parse(rep))/math.log(10);
+    if (out.isInfinite) out = 0;
+    out = math.max(out - 9, 0);
+    out = (neg ? -1 : 1) * out;
+    out = out * 9 + 25;
+    return out.toInt();
   }
 }
