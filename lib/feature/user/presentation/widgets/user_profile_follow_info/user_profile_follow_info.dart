@@ -52,7 +52,7 @@ class FollowInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         borderRadius: 40,
         padding: const EdgeInsets.symmetric(
-            horizontal: kScreenHorizontalPaddingDigit, vertical: 5),
+            horizontal: kScreenHorizontalPaddingDigit, vertical: 6),
         backgroundColor: Colors.transparent,
         text: "Followers - ${data?.followerCount ?? 0}",
       ),
@@ -67,7 +67,7 @@ class FollowInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         borderRadius: 40,
         padding: const EdgeInsets.symmetric(
-            horizontal: kScreenHorizontalPaddingDigit, vertical: 5),
+            horizontal: kScreenHorizontalPaddingDigit, vertical: 6),
         backgroundColor: Colors.transparent,
         text: "Following - ${data?.followingCount ?? 0}",
       ),

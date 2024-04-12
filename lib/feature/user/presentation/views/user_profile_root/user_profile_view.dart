@@ -5,34 +5,36 @@ import 'package:hive_mobile_app/core/common/widgets/server_error.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/controllers/user_profile_controller.dart';
-import 'package:hive_mobile_app/feature/user/presentation/views/user_profile_root/webview/user_profile_web_view_widget.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/user_profile_root/user_profile_widget.dart';
 import 'package:provider/provider.dart';
+
+enum UserProfileRouteType {blog,posts,comments,replies}
 
 class UserProfileView extends StatelessWidget {
   const UserProfileView(
       {super.key,
       required this.accountName,
       required this.child,
-      required this.postType});
+      required this.routeType});
 
   final String accountName;
   final Widget child;
-  final AccountPostType postType;
+  final UserProfileRouteType routeType;
 
-  static AccountPostType getFeedTypeFromPath(String path) {
+  static UserProfileRouteType getFeedTypeFromPath(String path) {
     int count = path.split('/').length - 1;
     if (count == 1) {
-      return AccountPostType.blog;
-    } else if (path.contains(enumToString(AccountPostType.blog))) {
-      return AccountPostType.blog;
-    } else if (path.contains(enumToString(AccountPostType.posts))) {
-      return AccountPostType.posts;
+      return UserProfileRouteType.blog;
+    } else if (path.contains(enumToString(UserProfileRouteType.blog))) {
+      return UserProfileRouteType.blog;
+    } else if (path.contains(enumToString(UserProfileRouteType.posts))) {
+      return UserProfileRouteType.posts;
     } else if (path.contains(enumToString(AccountPostType.comments))) {
-      return AccountPostType.comments;
+      return UserProfileRouteType.comments;
     } else if (path.contains(enumToString(AccountPostType.replies))) {
-      return AccountPostType.replies;
+      return UserProfileRouteType.replies;
     }
-    return AccountPostType.blog;
+    return UserProfileRouteType.blog;
   }
 
   @override
@@ -74,8 +76,8 @@ class UserProfileView extends StatelessWidget {
     return Selector<UserProfileController, UserModel>(
       selector: (_, provider) => provider.data!,
       builder: (context, data, chidld) {
-        return UserProfileWebViewWidget(
-            postType: postType,
+        return UserProfileViewWidget(
+            routeType: routeType,
             accountName: accountName,
             data: data,
             child: child);

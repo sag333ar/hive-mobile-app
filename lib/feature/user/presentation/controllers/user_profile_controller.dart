@@ -39,6 +39,10 @@ class UserProfileController extends ChangeNotifier {
     }
   }
 
+  Future<int> getUserReputation() async {
+    return await _userRepository.getUserReputation(accountName);
+  }
+
   double get scrollOffset => _scrollOffset;
 
   set scrollOffset(double value) {
@@ -49,5 +53,6 @@ class UserProfileController extends ChangeNotifier {
   void refresh() {
     viewState = ViewState.loading;
     notifyListeners();
+    _init();
   }
 }

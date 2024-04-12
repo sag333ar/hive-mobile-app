@@ -50,15 +50,16 @@ class UserProfileFollowInfoListDialog extends StatelessWidget {
           content: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 750),
             child: SizedBox(
-                height: screenHeight - 100,
-                width: 750,
-                child: UserFollowInfoListWidget(
-                  accountName: accountName,
-                  type: type,
-                  removeScaffold: true,
-                  count: count,
-                  screenWidth: 750,
-                )),
+              height: screenHeight - 100,
+              width: 750,
+              child: UserFollowInfoListWidget(
+                accountName: accountName,
+                type: type,
+                removeScaffold: true,
+                count: count,
+                screenWidth: 750,
+              ),
+            ),
           ),
         );
       },

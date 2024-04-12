@@ -17,7 +17,6 @@ class FeedListView extends StatelessWidget {
     return isSliver
         ? SliverList.builder(itemCount: items.length, itemBuilder: itemBuilder)
         : ListView.builder(
-            controller: ScrollController(),
             padding: const EdgeInsets.symmetric(
                 vertical: kScreenVerticalPaddingDigit),
             itemCount: items.length,

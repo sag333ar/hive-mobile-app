@@ -8,7 +8,11 @@ import 'package:provider/provider.dart';
 
 class FeedGridView extends StatelessWidget {
   const FeedGridView(
-      {super.key, this.pageLoader, required this.items, this.isSliver = false, this.decrementedWidth});
+      {super.key,
+      this.pageLoader,
+      required this.items,
+      this.isSliver = false,
+      this.decrementedWidth});
 
   final Widget? pageLoader;
   final List<PostFeedModel> items;
