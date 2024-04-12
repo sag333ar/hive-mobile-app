@@ -53,5 +53,6 @@ class UserProfileController extends ChangeNotifier {
   void refresh() {
     viewState = ViewState.loading;
     notifyListeners();
+    _init();
   }
 }

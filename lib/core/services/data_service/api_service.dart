@@ -1,16 +1,19 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:hive_mobile_app/core/models/action_response.dart';
 import 'package:hive_mobile_app/core/models/chain_prop_model.dart';
-import 'package:hive_mobile_app/feature/community/models/community/community_model.dart';
-import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
-import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
-import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
-import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/services/data_service/service.dart'
     if (dart.library.io) 'package:hive_mobile_app/core/services/data_service/mobile_service.dart'
     if (dart.library.html) 'package:hive_mobile_app/core/services/data_service/web_service.dart';
+import 'package:hive_mobile_app/core/utilities/enum.dart';
+import 'package:hive_mobile_app/feature/community/models/community/community_model.dart';
+import 'package:hive_mobile_app/feature/community/models/community_detail/community_detail_model.dart';
+import 'package:hive_mobile_app/feature/community/models/community_detail/community_team_model.dart';
+import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
+import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
+import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_count_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_info_model.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
@@ -200,11 +203,62 @@ class ApiService {
     String rep = rawRep.toString();
     bool neg = rep.startsWith("-");
     rep = neg ? rep.substring(1) : rep;
-    double out = math.log(int.parse(rep))/math.log(10);
+    double out = math.log(int.parse(rep)) / math.log(10);
     if (out.isInfinite) out = 0;
     out = math.max(out - 9, 0);
     out = (neg ? -1 : 1) * out;
     out = out * 9 + 25;
     return out.toInt();
+  }
+
+  Future<ActionSingleDataResponse<CommunityDetailModel>> getCommunityDetails(
+      String communityId) async {
+    try {
+      String jsonString = await getCommunityDetailsFromPlatform(
+        communityId,
+      );
+      ActionSingleDataResponse<CommunityDetailModel> response =
+          ActionSingleDataResponse.fromJsonString(
+              jsonString, CommunityDetailModel.fromJson);
+      return response;
+    } catch (e) {
+      return ActionSingleDataResponse(
+          status: ResponseStatus.failed, errorMessage: e.toString());
+    }
+  }
+
+  Future<ActionListDataResponse<PostFeedModel>> getCommunityFeed(
+      String communityId,
+      FeedType type,
+      int limit,
+      String? lastAuthor,
+      String? lastPermlink) async {
+    try {
+      String jsonString = await getCommunityFeedFromPlatform(
+          communityId, enumToString(type), lastAuthor, lastPermlink, limit);
+      ActionListDataResponse<PostFeedModel> response =
+          ActionListDataResponse.fromJsonString(
+              jsonString, (item) => PostFeedModel.fromJson(item));
+      return response;
+    } catch (e) {
+      return ActionListDataResponse(
+          status: ResponseStatus.failed, errorMessage: e.toString());
+    }
+  }
+
+  Future<ActionListDataResponse<CommunityMemberModel>> getCommunitySubscribers(
+      String communityId, int limit, String? lastName) async {
+    try {
+      log('api hit');
+      String jsonString = await getCommunitySubscribersFromPlatform(
+          communityId, limit, lastName);
+      ActionListDataResponse<CommunityMemberModel> response =
+          ActionListDataResponse.fromJsonString(
+              jsonString, (item) => CommunityMemberModel.fromJson(item));
+      return response;
+    } catch (e) {
+      return ActionListDataResponse(
+          status: ResponseStatus.failed, errorMessage: e.toString());
+    }
   }
 }

@@ -8,7 +8,7 @@ import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_author_reputation.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_follow_mute_buttons.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_manabar.dart';
-import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_mobile_tablet_info_tile.dart';
+import 'package:hive_mobile_app/feature/user/presentation/widgets/mobile_and_tablet/user_profile_mobile_tablet_info_scroll.dart';
 
 class UserProfileUserInfo extends StatelessWidget {
   const UserProfileUserInfo({super.key, required this.data});
@@ -19,43 +19,42 @@ class UserProfileUserInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return SliverMainAxisGroup(slivers: [
-      if (!context.isDesktopSize)
-        SliverPadding(
-          padding: EdgeInsets.only(top: context.isMobile ? 0 : 10, bottom: 10),
-          sliver: SliverAppBar(
-            leading: const SizedBox.shrink(),
-            leadingWidth: 0,
-            floating: context.isMobile,
-            backgroundColor: theme.colorScheme.tertiaryContainer,
-            actions: [
-              if (!context.isMobile)
-                const Padding(
-                  padding:
-                      EdgeInsets.only(right: kScreenHorizontalPaddingDigit),
-                  child: Row(
-                    children: [
-                      UserProfileAuthorReputation(
-                        isFilled: false,
-                      ),
-                      Gap(10),
-                      UserProfileFollowMuteButtons(),
-                    ],
-                  ),
+      SliverPadding(
+        padding: EdgeInsets.only(top: context.isMobile ? 0 : 10, bottom: 10),
+        sliver: SliverAppBar(
+          leading: const SizedBox.shrink(),
+          leadingWidth: 0,
+          floating: context.isMobile,
+          backgroundColor: theme.colorScheme.tertiaryContainer,
+          actions: [
+            if (!context.isMobile)
+              const Padding(
+                padding: EdgeInsets.only(right: kScreenHorizontalPaddingDigit),
+                child: Row(
+                  children: [
+                    UserProfileAuthorReputation(
+                      isFilled: false,
+                    ),
+                    Gap(10),
+                    UserProfileFollowMuteButtons()
+                  ],
                 ),
-              if (context.isMobile)
-                const Padding(
-                  padding: EdgeInsets.only(right: 15.0),
-                  child: UserProfileAuthorReputation(isFilled: false,),
+              ),
+            if (context.isMobile)
+              const Padding(
+                padding: EdgeInsets.only(right: 15.0),
+                child: UserProfileAuthorReputation(
+                  isFilled: false,
                 ),
-            ],
-            title: UserImageName(
-              name: data.name,
-              textStyle: theme.textTheme.bodyMedium,
-            ),
+              ),
+          ],
+          title: UserImageName(
+            name: data.name,
+            textStyle: theme.textTheme.bodyMedium,
           ),
         ),
-      if (!context.isDesktopSize &&
-          data.postingJsonMetadata?.profile?.about != null)
+      ),
+      if (data.postingJsonMetadata?.profile?.about != null)
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -68,14 +67,12 @@ class UserProfileUserInfo extends StatelessWidget {
             ),
           ),
         ),
-      if (!context.isDesktopSize)
-        SliverToBoxAdapter(
-          child: _manabar(context),
-        ),
-      if (!context.isDesktopSize)
-        SliverToBoxAdapter(
-          child: UserProfileMobileTabletInfoTile(data: data),
-        ),
+      SliverToBoxAdapter(
+        child: _manabar(context),
+      ),
+      SliverToBoxAdapter(
+        child: UserProfileMobileTabletInfoTile(data: data),
+      ),
     ]);
   }
 

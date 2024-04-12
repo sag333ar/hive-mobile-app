@@ -58,6 +58,7 @@ dependencies:
   reading_time: ^2.0.0
   url_launcher: ^6.2.5
   url_strategy: ^0.2.0
+  flutter_linkify: ^6.0.0
 
 dev_dependencies:
   flutter_test:

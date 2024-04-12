@@ -412,7 +412,13 @@ class UserModel {
             : DateTime.parse(json["previous_owner_update"]),
         proxiedVsfVotes: json["proxied_vsf_votes"] == null
             ? []
-            : List<int>.from(json["proxied_vsf_votes"]!.map((x) => x)),
+            : List<int>.from(json["proxied_vsf_votes"]!.map((x) {
+                if (x is String) {
+                  return int.parse(x);
+                } else {
+                  return x;
+                }
+              })),
         proxy: json["proxy"],
         receivedVestingShares: json["received_vesting_shares"],
         recoveryAccount: json["recovery_account"],

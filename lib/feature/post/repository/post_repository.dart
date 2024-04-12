@@ -18,4 +18,11 @@ class PostRepository {
     return await _apiService.getAccountPosts(
         accountName, type, limit, lastAuthor, lastPermlink);
   }
+
+  Future<ActionListDataResponse<PostFeedModel>> getCommunityFeed(
+      String communityId, FeedType type, int limit,
+      {String? lastAuthor, String? lastPermlink}) async {
+    return await _apiService.getCommunityFeed(
+        communityId, type, limit, lastAuthor, lastPermlink);
+  }
 }

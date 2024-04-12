@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/blur_widget.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/routes/route_keys.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/widgets/post_feeds/comment_icon_button.dart';
@@ -65,7 +66,7 @@ class _FeedItemForGridViewState extends State<FeedItemForGridView> {
         child: GestureDetector(
           onTap: () {
             context.platformPushNamed(Routes.userView,
-                pathParameters: {'accountName': widget.item.author,});
+                pathParameters: {RouteKeys.accountName: widget.item.author,});
           },
           child: Stack(
             children: [

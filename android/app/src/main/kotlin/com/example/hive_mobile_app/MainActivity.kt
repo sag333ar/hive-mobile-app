@@ -80,6 +80,7 @@ class MainActivity: FlutterActivity() {
                 val lastAuthor = call.argument<String?>("lastAuthor") 
                 val lastPermlink = call.argument<String?>("lastPermlink") 
                 val type = call.argument<String?>("type") 
+                val communityId = call.argument<String?>("communityId") 
 
                 if (call.method == "getChainProps" ) {
                     webView?.evaluateJavascript(
@@ -130,6 +131,21 @@ class MainActivity: FlutterActivity() {
                 } else if (call.method == "getAccountPosts" && accountName != null && type !=null && limit !=null) {
                     webView?.evaluateJavascript(
                         "getAccountPosts('$id','$accountName','$type',${getValue(lastAuthor)},${getValue(lastPermlink)},${getIntValue(limit)});",
+                        null
+                    )
+                } else if (call.method == "getCommunityDetails" && communityId != null) {
+                    webView?.evaluateJavascript(
+                        "getCommunityDetails('$id','$communityId');",
+                        null
+                    )
+                } else if (call.method == "getCommunityFeed" && communityId != null && type !=null && limit !=null) {
+                    webView?.evaluateJavascript(
+                        "getCommunityFeed('$id','$communityId','$type',${getValue(lastAuthor)},${getValue(lastPermlink)},${getIntValue(limit)});",
+                        null
+                    )
+                } else if (call.method == "getCommunitySubscribers" && communityId != null && limit != null) {
+                    webView?.evaluateJavascript(
+                        "getCommunitySubscribers('$id','$communityId',${getIntValue(limit)},${getValue(lastName)});",
                         null
                     )
                 }

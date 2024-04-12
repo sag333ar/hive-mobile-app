@@ -5,9 +5,9 @@ import 'package:hive_mobile_app/core/common/widgets/scroll_end_listener.dart';
 import 'package:hive_mobile_app/core/common/widgets/server_error.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/community/models/community/community_model.dart';
-import 'package:hive_mobile_app/feature/community/presentation/views/community_list/controller/community_controller.dart';
-import 'package:hive_mobile_app/feature/community/presentation/views/community_list/widgets/community_grid_view.dart/community_grid_view.dart';
-import 'package:hive_mobile_app/feature/community/presentation/views/community_list/widgets/community_list_view/community_list_view.dart';
+import 'package:hive_mobile_app/feature/community/presentation/community_list/controller/community_controller.dart';
+import 'package:hive_mobile_app/feature/community/presentation/community_list/widgets/community_grid_view.dart/community_grid_view.dart';
+import 'package:hive_mobile_app/feature/community/presentation/community_list/widgets/community_list_view/community_list_view.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

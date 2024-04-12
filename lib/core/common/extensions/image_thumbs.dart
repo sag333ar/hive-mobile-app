@@ -6,7 +6,6 @@ extension ImageThumb on BuildContext {
   }
 
   String resizedImage(String value, {int? width, int? height}) {
-    print("https://images.hive.blog/${width ?? 320}x${height ?? 160}/$value");
     return "https://images.hive.blog/${width ?? 320}x${height ?? 160}/$value";
   }
 }

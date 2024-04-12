@@ -12,7 +12,10 @@ class IconWithText extends StatelessWidget {
       this.onTap,
       this.expand = false,
       required this.text,
-      this.maxlines});
+      this.maxlines,
+      this.color,
+      this.padding,
+      this.borderRadius});
   final IconData icon;
   final Color? iconColor;
   final double? iconGap;
@@ -21,28 +24,35 @@ class IconWithText extends StatelessWidget {
   final VoidCallback? onTap;
   final bool expand;
   final int? maxlines;
+  final Color? color;
+  final BorderRadius? borderRadius;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return InkWellWrapper(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 20,
-              color: iconColor ?? theme.primaryColorDark.withOpacity(0.9),
-            ),
-            SizedBox(width: iconGap ?? 5),
-            expand
-                ? Expanded(
-                    child: _text(theme),
-                  )
-                : _text(theme),
-          ],
+      borderRadius: borderRadius,
+      child: Container(
+        decoration: BoxDecoration(color: color, borderRadius: borderRadius),
+        child: Padding(
+          padding:padding ?? const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                size: 20,
+                color: iconColor ?? theme.primaryColorDark.withOpacity(0.9),
+              ),
+              SizedBox(width: iconGap ?? 5),
+              expand
+                  ? Expanded(
+                      child: _text(theme),
+                    )
+                  : _text(theme),
+            ],
+          ),
         ),
       ),
     );

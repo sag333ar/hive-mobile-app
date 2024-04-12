@@ -110,3 +110,36 @@ Future<String> getAccountPostsFromPlatform(String accountName, String type,
   var contentData = await promiseToFuture(promise);
   return contentData;
 }
+
+@JS()
+external dynamic getCommunityDetails(identifier, communityId);
+
+Future<String> getCommunityDetailsFromPlatform(String communityId) async {
+  final String id = 'getCommunityDetails${DateTime.now().toIso8601String()}';
+  var promise = getCommunityDetails(id, communityId);
+  var contentData = await promiseToFuture(promise);
+  return contentData;
+}
+
+@JS()
+external dynamic getCommunityFeed(
+    identifier, communityId, type, lastAuthor, lastPermlink, limit);
+
+Future<String> getCommunityFeedFromPlatform(String communityId, String type,
+    String? lastAuthor, String? lastPermlink, int limit) async {
+  final String id = 'getCommunityFeed${DateTime.now().toIso8601String()}';
+  var promise =
+      getCommunityFeed(id, communityId, type, lastAuthor, lastPermlink, limit);
+  var contentData = await promiseToFuture(promise);
+  return contentData;
+}
+
+@JS()
+external dynamic getCommunitySubscribers(identifier, communityId,limit,lastName);
+
+Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,String? lastName) async {
+  final String id = 'getCommunitySubscribers${DateTime.now().toIso8601String()}';
+  var promise = getCommunitySubscribers(id, communityId,limit,lastName);
+  var contentData = await promiseToFuture(promise);
+  return contentData;
+}

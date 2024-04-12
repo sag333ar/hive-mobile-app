@@ -10,9 +10,10 @@ class UserImageName extends StatelessWidget {
       this.onTap,
       this.imageRadius,
       this.reverse = false,
-      this.textStyle});
+      this.textStyle, this.displayName});
 
   final String name;
+  final String? displayName;
   final VoidCallback? onTap;
   final double? imageRadius;
   final bool reverse;
@@ -39,7 +40,7 @@ class UserImageName extends StatelessWidget {
   }
 
   AutoSizeText _userText() => AutoSizeText(
-        name,
+        displayName ?? name,
         style: textStyle,
         maxLines: 1,
         minFontSize: 11,

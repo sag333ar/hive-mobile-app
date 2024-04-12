@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class UserProfileTabBarTile extends StatefulWidget {
-  const UserProfileTabBarTile({
+class RoutedTabBarTile extends StatefulWidget {
+  const RoutedTabBarTile({
     super.key,
     required this.isSelected,
     required this.text,
@@ -13,10 +13,10 @@ class UserProfileTabBarTile extends StatefulWidget {
   final VoidCallback onTap;
 
   @override
-  State<UserProfileTabBarTile> createState() => _UserProfileTabBarTileState();
+  State<RoutedTabBarTile> createState() => _RoutedTabBarTileState();
 }
 
-class _UserProfileTabBarTileState extends State<UserProfileTabBarTile> {
+class _RoutedTabBarTileState extends State<RoutedTabBarTile> {
   late ThemeData theme;
   bool isHovered = false;
 

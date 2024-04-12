@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
+import 'package:hive_mobile_app/core/utilities/routes/route_keys.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
+import 'package:hive_mobile_app/feature/community/presentation/community_profile/view/community_feeds/view/community_feed_view.dart';
+import 'package:hive_mobile_app/feature/community/presentation/community_profile/view/community_profile_root/community_profile_view.dart';
+import 'package:hive_mobile_app/feature/community/presentation/community_profile/view/community_subscribers/view/community_subscribers_list_widget.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/view/proposal_view.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/view/witnesses_view.dart';
 import 'package:hive_mobile_app/feature/user/models/navigation_model/user_follow_info_list_navigation_model.dart';
@@ -12,7 +16,8 @@ import 'package:hive_mobile_app/home_view.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
-  static final _shellNavigatorKey = GlobalKey<NavigatorState>();
+  static final _userProfileShellNavigatorKey = GlobalKey<NavigatorState>();
+  static final _communityProfileShellNavigatorKey = GlobalKey<NavigatorState>();
 
   static GoRouter router = GoRouter(
       navigatorKey: _rootNavigatorKey, initialLocation: '/', routes: routes());
@@ -52,21 +57,21 @@ class AppRouter {
         },
       ),
       ShellRoute(
-        navigatorKey: _shellNavigatorKey,
+        navigatorKey: _userProfileShellNavigatorKey,
         builder: (context, state, child) {
-          String accountName = state.pathParameters['accountName']!;
+          String accountName = state.pathParameters[RouteKeys.accountName]!;
           return UserProfileView(
               accountName: accountName,
-              postType: UserProfileView.getFeedTypeFromPath(state.fullPath!),
+              routeType: UserProfileView.getFeedTypeFromPath(state.fullPath!),
               child: child);
         },
         routes: [
           GoRoute(
-            path: '/@:accountName',
+            path: '/@:${RouteKeys.accountName}',
             name: Routes.userView,
-            parentNavigatorKey: _shellNavigatorKey,
+            parentNavigatorKey: _userProfileShellNavigatorKey,
             builder: (context, state) {
-              String accountName = state.pathParameters['accountName']!;
+              String accountName = state.pathParameters[RouteKeys.accountName]!;
               return UserPostViewWidget(
                 accountName: accountName,
                 postType: AccountPostType.blog,
@@ -74,11 +79,11 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/@:accountName/${Routes.userBlogView}',
+            path: '/@:${RouteKeys.accountName}/${Routes.userBlogView}',
             name: Routes.userBlogView,
-            parentNavigatorKey: _shellNavigatorKey,
+            parentNavigatorKey: _userProfileShellNavigatorKey,
             builder: (context, state) {
-              String accountName = state.pathParameters['accountName']!;
+              String accountName = state.pathParameters[RouteKeys.accountName]!;
               return UserPostViewWidget(
                 accountName: accountName,
                 postType: AccountPostType.blog,
@@ -86,11 +91,11 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/@:accountName/${Routes.userPostsView}',
+            path: '/@:${RouteKeys.accountName}/${Routes.userPostsView}',
             name: Routes.userPostsView,
-            parentNavigatorKey: _shellNavigatorKey,
+            parentNavigatorKey: _userProfileShellNavigatorKey,
             builder: (context, state) {
-              String accountName = state.pathParameters['accountName']!;
+              String accountName = state.pathParameters[RouteKeys.accountName]!;
               return UserPostViewWidget(
                 accountName: accountName,
                 postType: AccountPostType.posts,
@@ -98,11 +103,11 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/@:accountName/${Routes.userCommentsView}',
+            path: '/@:${RouteKeys.accountName}/${Routes.userCommentsView}',
             name: Routes.userCommentsView,
-            parentNavigatorKey: _shellNavigatorKey,
+            parentNavigatorKey: _userProfileShellNavigatorKey,
             builder: (context, state) {
-              String accountName = state.pathParameters['accountName']!;
+              String accountName = state.pathParameters[RouteKeys.accountName]!;
               return UserPostViewWidget(
                 accountName: accountName,
                 postType: AccountPostType.comments,
@@ -110,11 +115,11 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/@:accountName/${Routes.userRepliesView}',
+            path: '/@:${RouteKeys.accountName}/${Routes.userRepliesView}',
             name: Routes.userRepliesView,
-            parentNavigatorKey: _shellNavigatorKey,
+            parentNavigatorKey: _userProfileShellNavigatorKey,
             builder: (context, state) {
-              String accountName = state.pathParameters['accountName']!;
+              String accountName = state.pathParameters[RouteKeys.accountName]!;
               return UserPostViewWidget(
                 accountName: accountName,
                 postType: AccountPostType.replies,
@@ -137,14 +142,87 @@ class AppRouter {
           );
         },
       ),
+      ShellRoute(
+        navigatorKey: _communityProfileShellNavigatorKey,
+        builder: (context, state, child) {
+          String communityid = state.pathParameters[RouteKeys.communityId]!;
+          return CommunityProfileView(
+              communityId: communityid,
+              routeType:
+                  CommunityProfileView.getFeedTypeFromPath(state.fullPath!),
+              child: child);
+        },
+        routes: [
+          GoRoute(
+            path: '/:${RouteKeys.communityId}',
+            name: Routes.communityView,
+            parentNavigatorKey: _communityProfileShellNavigatorKey,
+            builder: (context, state) {
+              String communityId = state.pathParameters[RouteKeys.communityId]!;
+              return CommunityFeedViewWidget(
+                communityId: communityId,
+                feedType: FeedType.trending,
+              );
+            },
+          ),
+          GoRoute(
+            path: '/:${RouteKeys.communityId}/${Routes.communityTrendingView}',
+            name: Routes.communityTrendingView,
+            parentNavigatorKey: _communityProfileShellNavigatorKey,
+            builder: (context, state) {
+              String communityId = state.pathParameters[RouteKeys.communityId]!;
+              return CommunityFeedViewWidget(
+                communityId: communityId,
+                feedType: FeedType.trending,
+              );
+            },
+          ),
+          GoRoute(
+            path: '/:${RouteKeys.communityId}/${Routes.communityHotView}',
+            name: Routes.communityHotView,
+            parentNavigatorKey: _communityProfileShellNavigatorKey,
+            builder: (context, state) {
+              String communityId = state.pathParameters[RouteKeys.communityId]!;
+              return CommunityFeedViewWidget(
+                communityId: communityId,
+                feedType: FeedType.hot,
+              );
+            },
+          ),
+          GoRoute(
+            path: '/:${RouteKeys.communityId}/${Routes.communityCreatedView}',
+            name: Routes.communityCreatedView,
+            parentNavigatorKey: _communityProfileShellNavigatorKey,
+            builder: (context, state) {
+              String communityId = state.pathParameters[RouteKeys.communityId]!;
+              return CommunityFeedViewWidget(
+                communityId: communityId,
+                feedType: FeedType.created,
+              );
+            },
+          ),
+          GoRoute(
+            path:
+                '/:${RouteKeys.communityId}/${Routes.communitySubscribersView}',
+            name: Routes.communitySubscribersView,
+            parentNavigatorKey: _communityProfileShellNavigatorKey,
+            builder: (context, state) {
+              String communityId = state.pathParameters[RouteKeys.communityId]!;
+              return CommunitySubscribersListWidget(
+                communityId: communityId,
+                removeScaffold: true,
+                count: 0,
+              );
+            },
+          ),
+        ],
+      ),
     ];
   }
 
-  static bool? _stringToBool(String? value) {
-    if (value != null) {
-      return value.toLowerCase() == "true";
-    }
-    return null;
+  static String currentRoute() {
+    return AppRouter.router.routerDelegate.currentConfiguration.uri.path
+        .toString();
   }
 
   static void popTillFirstScreen(

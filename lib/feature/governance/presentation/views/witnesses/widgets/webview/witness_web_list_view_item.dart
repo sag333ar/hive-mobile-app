@@ -6,6 +6,7 @@ import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart'
 import 'package:hive_mobile_app/core/common/widgets/custom_vertical_divider.dart';
 import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/routes/route_keys.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/witness_link_button.dart';
@@ -52,7 +53,7 @@ class WitnessWebListViewItem extends StatelessWidget {
                     contentPadding: const EdgeInsets.only(left: 5, right: 15),
                     onTap: () {
                       context.platformPushNamed(Routes.userView,
-                          pathParameters: {'accountName': item.owner});
+                          pathParameters: {RouteKeys.accountName: item.owner});
                     },
                     leading: UserProfileimage(
                       url: item.owner,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/widgets/pagination_loader.dart';
 import 'package:hive_mobile_app/core/common/widgets/responsive_grid_view.dart';
 import 'package:hive_mobile_app/feature/community/models/community/community_model.dart';
-import 'package:hive_mobile_app/feature/community/presentation/views/community_list/controller/community_controller.dart';
-import 'package:hive_mobile_app/feature/community/presentation/views/community_list/widgets/community_item.dart';
+import 'package:hive_mobile_app/feature/community/presentation/community_list/controller/community_controller.dart';
+import 'package:hive_mobile_app/feature/community/presentation/community_list/widgets/community_item.dart';
 import 'package:provider/provider.dart';
 
 class CommunityGridView extends StatelessWidget {

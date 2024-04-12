@@ -11,7 +11,9 @@ class TextBox extends StatelessWidget {
       this.textColor,
       this.mainAxisAlignment,
       this.borderRadius,
-      this.padding, this.onTap});
+      this.padding,
+      this.textStyle,
+      this.onTap, this.borderColor});
 
   final Color backgroundColor;
   final String text;
@@ -22,23 +24,26 @@ class TextBox extends StatelessWidget {
   final double? borderRadius;
   final EdgeInsets? padding;
   final VoidCallback? onTap;
+  final TextStyle? textStyle;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final borderRadius = BorderRadius.all(Radius.circular(this.borderRadius ?? 4));
+    final borderRadius =
+        BorderRadius.all(Radius.circular(this.borderRadius ?? 4));
     return InkWellWrapper(
-      borderRadius:borderRadius ,
+      borderRadius: borderRadius,
       onTap: onTap,
       child: Container(
         padding:
             padding ?? const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
         decoration: BoxDecoration(
             border: showBorder
-                ? Border.all(color: theme.primaryColorDark.withOpacity(0.3))
+                ? Border.all(color:borderColor ?? theme.primaryColorDark.withOpacity(0.3))
                 : null,
             color: backgroundColor,
-            borderRadius:borderRadius),
+            borderRadius: borderRadius),
         child: Row(
           mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
           children: [
@@ -52,7 +57,8 @@ class TextBox extends StatelessWidget {
               ),
             Text(
               text,
-              style: theme.textTheme.bodySmall!.copyWith(color: textColor),
+              style: textStyle ??
+                  theme.textTheme.bodySmall!.copyWith(color: textColor),
             ),
           ],
         ),

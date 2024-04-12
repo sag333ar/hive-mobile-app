@@ -141,6 +141,39 @@
       });
     }
 
+    async function getCommunityDetails(identifier, communityId) {
+      const response = await client.hivemind.getCommunity({ "name": communityId });
+      replyToNative({
+        id: identifier,
+        type: "getCommunityDetails",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getCommunityFeed(identifier, communityId, type, lastAuthor, lastPermlink, limit) {
+      const response = await client.hivemind.getRankedPosts({ tag: communityId, sort: type, start_author: lastAuthor, start_permlink: lastPermlink, limit: limit });
+      replyToNative({
+        id: identifier,
+        type: "getCommunityFeed",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getCommunitySubscribers(identifier, communityId, limit, lastName) {
+      const response = await client.hivemind.call('list_subscribers', { community: communityId, limit: limit, last: lastName });
+      replyToNative({
+        id: identifier,
+        type: "getCommunitySubscribers",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
     function replyToNative(result) {
       window.webkit.messageHandlers.app.postMessage(JSON.stringify(result));
     }
