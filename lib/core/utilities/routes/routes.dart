@@ -12,5 +12,11 @@ class Routes {
 
   static const String userFollowInfoListView = 'userFollowInfo';
 
+  static const String communityView = 'community';
+  static const String communityTrendingView = 'trending';
+  static const String communityHotView = 'hot';
+  static const String communityCreatedView = 'created';
+  static const String communitySubscribersView = 'subscribers';
 
+  static const String communitySubscribersListView = 'subscribers';
 }

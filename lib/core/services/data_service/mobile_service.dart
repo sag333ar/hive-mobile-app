@@ -90,7 +90,7 @@ Future<String> getFollowersFromPlatform(
 
 Future<String> getAccountPostsFromPlatform(String accountName, String type,
     String? lastAuthor, String? lastPermlink, int limit) async {
-  final String id = 'getFollowers${DateTime.now().toIso8601String()}';
+  final String id = 'getAccountPosts${DateTime.now().toIso8601String()}';
   final String response = await platform.invokeMethod('getAccountPosts', {
     'id': id,
     'accountName': accountName,
@@ -98,6 +98,40 @@ Future<String> getAccountPostsFromPlatform(String accountName, String type,
     'lastAuthor': lastAuthor,
     'lastPermlink': lastPermlink,
     'limit': limit
+  });
+  return response;
+}
+
+Future<String> getCommunityDetailsFromPlatform(String communityId) async {
+  final String id = 'getCommunityDetails${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('getCommunityDetails', {
+    'id': id,
+    'communityId': communityId,
+  });
+  return response;
+}
+
+Future<String> getCommunityFeedFromPlatform(String communityId, String type,
+    String? lastAuthor, String? lastPermlink, int limit) async {
+  final String id = 'getCommunityFeed${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('getCommunityFeed', {
+    'id': id,
+    'communityId': communityId,
+    'type': type,
+    'lastAuthor': lastAuthor,
+    'lastPermlink': lastPermlink,
+    'limit': limit
+  });
+  return response;
+}
+
+Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,String? lastName) async {
+  final String id = 'getCommunitySubscribers${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('getCommunitySubscribers', {
+    'id': id,
+    'communityId': communityId,
+    'limit': limit,
+    'lastName': lastName
   });
   return response;
 }

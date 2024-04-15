@@ -30,4 +30,8 @@ class UserRepository {
       {String? lastName}) async {
     return await _apiService.getFollowers(accountName, limit, lastName);
   }
+
+  Future<int> getUserReputation(String accountName) async {
+    return await _apiService.getUserReputation(accountName);
+  }
 }

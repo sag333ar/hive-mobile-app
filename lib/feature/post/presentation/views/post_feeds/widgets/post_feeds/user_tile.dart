@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/common/widgets/inkwell_wrapper.dart';
+import 'package:hive_mobile_app/core/utilities/routes/route_keys.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 
@@ -81,7 +82,7 @@ class UserTile extends StatelessWidget {
 
   void pushToUserView(BuildContext context) {
     context.platformPushNamed(Routes.userView,
-        pathParameters: {'accountName': item.author});
+        pathParameters: {RouteKeys.accountName: item.author});
   }
 
   TextStyle textStyle(ThemeData theme) {

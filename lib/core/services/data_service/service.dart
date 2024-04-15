@@ -45,6 +45,19 @@ Future<String> getAccountPostsFromPlatform(String accountName, String type,
   return _error();
 }
 
+Future<String> getCommunityDetailsFromPlatform(String communityId) {
+  return _error();
+}
+
+Future<String> getCommunityFeedFromPlatform(String communityId, String type,
+    String? lastAuthor, String? lastPermlink, int limit) {
+  return _error();
+}
+
+Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,String? lastName){
+  return _error();
+}
+
 Future<String> _error() {
   return Future.value('error');
 }

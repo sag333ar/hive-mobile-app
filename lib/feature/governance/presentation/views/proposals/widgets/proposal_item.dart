@@ -5,6 +5,7 @@ import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart'
 import 'package:hive_mobile_app/core/common/widgets/text_box.dart';
 import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/routes/route_keys.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
 import 'package:intl/intl.dart';
@@ -39,7 +40,7 @@ class ProposalItem extends StatelessWidget {
                   children: [
                     UserImageName(
                       onTap: () => context.platformPushNamed(Routes.userView,
-                          pathParameters: {'accountName': item.creator}),
+                          pathParameters: {RouteKeys.accountName: item.creator}),
                       name: item.creator,
                     ),
                     Expanded(
@@ -50,7 +51,7 @@ class ProposalItem extends StatelessWidget {
                     )),
                     UserImageName(
                        onTap: () => context.platformPushNamed(Routes.userView,
-                          pathParameters: {'accountName': item.receiver}),
+                          pathParameters: {RouteKeys.accountName: item.receiver}),
                       reverse: true,
                       name: item.receiver,
                     ),
