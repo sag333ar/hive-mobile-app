@@ -4,6 +4,10 @@ git fetch --tags
 
 echo "done fetching all tags"
 
+git pull origin
+
+echo "done fetching all latest changes"
+
 lastversionandbuildnumber=`git tag -l | tail -1`
 lastversion=`echo $lastversionandbuildnumber | cut -d "+" -f 1`
 lastbuildnumber=`echo $lastversionandbuildnumber | cut -d "+" -f 2`
