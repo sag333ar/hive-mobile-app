@@ -10,7 +10,10 @@ class UserImageName extends StatelessWidget {
       this.onTap,
       this.imageRadius,
       this.reverse = false,
-      this.textStyle, this.displayName});
+      this.textStyle,
+      this.isExpanded = false,
+      this.displayName,
+      this.maxLines});
 
   final String name;
   final String? displayName;
@@ -18,6 +21,8 @@ class UserImageName extends StatelessWidget {
   final double? imageRadius;
   final bool reverse;
   final TextStyle? textStyle;
+  final bool isExpanded;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,11 @@ class UserImageName extends StatelessWidget {
             children: [
               !reverse ? _userProfileImage() : _userText(),
               const Gap(15),
-              !reverse ? _userText() : _userProfileImage(),
+              !reverse
+                  ? isExpanded
+                      ? Expanded(child: _userText())
+                      : _userText()
+                  : _userProfileImage(),
             ],
           ),
         ),
@@ -42,7 +51,7 @@ class UserImageName extends StatelessWidget {
   AutoSizeText _userText() => AutoSizeText(
         displayName ?? name,
         style: textStyle,
-        maxLines: 1,
+        maxLines:maxLines ?? 1,
         minFontSize: 11,
         overflow: TextOverflow.ellipsis,
       );

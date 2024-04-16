@@ -135,3 +135,12 @@ Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,
   });
   return response;
 }
+
+Future<String> getSubscribedCommunitiesFromPlatform(String accountName) async {
+  final String id = 'getSubscribedCommunities${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('getSubscribedCommunities', {
+    'id': id,
+    'accountName': accountName
+  });
+  return response;
+}

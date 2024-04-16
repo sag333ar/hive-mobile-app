@@ -58,6 +58,11 @@ Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,
   return _error();
 }
 
+Future<String> getSubscribedCommunitiesFromPlatform(String accountName){
+  return _error();
+}
+
 Future<String> _error() {
   return Future.value('error');
 }
+

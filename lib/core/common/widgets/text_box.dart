@@ -4,7 +4,7 @@ import 'package:hive_mobile_app/core/common/widgets/inkwell_wrapper.dart';
 class TextBox extends StatelessWidget {
   const TextBox(
       {super.key,
-      required this.backgroundColor,
+       this.backgroundColor,
       required this.text,
       this.showBorder = false,
       this.icon,
@@ -15,7 +15,7 @@ class TextBox extends StatelessWidget {
       this.textStyle,
       this.onTap, this.borderColor});
 
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final String text;
   final bool showBorder;
   final IconData? icon;

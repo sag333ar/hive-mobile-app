@@ -4,6 +4,7 @@ import 'package:hive_mobile_app/core/utilities/act.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/profile_menu_template.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_author_reputation.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/user_badges/widgets/user_profile_badges.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_follow_info/user_profile_follow_info.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_manabar.dart';
 import 'package:intl/intl.dart';
@@ -72,6 +73,7 @@ class UserProfileMenu extends StatelessWidget {
             child: IconWithText(
                 expand: true, iconGap: 10, icon: Icons.event, text: createdAt),
           ),
+          const UserProfileBadges()
         ]);
   }
 }

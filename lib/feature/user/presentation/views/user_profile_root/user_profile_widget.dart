@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
 import 'package:hive_mobile_app/core/common/widgets/images/image_container.dart';
 import 'package:hive_mobile_app/core/common/widgets/pagination_loader.dart';
+import 'package:hive_mobile_app/core/common/widgets/tab_bar/routed_tab_bar.dart';
 import 'package:hive_mobile_app/core/common/widgets/tab_bar/routed_tab_bar_item.dart';
 import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/controllers/user_profile_controller.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/controller/subscribed_communities_controller.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/view/subscribed_communities_widget.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_posts/controller/user_post_controller.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_posts/view/user_posts_view.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_profile_root/user_profile_view.dart';
+import 'package:hive_mobile_app/feature/user/presentation/widgets/mobile_and_tablet/user_profile_user_info.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/profile_menu_template.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/profile_navigating_sliver_appbar.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_follow_mute_buttons.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_menu.dart';
-import 'package:hive_mobile_app/core/common/widgets/tab_bar/routed_tab_bar.dart';
-import 'package:hive_mobile_app/feature/user/presentation/widgets/mobile_and_tablet/user_profile_user_info.dart';
 import 'package:provider/provider.dart';
 
 class UserProfileViewWidget extends StatefulWidget {
@@ -44,6 +46,7 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
   UserPostController? postsController;
   UserPostController? commentsController;
   UserPostController? repliesController;
+  SubscribedCommunitiesController? subscribedCommunitiesController;
 
   @override
   void initState() {
@@ -76,6 +79,11 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
         repliesController == null) {
       repliesController = UserPostController(
           accountName: widget.accountName, postType: AccountPostType.replies);
+    } else if (widget.routeType == UserProfileRouteType.communities &&
+        subscribedCommunitiesController == null) {
+      subscribedCommunitiesController = SubscribedCommunitiesController(
+        accountName: widget.accountName,
+      );
     }
   }
 
@@ -117,7 +125,7 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
                   ),
                 SliverMainAxisGroup(
                   slivers: [
-                     _coverImage(),
+                    _coverImage(),
                     if (!context.isDesktopSize)
                       UserProfileUserInfo(data: widget.data),
                     _tabBar(context, theme, userProfileController),
@@ -208,6 +216,10 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
               displayName: 'Replies',
               routeName: Routes.userRepliesView,
             ),
+            RoutedTabBarItem(
+              displayName: 'Communities',
+              routeName: Routes.userCommunitiesView,
+            ),
           ],
           onChange: () {
             scrollController.jumpTo(0);
@@ -227,6 +239,8 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
         return _feedBody(AccountPostType.comments, commentsController!);
       case UserProfileRouteType.replies:
         return _feedBody(AccountPostType.replies, repliesController!);
+      case UserProfileRouteType.communities:
+        return _subscribedCommunitiesFeed(subscribedCommunitiesController!);
     }
   }
 
@@ -254,6 +268,23 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
           ],
         );
       },
+    );
+  }
+
+  SliverPadding _subscribedCommunitiesFeed(
+      SubscribedCommunitiesController controller) {
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(
+          vertical: 10, horizontal: !context.isMobileSize ? 10 : 0),
+      sliver: ChangeNotifierProvider.value(
+        value: controller,
+        builder: (context, child) {
+          loadNextPageCallback = controller.loadNextPage;
+          return SubscribedCommunitiesWidget(
+            controller: controller,
+          );
+        },
+      ),
     );
   }
 }

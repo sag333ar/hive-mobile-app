@@ -10,16 +10,32 @@ import 'package:hive_mobile_app/feature/community/models/community_detail/commun
 
 class CommunityTeamWidget extends StatelessWidget {
   const CommunityTeamWidget(
-      {super.key, required this.team, this.fromDialog = false});
+      {super.key,
+      required this.team,
+      this.fromDialog = false,
+      this.removePadding = false});
 
   final List<CommunityMemberModel> team;
   final bool fromDialog;
+  final bool removePadding;
+
+  static Color getCommunityRoleColor(String role, ThemeData theme) {
+    if (role == 'owner') {
+      return Colors.red;
+    } else if (role == "admin") {
+      return Colors.blue;
+    } else if (role == "guest") {
+      return Colors.tealAccent;
+    } else {
+      return Colors.yellow;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
+      padding: EdgeInsets.only(top: removePadding ? 0 : 10.0),
       child: Column(
         children: List.generate(team.length, (index) {
           final member = team[index];
@@ -51,15 +67,5 @@ class CommunityTeamWidget extends StatelessWidget {
         }),
       ),
     );
-  }
-
-  Color getCommunityRoleColor(String role, ThemeData theme) {
-    if (role == 'owner') {
-      return Colors.red;
-    } else if (role == "admin") {
-      return Colors.blue;
-    } else {
-      return Colors.yellow;
-    }
   }
 }

@@ -36,10 +36,27 @@ class PostJsonMetadata {
       );
 
   static List<String> _images(Map<String, dynamic>? json) {
-    if (json?['image'] != null) {
+    if (json?['image'] != null && json!['image'].isNotEmpty) {
       return asList(json, 'image').map((e) => e.toString()).toList();
-    } else {
+    } else if (json?['images'] != null && json!['images'].isNotEmpty) {
       return asList(json, 'images').map((e) => e.toString()).toList();
+    } else if (json?['links'] != null && json!['links'].isNotEmpty) {
+      return _linkToImage(json['links']);
+    } else {
+      return [];
     }
+  }
+
+  static List<String> _linkToImage(List links) {
+    List<String> result = [];
+    for (var link in links) {
+      int lastBracketIndex = link.lastIndexOf(")");
+
+      result.add(lastBracketIndex != -1
+          ? link.substring(0, lastBracketIndex) +
+              link.substring(lastBracketIndex + 1)
+          : link);
+    }
+    return result;
   }
 }

@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:math' as math;
-
 import 'package:hive_mobile_app/core/models/action_response.dart';
 import 'package:hive_mobile_app/core/models/chain_prop_model.dart';
 import 'package:hive_mobile_app/core/services/data_service/service.dart'
@@ -14,8 +12,10 @@ import 'package:hive_mobile_app/feature/community/models/community_detail/commun
 import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
+import 'package:hive_mobile_app/feature/user/models/badge_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_count_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_info_model.dart';
+import 'package:hive_mobile_app/feature/user/models/subscribed_communities/subscribed_community_model.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -249,7 +249,6 @@ class ApiService {
   Future<ActionListDataResponse<CommunityMemberModel>> getCommunitySubscribers(
       String communityId, int limit, String? lastName) async {
     try {
-      log('api hit');
       String jsonString = await getCommunitySubscribersFromPlatform(
           communityId, limit, lastName);
       ActionListDataResponse<CommunityMemberModel> response =
@@ -259,6 +258,37 @@ class ApiService {
     } catch (e) {
       return ActionListDataResponse(
           status: ResponseStatus.failed, errorMessage: e.toString());
+    }
+  }
+
+  Future<ActionListDataResponse<SubscribedCommunityModel>>
+      getSubscribedCommunities(String accountName) async {
+    try {
+      String jsonString =
+          await getSubscribedCommunitiesFromPlatform(accountName);
+      ActionListDataResponse<SubscribedCommunityModel> response =
+          ActionListDataResponse.fromJsonString(
+              jsonString, (item) => SubscribedCommunityModel.fromJson(item));
+      return response;
+    } catch (e) {
+      return ActionListDataResponse(
+          status: ResponseStatus.failed, errorMessage: e.toString());
+    }
+  }
+
+  Future<ActionListDataResponse<BadgeModel>> getUserBadges(
+      String accountName) async {
+    final response = await http
+        .get(Uri.parse('https://peakd.com/api/public/badge/$accountName'));
+    if (response.statusCode == 200) {
+      return ActionListDataResponse<BadgeModel>(
+          data: BadgeModel.fromRawJson(response.body),
+          status: ResponseStatus.success,
+          isSuccess: true,
+          errorMessage: "");
+    } else {
+      throw ActionListDataResponse<BadgeModel>(
+          status: ResponseStatus.failed, errorMessage: "Server Error");
     }
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:hive_mobile_app/core/utilities/save_convert.dart';
+
 class UserPostingJsonMetadata {
   final UserPostingJsonMetadataProfile? profile;
 
@@ -95,9 +97,7 @@ class UserPostingJsonMetadataProfile {
         version: json["version"],
         trail: json["trail"],
         witnessDescription: json["witness_description"],
-        tokens: json["tokens"] == null
-            ? []
-            : List<dynamic>.from(json["tokens"]!.map((x) => x)),
+        tokens: asList(json, "tokens")
       );
 
   Map<String, dynamic> toJson() => {
