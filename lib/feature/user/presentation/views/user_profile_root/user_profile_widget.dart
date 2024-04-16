@@ -11,6 +11,7 @@ import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/controllers/user_profile_controller.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/controller/subscribed_communities_controller.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/view/subscribed_communities_widget.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/user_badges/widgets/user_profile_badges.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_posts/controller/user_post_controller.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_posts/view/user_posts_view.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_profile_root/user_profile_view.dart';
@@ -187,7 +188,15 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
                 child: UserProfileFollowMuteButtons(
                   buttonHeight: 30,
                 ),
-              )
+              ),
+            if (!context.isDesktopSize)
+              const Positioned(
+                  bottom: 0,
+                  left: 5,
+                  child: UserProfileBadges(
+                    displayOnlyFirstItem: true,
+                    isVertical: false,
+                  ))
           ],
         ),
       ),

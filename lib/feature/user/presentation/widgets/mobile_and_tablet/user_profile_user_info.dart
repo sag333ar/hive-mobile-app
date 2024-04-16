@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
-import 'package:hive_mobile_app/core/common/widgets/dialog/responsive_scroll_dialog.dart';
-import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/common/widgets/responsive_layout.dart';
 import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
@@ -76,52 +74,16 @@ class UserProfileUserInfo extends StatelessWidget {
       SliverToBoxAdapter(
         child: _manabar(context),
       ),
-      if (!context.isDesktopSize &&
-          controller.userBadgesController.items.isNotEmpty)
-        SliverPadding(
-          padding: kScreenHorizontalPadding,
-          sliver: SliverToBoxAdapter(
-            child: _badges(context, controller),
+      if (!context.isDesktopSize)
+        const SliverToBoxAdapter(
+          child: UserProfileBadges(
+            isVertical: false,
           ),
         ),
       SliverToBoxAdapter(
         child: UserProfileMobileTabletInfoTile(data: data),
       ),
     ]);
-  }
-
-  Padding _badges(BuildContext context, UserProfileController controller) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: SizedBox(
-        height: 60,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: UserProfileBadges(
-            displayOnlyItmes: true,
-            isVertical: false,
-            widgetItem: (item) => Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: UserProfileimage(
-                  onTap: () => showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (context) => ResponsiveScrollDialog(
-                          width: 200,
-                          title: "Badges",
-                          content: UserProfileBadges(
-                            isVertical: true,
-                            displayOnlyItmes: true,
-                            userProfileController: controller,
-                          ),
-                        ),
-                      ),
-                  url: item.name),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   Padding _manabar(BuildContext context) {

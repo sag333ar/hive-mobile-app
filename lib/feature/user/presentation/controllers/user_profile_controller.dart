@@ -53,6 +53,10 @@ class UserProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get isOnlyOneBadgePresent{
+    return userBadgesController.items.isNotEmpty && userBadgesController.items.length == 1;
+  }
+
   void refresh() {
     viewState = ViewState.loading;
     notifyListeners();
