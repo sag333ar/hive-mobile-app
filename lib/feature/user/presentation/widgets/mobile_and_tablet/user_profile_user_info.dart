@@ -5,13 +5,11 @@ import 'package:hive_mobile_app/core/common/widgets/responsive_layout.dart';
 import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
-import 'package:hive_mobile_app/feature/user/presentation/controllers/user_profile_controller.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_badges/widgets/user_profile_badges.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/mobile_and_tablet/user_profile_mobile_tablet_info_scroll.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_author_reputation.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_follow_mute_buttons.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_manabar.dart';
-import 'package:provider/provider.dart';
 
 class UserProfileUserInfo extends StatelessWidget {
   const UserProfileUserInfo({super.key, required this.data});
@@ -21,7 +19,6 @@ class UserProfileUserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final controller = context.read<UserProfileController>();
     return SliverMainAxisGroup(slivers: [
       SliverPadding(
         padding: EdgeInsets.only(top: context.isMobile ? 0 : 10, bottom: 10),
