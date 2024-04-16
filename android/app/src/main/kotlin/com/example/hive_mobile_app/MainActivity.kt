@@ -148,6 +148,11 @@ class MainActivity: FlutterActivity() {
                         "getCommunitySubscribers('$id','$communityId',${getIntValue(limit)},${getValue(lastName)});",
                         null
                     )
+                } else if (call.method == "getSubscribedCommunities" && accountName != null) {
+                    webView?.evaluateJavascript(
+                        "getSubscribedCommunities('$id','$accountName');",
+                        null
+                    )
                 }
             }
         }

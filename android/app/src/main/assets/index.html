@@ -175,8 +175,18 @@
       });
     }
 
+    async function getSubscribedCommunities(identifier,accountName) {
+      const response = await client.hivemind.listAllSubscriptions([accountName]);
+      return replyToNative({
+        id: identifier,
+        type: "getSubscribedCommunities",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
     function replyToNative(result) {
-      // window.webkit.messageHandlers.app.postMessage(result);UI
       Android.postMessage(JSON.stringify(result));
     }
   </script>

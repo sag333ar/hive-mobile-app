@@ -8,7 +8,7 @@ import 'package:hive_mobile_app/feature/user/presentation/controllers/user_profi
 import 'package:hive_mobile_app/feature/user/presentation/views/user_profile_root/user_profile_widget.dart';
 import 'package:provider/provider.dart';
 
-enum UserProfileRouteType {blog,posts,comments,replies}
+enum UserProfileRouteType {blog,posts,comments,replies,communities}
 
 class UserProfileView extends StatelessWidget {
   const UserProfileView(
@@ -29,10 +29,12 @@ class UserProfileView extends StatelessWidget {
       return UserProfileRouteType.blog;
     } else if (path.contains(enumToString(UserProfileRouteType.posts))) {
       return UserProfileRouteType.posts;
-    } else if (path.contains(enumToString(AccountPostType.comments))) {
+    } else if (path.contains(enumToString(UserProfileRouteType.comments))) {
       return UserProfileRouteType.comments;
-    } else if (path.contains(enumToString(AccountPostType.replies))) {
+    } else if (path.contains(enumToString(UserProfileRouteType.replies))) {
       return UserProfileRouteType.replies;
+    } else if (path.contains(enumToString(UserProfileRouteType.communities))) {
+      return UserProfileRouteType.communities;
     }
     return UserProfileRouteType.blog;
   }

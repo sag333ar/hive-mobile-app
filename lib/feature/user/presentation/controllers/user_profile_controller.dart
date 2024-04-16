@@ -4,6 +4,7 @@ import 'package:hive_mobile_app/core/models/action_response.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_count_model.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/user_badges/controller/badges_controller.dart';
 import 'package:hive_mobile_app/feature/user/repository/user_repository.dart';
 
 class UserProfileController extends ChangeNotifier {
@@ -12,8 +13,10 @@ class UserProfileController extends ChangeNotifier {
   UserModel? data;
   ViewState viewState = ViewState.loading;
   double _scrollOffset = 0.0;
+  late final UserBadgesController userBadgesController;
 
   UserProfileController({required this.accountName}) {
+    userBadgesController = UserBadgesController(accountName: accountName);
     _init();
   }
 
@@ -48,6 +51,10 @@ class UserProfileController extends ChangeNotifier {
   set scrollOffset(double value) {
     _scrollOffset = value;
     notifyListeners();
+  }
+
+  bool get isOnlyOneBadgePresent{
+    return userBadgesController.items.isNotEmpty && userBadgesController.items.length == 1;
   }
 
   void refresh() {

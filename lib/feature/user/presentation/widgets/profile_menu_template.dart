@@ -5,21 +5,20 @@ import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.da
 import 'package:hive_mobile_app/core/utilities/constants.dart';
 
 class ProfileMenuTemplate extends StatelessWidget {
-  const ProfileMenuTemplate(
-      {super.key,
-      required this.urlName,
-      required this.displayName,
-      required this.description,
-      this.profileImageFooter,
-      required this.children,
-      this.removePadding = false});
+  const ProfileMenuTemplate({
+    super.key,
+    required this.urlName,
+    required this.displayName,
+    required this.description,
+    this.profileImageFooter,
+    required this.children,
+  });
 
   final String urlName;
   final String displayName;
   final String? description;
   final Widget? profileImageFooter;
   final List<Widget> children;
-  final bool removePadding;
 
   static const double width = 320.0;
 
@@ -27,12 +26,12 @@ class ProfileMenuTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: !removePadding ? kScreenPadding : EdgeInsets.zero,
+      padding: kScreenPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            margin: removePadding ? kScreenPadding : EdgeInsets.zero,
+            margin: EdgeInsets.zero,
             decoration: BoxDecoration(
                 color: theme.colorScheme.onTertiaryContainer,
                 borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -40,9 +39,7 @@ class ProfileMenuTemplate extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: removePadding
-                      ? kScreenHorizontalPadding
-                      : EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -66,9 +63,7 @@ class ProfileMenuTemplate extends StatelessWidget {
                 ),
                 const Gap(12),
                 Padding(
-                  padding: removePadding
-                      ? kScreenHorizontalPadding
-                      : EdgeInsets.zero,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     displayName,
                     maxLines: 2,
@@ -80,9 +75,8 @@ class ProfileMenuTemplate extends StatelessWidget {
                 ),
                 if (description != null)
                   Padding(
-                    padding: removePadding
-                        ? kScreenHorizontalPadding.copyWith(top: 8)
-                        : const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: 8.0)
+                        .copyWith(left: 10, right: 10),
                     child: AutoSizeText(
                       description!,
                       textAlign: TextAlign.center,

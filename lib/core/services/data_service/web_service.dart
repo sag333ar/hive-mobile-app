@@ -143,3 +143,13 @@ Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,
   var contentData = await promiseToFuture(promise);
   return contentData;
 }
+
+@JS()
+external dynamic getSubscribedCommunities(identifier, accountName);
+
+Future<String> getSubscribedCommunitiesFromPlatform(String accountName) async {
+  final String id = 'getSubscribedCommunities${DateTime.now().toIso8601String()}';
+  var promise = getSubscribedCommunities(id, accountName);
+  var contentData = await promiseToFuture(promise);
+  return contentData;
+}

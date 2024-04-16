@@ -37,7 +37,7 @@ class PostFeedModel extends Equatable {
   final String? maxAcceptedPayout;
   final int? percentHBD;
 
-  PostFeedModel({
+  const PostFeedModel({
     required this.postId,
     required this.author,
     this.permlink,

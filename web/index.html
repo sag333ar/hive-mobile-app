@@ -207,6 +207,17 @@
       });
     }
 
+    async function getSubscribedCommunities(identifier,accountName) {
+      const response = await client.hivemind.listAllSubscriptions([accountName]);
+      return replyToNative({
+        id: identifier,
+        type: "getSubscribedCommunities",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
     function replyToNative(result) {
       return JSON.stringify(result);
     }

@@ -5,10 +5,11 @@ import 'package:hive_mobile_app/core/common/widgets/responsive_layout.dart';
 import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/user_badges/widgets/user_profile_badges.dart';
+import 'package:hive_mobile_app/feature/user/presentation/widgets/mobile_and_tablet/user_profile_mobile_tablet_info_scroll.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_author_reputation.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_follow_mute_buttons.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/user_profile_manabar.dart';
-import 'package:hive_mobile_app/feature/user/presentation/widgets/mobile_and_tablet/user_profile_mobile_tablet_info_scroll.dart';
 
 class UserProfileUserInfo extends StatelessWidget {
   const UserProfileUserInfo({super.key, required this.data});
@@ -70,6 +71,12 @@ class UserProfileUserInfo extends StatelessWidget {
       SliverToBoxAdapter(
         child: _manabar(context),
       ),
+      if (!context.isDesktopSize)
+        const SliverToBoxAdapter(
+          child: UserProfileBadges(
+            isVertical: false,
+          ),
+        ),
       SliverToBoxAdapter(
         child: UserProfileMobileTabletInfoTile(data: data),
       ),

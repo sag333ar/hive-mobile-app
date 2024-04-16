@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hive_mobile_app/core/common/widgets/expandable_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/icon_with_text.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/feature/community/models/community_detail/community_detail_model.dart';
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/widgets/community_subscriber_list_dialog.dart';
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/widgets/community_team_widget.dart';
@@ -19,126 +19,90 @@ class CommunityProfileMenu extends StatelessWidget {
     final backgroundColor = theme.colorScheme.onTertiaryContainer;
     const borderRadius = BorderRadius.all(Radius.circular(8));
     return ProfileMenuTemplate(
-        removePadding: true,
-        urlName: item.name,
-        displayName: item.title,
-        description: item.about,
-        children: [
-          Padding(
-            padding: kScreenHorizontalPadding,
-            child: OutlinedButton(
-                onPressed: () => openDialog(context),
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: theme.primaryColor),
-                ),
-                child: Text(
-                  'Subscribers - ${item.subscribers}',
-                  style: theme.textTheme.bodySmall!
-                      .copyWith(fontWeight: FontWeight.w400),
-                )),
-          ),
-          Padding(
-            padding: kScreenHorizontalPadding.copyWith(top: 20),
-            child: Column(
-              children: [
-                IconWithText(
-                    expand: true,
-                    iconGap: 10,
-                    borderRadius: borderRadius,
-                    color: backgroundColor.withOpacity(0.1),
-                    icon: Icons.attach_money,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                    text: "Rewards - ${item.sumPending}"),
-                const Gap(10),
-                IconWithText(
-                    expand: true,
-                    iconGap: 10,
-                    icon: Icons.dashboard,
-                    borderRadius: borderRadius,
-                    color: backgroundColor.withOpacity(0.1),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                    text: "Posters - ${item.numAuthors}"),
-                const Gap(10),
-                IconWithText(
-                    expand: true,
-                    iconGap: 10,
-                    icon: Icons.language,
-                    borderRadius: borderRadius,
-                    color: backgroundColor.withOpacity(0.1),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                    text: "Language - ${item.lang}"),
-              ],
+      urlName: item.name,
+      displayName: item.title,
+      description: item.about,
+      children: [
+        const Gap(15),
+        OutlinedButton(
+            onPressed: () => openDialog(context),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: theme.primaryColor),
             ),
-          ),
-          if (item.description != null)
-            _expandableText(context, backgroundColor, theme,
-                title: "Description",
-                description: item.description!,
-                icon: Icons.info),
-          if (item.flagText != null)
-            _expandableText(context, backgroundColor, theme,
-                title: "Rules", description: item.flagText!, icon: Icons.rule),
-          Padding(
-            padding: kScreenHorizontalPadding.copyWith(top: 20),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.people),
-                        const Gap(10),
-                        Text(
-                          "Team",
-                          style: theme.textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                    const Gap(20),
-                    const Expanded(child: Divider())
-                  ],
-                ),
-                if (item.team != null && item.team!.isNotEmpty)
-                  CommunityTeamWidget(team: item.team!)
-              ],
-            ),
-          )
-        ]);
-  }
-
-  Padding _expandableText(
-      BuildContext context, Color backgroundColor, ThemeData theme,
-      {required String title,
-      required String description,
-      required IconData icon}) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          backgroundColor: backgroundColor,
-          initiallyExpanded: false,
-          dense: true,
-          childrenPadding: kScreenPadding,
-          collapsedBackgroundColor: backgroundColor,
-          tilePadding: const EdgeInsets.only(
-              top: 0, left: kScreenHorizontalPaddingDigit, right: 8),
-          title: Row(
+            child: Text(
+              'Subscribers - ${item.subscribers}',
+              style: theme.textTheme.bodySmall!
+                  .copyWith(fontWeight: FontWeight.w400),
+            )),
+        Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Column(
             children: [
-              Icon(icon),
+              IconWithText(
+                  expand: true,
+                  iconGap: 10,
+                  borderRadius: borderRadius,
+                  color: backgroundColor.withOpacity(0.1),
+                  icon: Icons.attach_money,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  text: "Rewards - ${item.sumPending}"),
               const Gap(10),
-              Text(
-                title,
-                style: theme.textTheme.bodyMedium,
-              )
+              IconWithText(
+                  expand: true,
+                  iconGap: 10,
+                  icon: Icons.dashboard,
+                  borderRadius: borderRadius,
+                  color: backgroundColor.withOpacity(0.1),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  text: "Posters - ${item.numAuthors}"),
+              const Gap(10),
+              IconWithText(
+                  expand: true,
+                  iconGap: 10,
+                  icon: Icons.language,
+                  borderRadius: borderRadius,
+                  color: backgroundColor.withOpacity(0.1),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  text: "Language - ${item.lang}"),
             ],
           ),
-          children: [ProfileLinkifyText(content: description)],
         ),
-      ),
+        const Gap(10),
+        if (item.description != null)
+          ExpandableTile(
+            icon: Icons.info,
+            backgroundColor: backgroundColor,
+            title: "Description",
+            children: [
+              ProfileLinkifyText(content: item.description!),
+            ],
+          ),
+        if (item.flagText != null)
+          ExpandableTile(
+            icon: Icons.rule,
+            backgroundColor: backgroundColor,
+            title: "Rules",
+            children: [
+              ProfileLinkifyText(content: item.flagText!),
+            ],
+          ),
+        if (item.team != null && item.team!.isNotEmpty)
+          ExpandableTile(
+            icon: Icons.people,
+            isInitiallyExpanded: true,
+            backgroundColor: backgroundColor,
+            title: "Team",
+            children: [
+              CommunityTeamWidget(
+                team: item.team!,
+                removePadding: true,
+              ),
+            ],
+          ),
+      ],
     );
   }
 
