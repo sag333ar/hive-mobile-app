@@ -15,6 +15,7 @@ import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.d
 import 'package:hive_mobile_app/feature/user/models/badge_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_count_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_info_model.dart';
+import 'package:hive_mobile_app/feature/user/models/global_props_model.dart';
 import 'package:hive_mobile_app/feature/user/models/subscribed_communities/subscribed_community_model.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -289,6 +290,20 @@ class ApiService {
     } else {
       throw ActionListDataResponse<BadgeModel>(
           status: ResponseStatus.failed, errorMessage: "Server Error");
+    }
+  }
+
+  Future<ActionSingleDataResponse<GlobalChainPropsModel>>
+      getGlobalChainProperties() async {
+    try {
+      String jsonString = await getGlobalChainPropertiesFromPlatform();
+      ActionSingleDataResponse<GlobalChainPropsModel> response =
+          ActionSingleDataResponse.fromJsonString(
+              jsonString, GlobalChainPropsModel.fromJson);
+      return response;
+    } catch (e) {
+      return ActionSingleDataResponse(
+          status: ResponseStatus.failed, errorMessage: e.toString());
     }
   }
 }

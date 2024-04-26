@@ -62,6 +62,10 @@ Future<String> getSubscribedCommunitiesFromPlatform(String accountName){
   return _error();
 }
 
+Future<String> getGlobalChainPropertiesFromPlatform() {
+  return _error();
+}
+
 Future<String> _error() {
   return Future.value('error');
 }

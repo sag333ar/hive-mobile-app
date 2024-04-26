@@ -207,7 +207,7 @@
       });
     }
 
-    async function getSubscribedCommunities(identifier,accountName) {
+    async function getSubscribedCommunities(identifier, accountName) {
       const response = await client.hivemind.listAllSubscriptions([accountName]);
       return replyToNative({
         id: identifier,
@@ -218,6 +218,28 @@
       });
     }
 
+    async function getGlobalChainProperties(identifier,) {
+      const response = await client.database.getDynamicGlobalProperties();
+      return replyToNative({
+        id: identifier,
+        type: "getGlobalChainProperties",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    async function getAccountHistory(identifier,accountName,startId,limit) {
+      const response = await client.database.getAccountHistory(accountName,startId,limit,)
+      return replyToNative({
+        id: identifier,
+        type: "getAccountHistory",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+    
     function replyToNative(result) {
       return JSON.stringify(result);
     }

@@ -81,6 +81,7 @@ class MainActivity: FlutterActivity() {
                 val lastPermlink = call.argument<String?>("lastPermlink") 
                 val type = call.argument<String?>("type") 
                 val communityId = call.argument<String?>("communityId") 
+                val startId = call.argument<Int?>("startId") 
 
                 if (call.method == "getChainProps" ) {
                     webView?.evaluateJavascript(
@@ -151,6 +152,16 @@ class MainActivity: FlutterActivity() {
                 } else if (call.method == "getSubscribedCommunities" && accountName != null) {
                     webView?.evaluateJavascript(
                         "getSubscribedCommunities('$id','$accountName');",
+                        null
+                    )
+                } else if (call.method == "getGlobalChainProperties") {
+                    webView?.evaluateJavascript(
+                        "getGlobalChainProperties('$id');",
+                        null
+                    )
+                } else if (call.method == "getAccountHistory" && accountName != null && startId != null && limit !=null) {
+                    webView?.evaluateJavascript(
+                        "getAccountHistory('$id','$accountName',${getIntValue(startId)},${getIntValue(limit)});",
                         null
                     )
                 }

@@ -153,3 +153,13 @@ Future<String> getSubscribedCommunitiesFromPlatform(String accountName) async {
   var contentData = await promiseToFuture(promise);
   return contentData;
 }
+
+@JS()
+external dynamic getGlobalChainProperties(identifier);
+
+Future<String> getGlobalChainPropertiesFromPlatform() async {
+  final String id = 'getGlobalChainProperties${DateTime.now().toIso8601String()}';
+  var promise = getGlobalChainProperties(id);
+  var contentData = await promiseToFuture(promise);
+  return contentData;
+}

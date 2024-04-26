@@ -144,3 +144,11 @@ Future<String> getSubscribedCommunitiesFromPlatform(String accountName) async {
   });
   return response;
 }
+
+Future<String> getGlobalChainPropertiesFromPlatform() async {
+  final String id = 'getGlobalChainProperties${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('getGlobalChainProperties', {
+    'id': id,
+  });
+  return response;
+}

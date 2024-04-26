@@ -135,6 +135,14 @@ class AppRouter {
               return const SubscribedCommunitiesWidget();
             },
           ),
+          GoRoute(
+            path: '/@:${RouteKeys.accountName}/${Routes.userWalletView}',
+            name: Routes.userWalletView,
+            parentNavigatorKey: _userProfileShellNavigatorKey,
+            builder: (context, state) {
+              return const SubscribedCommunitiesWidget();
+            },
+          ),
         ],
       ),
       GoRoute(
