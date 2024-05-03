@@ -229,8 +229,10 @@
       });
     }
 
-    async function getAccountHistory(identifier,accountName,startId,limit) {
-      const response = await client.database.getAccountHistory(accountName,startId,limit,)
+    async function getAccountHistory(identifier, accountName, startId, limit, filters) {
+      const op = dhive.utils.operationOrders
+      const operationsBitmask = dhive.utils.makeBitMaskFilter(JSON.parse(filters).map(value => dhive.utils.operationOrders[value],));
+      const response = await client.database.getAccountHistory(accountName, startId, limit, operationsBitmask)
       return replyToNative({
         id: identifier,
         type: "getAccountHistory",
@@ -239,7 +241,7 @@
         error: "",
       });
     }
-    
+
     function replyToNative(result) {
       return JSON.stringify(result);
     }

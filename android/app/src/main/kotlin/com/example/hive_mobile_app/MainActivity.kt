@@ -82,6 +82,7 @@ class MainActivity: FlutterActivity() {
                 val type = call.argument<String?>("type") 
                 val communityId = call.argument<String?>("communityId") 
                 val startId = call.argument<Int?>("startId") 
+                val filters = call.argument<String?>("filters") 
 
                 if (call.method == "getChainProps" ) {
                     webView?.evaluateJavascript(
@@ -159,9 +160,9 @@ class MainActivity: FlutterActivity() {
                         "getGlobalChainProperties('$id');",
                         null
                     )
-                } else if (call.method == "getAccountHistory" && accountName != null && startId != null && limit !=null) {
+                } else if (call.method == "getAccountHistory" && accountName != null && startId != null && limit !=null && filters != null) {
                     webView?.evaluateJavascript(
-                        "getAccountHistory('$id','$accountName',${getIntValue(startId)},${getIntValue(limit)});",
+                        "getAccountHistory('$id','$accountName',${getIntValue(startId)},${getIntValue(limit)},'$filters');",
                         null
                     )
                 }

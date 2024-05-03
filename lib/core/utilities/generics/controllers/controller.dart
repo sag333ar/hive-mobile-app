@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/models/action_response.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
+import 'package:hive_mobile_app/core/utilities/generics/controllers/controller_interface.dart';
 import 'package:hive_mobile_app/core/utilities/generics/mixins/pagination_mixin.dart';
 
-class Controller<T> extends ChangeNotifier with PaginationMixin {
+class Controller<T> extends ChangeNotifier
+    with PaginationMixin
+    implements ControllerInterface<T> {
+  @override
   List<T> items = [];
+  @override
   ViewState viewState = ViewState.loading;
+  bool reverseData = false;
 
   Future<ActionListDataResponse<T>> Function()? initCallBack;
   Future<ActionListDataResponse<T>> Function()? paginationCallBack;
 
+  @override
   @protected
   void init() async {
     if (initCallBack == null) throw UnimplementedError('init api is not set');
     ActionListDataResponse<T> response = await initCallBack!();
     if (response.isSuccess) {
       if (response.data!.isNotEmpty) {
-        items = response.data!;
+        if(!reverseData){
+          items = response.data!;
+        }else{
+          items = response.data!.reversed.toList();
+        }
+        
         viewState = ViewState.data;
         if (items.length < super.pageLimit) {
           super.isPageEnded = true;
@@ -43,6 +55,7 @@ class Controller<T> extends ChangeNotifier with PaginationMixin {
     paginationCallBack = paginationApi;
   }
 
+  @override
   void loadNextPage() async {
     if (paginationCallBack == null) {
       throw UnimplementedError('Pagination Api is not set');
@@ -59,6 +72,7 @@ class Controller<T> extends ChangeNotifier with PaginationMixin {
     }
   }
 
+  @override
   void refresh() {
     viewState = ViewState.loading;
     initCallBack!();
@@ -66,7 +80,11 @@ class Controller<T> extends ChangeNotifier with PaginationMixin {
 
   @protected
   void addItems(List<T> newItems) {
-    items = [...items, ...newItems];
+    if(!reverseData){
+      items = [...items, ...newItems];
+    }else{
+      items = [...items, ...newItems.reversed.toList()];
+    }
     items = items.toSet().toList();
     notifyListeners();
   }

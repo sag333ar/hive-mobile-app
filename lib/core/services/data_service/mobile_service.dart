@@ -125,9 +125,12 @@ Future<String> getCommunityFeedFromPlatform(String communityId, String type,
   return response;
 }
 
-Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,String? lastName) async {
-  final String id = 'getCommunitySubscribers${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getCommunitySubscribers', {
+Future<String> getCommunitySubscribersFromPlatform(
+    String communityId, int limit, String? lastName) async {
+  final String id =
+      'getCommunitySubscribers${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod(
+      'getCommunitySubscribers', {
     'id': id,
     'communityId': communityId,
     'limit': limit,
@@ -137,18 +140,32 @@ Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,
 }
 
 Future<String> getSubscribedCommunitiesFromPlatform(String accountName) async {
-  final String id = 'getSubscribedCommunities${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getSubscribedCommunities', {
-    'id': id,
-    'accountName': accountName
-  });
+  final String id =
+      'getSubscribedCommunities${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod(
+      'getSubscribedCommunities', {'id': id, 'accountName': accountName});
   return response;
 }
 
 Future<String> getGlobalChainPropertiesFromPlatform() async {
-  final String id = 'getGlobalChainProperties${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getGlobalChainProperties', {
+  final String id =
+      'getGlobalChainProperties${DateTime.now().toIso8601String()}';
+  final String response =
+      await platform.invokeMethod('getGlobalChainProperties', {
     'id': id,
+  });
+  return response;
+}
+
+Future<String> getAccountHistoryFromPlatform(
+    String accountName, int startId, int limit, String filters) async {
+  final String id = 'getAccountHistory${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('getAccountHistory', {
+    'id': id,
+    'accountName': accountName,
+    'startId': startId,
+    'limit': limit,
+    'filters': filters
   });
   return response;
 }

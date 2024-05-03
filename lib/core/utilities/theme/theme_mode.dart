@@ -12,6 +12,7 @@ class ThemeController extends ChangeNotifier {
   final Color _successColor = Colors.lightGreen;
   final Color _staticColor = Colors.white;
   final Color _lightGrey = const Color(0xFFf0f0f8);
+  final Color _secondaryPrimaryColor = Colors.tealAccent;
 
   final String _fontFamily = 'Poppins';
 

@@ -135,11 +135,14 @@ Future<String> getCommunityFeedFromPlatform(String communityId, String type,
 }
 
 @JS()
-external dynamic getCommunitySubscribers(identifier, communityId,limit,lastName);
+external dynamic getCommunitySubscribers(
+    identifier, communityId, limit, lastName);
 
-Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,String? lastName) async {
-  final String id = 'getCommunitySubscribers${DateTime.now().toIso8601String()}';
-  var promise = getCommunitySubscribers(id, communityId,limit,lastName);
+Future<String> getCommunitySubscribersFromPlatform(
+    String communityId, int limit, String? lastName) async {
+  final String id =
+      'getCommunitySubscribers${DateTime.now().toIso8601String()}';
+  var promise = getCommunitySubscribers(id, communityId, limit, lastName);
   var contentData = await promiseToFuture(promise);
   return contentData;
 }
@@ -148,7 +151,8 @@ Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,
 external dynamic getSubscribedCommunities(identifier, accountName);
 
 Future<String> getSubscribedCommunitiesFromPlatform(String accountName) async {
-  final String id = 'getSubscribedCommunities${DateTime.now().toIso8601String()}';
+  final String id =
+      'getSubscribedCommunities${DateTime.now().toIso8601String()}';
   var promise = getSubscribedCommunities(id, accountName);
   var contentData = await promiseToFuture(promise);
   return contentData;
@@ -158,8 +162,21 @@ Future<String> getSubscribedCommunitiesFromPlatform(String accountName) async {
 external dynamic getGlobalChainProperties(identifier);
 
 Future<String> getGlobalChainPropertiesFromPlatform() async {
-  final String id = 'getGlobalChainProperties${DateTime.now().toIso8601String()}';
+  final String id =
+      'getGlobalChainProperties${DateTime.now().toIso8601String()}';
   var promise = getGlobalChainProperties(id);
+  var contentData = await promiseToFuture(promise);
+  return contentData;
+}
+
+@JS()
+external dynamic getAccountHistory(
+    identifier, accountName, startId, limit, filters);
+
+Future<String> getAccountHistoryFromPlatform(
+    String accountName, int startId, int limit, String filters) async {
+  final String id = 'getAccountHistory${DateTime.now().toIso8601String()}';
+  var promise = getAccountHistory(id, accountName, startId, limit, filters);
   var contentData = await promiseToFuture(promise);
   return contentData;
 }

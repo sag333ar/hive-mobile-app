@@ -12,6 +12,7 @@ import 'package:hive_mobile_app/feature/community/models/community_detail/commun
 import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
+import 'package:hive_mobile_app/feature/user/models/account_history_model/account_history_model.dart';
 import 'package:hive_mobile_app/feature/user/models/badge_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_count_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_info_model.dart';
@@ -303,6 +304,26 @@ class ApiService {
       return response;
     } catch (e) {
       return ActionSingleDataResponse(
+          status: ResponseStatus.failed, errorMessage: e.toString());
+    }
+  }
+
+  Future<ActionListDataResponse<AccountHistoryModel>> getAccountHistory(
+      String accountName,
+      int startId,
+      int limit,
+      List<AccountHistoryType> filters) async {
+    try {
+      String filterInString = json.encode(
+          filters.map((enumValue) => enumToString(enumValue)).toList());
+      String jsonString = await getAccountHistoryFromPlatform(
+          accountName, startId, limit, filterInString);
+      ActionListDataResponse<AccountHistoryModel> response =
+          ActionListDataResponse.fromJsonString(
+              jsonString, (item) => AccountHistoryModel.fromJson(item));
+      return response;
+    } catch (e) {
+      return ActionListDataResponse(
           status: ResponseStatus.failed, errorMessage: e.toString());
     }
   }

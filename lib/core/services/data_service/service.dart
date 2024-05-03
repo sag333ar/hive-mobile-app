@@ -54,11 +54,12 @@ Future<String> getCommunityFeedFromPlatform(String communityId, String type,
   return _error();
 }
 
-Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,String? lastName){
+Future<String> getCommunitySubscribersFromPlatform(
+    String communityId, int limit, String? lastName) {
   return _error();
 }
 
-Future<String> getSubscribedCommunitiesFromPlatform(String accountName){
+Future<String> getSubscribedCommunitiesFromPlatform(String accountName) {
   return _error();
 }
 
@@ -66,7 +67,11 @@ Future<String> getGlobalChainPropertiesFromPlatform() {
   return _error();
 }
 
+Future<String> getAccountHistoryFromPlatform(
+    String accountName, int startId, int limit, String filters) {
+  return _error();
+}
+
 Future<String> _error() {
   return Future.value('error');
 }
-

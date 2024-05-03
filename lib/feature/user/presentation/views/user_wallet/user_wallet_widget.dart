@@ -1,74 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/feature/user/models/global_props_model.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/controllers/user_profile_controller.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/user_account_history/user_account_history_controller.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/user_wallet/user_account_history_widget.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_wallet/wallet_tile.dart';
 import 'package:provider/provider.dart';
 
 class UserWalletWidget extends StatelessWidget {
-  const UserWalletWidget({super.key, this.data});
+  const UserWalletWidget({super.key, this.data, required this.controller});
 
   final UserModel? data;
+  final UserAccountHistoryController controller;
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: kScreenPadding,
-        child: Column(children: children(context)),
-      ),
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: kScreenPadding,
+            child: Column(children: children(context)),
+          ),
+        ),
+        SliverCrossAxisGroup(slivers: [
+          UserAccountHistoryWidget(controller: controller),
+          if (context.isDesktopSize)
+            const SliverConstrainedCrossAxis(
+              maxExtent: 300,
+              sliver: SliverToBoxAdapter(
+                child: SizedBox(
+                  width: 300,
+                ),
+              ),
+            )
+        ])
+      ],
     );
   }
 
   List<Widget> children(BuildContext context) {
-    // if (context.isDesktopSize) {
-      return [
-        _hive(),
-        _hivePower(),
-        const Gap(15),
-        _hiveDollars(),
-        const Gap(15),
-        _savings(),
-        const Gap(15),
-        _estimatedWalletValue(),
-      ];
-    // } else {
-    //   return [
-    //     IntrinsicHeight(
-    //       child: Row(
-    //         crossAxisAlignment: CrossAxisAlignment.stretch,
-    //         children: [
-    //           Expanded(
-    //             child: _hive(),
-    //           ),
-    //           const Gap(15),
-    //           Expanded(
-    //             child: _hiveDollars(),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //     _hivePower(),
-    //     const Gap(15),
-    //     IntrinsicHeight(
-    //       child: Row(
-    //         crossAxisAlignment: CrossAxisAlignment.stretch,
-    //         children: [
-    //           Expanded(
-    //             child: _savings(),
-    //           ),
-    //           const Gap(15),
-    //           Expanded(
-    //             child: _estimatedWalletValue(),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ];
-    // }
+    return [
+      _hive(),
+      _hivePower(),
+      const Gap(15),
+      _hiveDollars(),
+      const Gap(15),
+      _savings(),
+      const Gap(15),
+      _estimatedWalletValue(),
+    ];
   }
 
   WalletTile _estimatedWalletValue() {
