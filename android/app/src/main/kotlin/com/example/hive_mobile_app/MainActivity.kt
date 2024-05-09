@@ -75,97 +75,25 @@ class MainActivity: FlutterActivity() {
                 handlers[id] = result
 
                 val limit = call.argument<Int?>("limit")
-                val lastName = call.argument<String?>("lastName") 
                 val accountName = call.argument<String?>("accountName") 
-                val lastAuthor = call.argument<String?>("lastAuthor") 
-                val lastPermlink = call.argument<String?>("lastPermlink") 
-                val type = call.argument<String?>("type") 
-                val communityId = call.argument<String?>("communityId") 
                 val startId = call.argument<Int?>("startId") 
                 val filters = call.argument<String?>("filters") 
-
-                if (call.method == "getChainProps" ) {
-                    webView?.evaluateJavascript(
-                        "getChainProps('$id');",
-                        null
-                    )
-                } else if (call.method == "getFeed" ) {
-                    val feedType = call.argument<String?>("feed_type") ?: "trending"
-                    webView?.evaluateJavascript(
-                        "getFeed('$id','$feedType');",
-                        null
-                    )
-                } else if (call.method == "getListOfCommunities" && limit != null ) {
-                    webView?.evaluateJavascript(
-                        "getListOfCommunities('$id',${getIntValue(limit)},${getValue(lastName)});",
-                        null
-                    )
-                } else if (call.method == "getWitnesses" && limit != null ) {
-                    webView?.evaluateJavascript(
-                        "getWitnesses('$id',${getIntValue(limit)},${getValue(lastName)});",
-                        null
-                    )
-                } else if (call.method == "getProposals" && limit != null ) {
-                    webView?.evaluateJavascript(
-                        "getProposals('$id',${getIntValue(limit)});",
-                        null
-                    )
-                } else if (call.method == "getFollowCount" && accountName != null ) {
-                    webView?.evaluateJavascript(
-                        "getFollowCount('$id','$accountName');",
-                        null
-                    )
-                } else if (call.method == "getAccountInfo" && accountName != null ) {
-                    webView?.evaluateJavascript(
-                        "getAccountInfo('$id','$accountName');",
-                        null
-                    )
-                } else if (call.method == "getFollowing" && accountName != null && limit != null ) {
-                    webView?.evaluateJavascript(
-                        "getFollowing('$id','$accountName',${getValue(lastName)},${getIntValue(limit)});",
-                        null
-                    )
-                } else if (call.method == "getFollowers" && accountName != null && limit != null) {
-                    webView?.evaluateJavascript(
-                        "getFollowers('$id','$accountName',${getValue(lastName)},${getIntValue(limit)});",
-                        null
-                    )
-                } else if (call.method == "getAccountPosts" && accountName != null && type !=null && limit !=null) {
-                    webView?.evaluateJavascript(
-                        "getAccountPosts('$id','$accountName','$type',${getValue(lastAuthor)},${getValue(lastPermlink)},${getIntValue(limit)});",
-                        null
-                    )
-                } else if (call.method == "getCommunityDetails" && communityId != null) {
-                    webView?.evaluateJavascript(
-                        "getCommunityDetails('$id','$communityId');",
-                        null
-                    )
-                } else if (call.method == "getCommunityFeed" && communityId != null && type !=null && limit !=null) {
-                    webView?.evaluateJavascript(
-                        "getCommunityFeed('$id','$communityId','$type',${getValue(lastAuthor)},${getValue(lastPermlink)},${getIntValue(limit)});",
-                        null
-                    )
-                } else if (call.method == "getCommunitySubscribers" && communityId != null && limit != null) {
-                    webView?.evaluateJavascript(
-                        "getCommunitySubscribers('$id','$communityId',${getIntValue(limit)},${getValue(lastName)});",
-                        null
-                    )
-                } else if (call.method == "getSubscribedCommunities" && accountName != null) {
-                    webView?.evaluateJavascript(
-                        "getSubscribedCommunities('$id','$accountName');",
-                        null
-                    )
-                } else if (call.method == "getGlobalChainProperties") {
-                    webView?.evaluateJavascript(
-                        "getGlobalChainProperties('$id');",
-                        null
-                    )
-                } else if (call.method == "getAccountHistory" && accountName != null && startId != null && limit !=null && filters != null) {
+                val jsCode = call.argument<String?>("jsCode")
+                val width = call.argument<Int?>("width")
+                val inputString = call.argument<String?>("inputString")
+                if (call.method == "evaluateJavaScript" && jsCode != null) {
+                webView?.evaluateJavascript(
+                    "evaluateJavaScript(\"$jsCode\", \"$id\");",
+                    null
+                )
+            } else if (call.method == "getAccountHistory" && accountName != null && startId != null && limit !=null && filters != null) {
                     webView?.evaluateJavascript(
                         "getAccountHistory('$id','$accountName',${getIntValue(startId)},${getIntValue(limit)},'$filters');",
                         null
                     )
-                }
+                } else if (call.method == "getHtml" && inputString != null && width != null) {
+                webView?.evaluateJavascript("getHtml('$id','$inputString',${getIntValue(width)});", null)
+            } 
             }
         }
     }
@@ -208,12 +136,10 @@ class MainActivity: FlutterActivity() {
 
 class WebAppInterface(private val mContext: Context) {
     @JavascriptInterface
-    fun postMessage(message: String) {
+    fun postMessage(message: String, id: String) {
         val main = mContext as? MainActivity ?: return
-        val gson = Gson()
-        val dataObject = gson.fromJson(message, JSEvent::class.java)
-        main.handlers[dataObject.id]?.success(message)
-        main.handlers.remove(dataObject.id)
+        main.handlers[id]?.success(message)
+        main.handlers.remove(id)
     }
 }
 

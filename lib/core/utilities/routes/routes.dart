@@ -19,4 +19,6 @@ class Routes {
   static const String communityHotView = 'hot';
   static const String communityCreatedView = 'created';
   static const String communitySubscribersView = 'subscribers';
+
+  static const String postDetailView = 'postDetailView';
 }
