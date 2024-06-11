@@ -9,12 +9,12 @@ import 'package:hive_mobile_app/feature/post/models/post_feeds/post_json_meta_da
 class PostFeedModel extends Equatable {
   final int postId;
   final String author;
-  final String? permlink;
+  final String permlink;
   final String? category;
   final String title;
   final String body;
   final PostJsonMetadata? jsonMetadata;
-  final DateTime? created;
+  final DateTime created;
   final DateTime? lastUpdate;
   final int? depth;
   final int? children;
@@ -36,16 +36,18 @@ class PostFeedModel extends Equatable {
   final List<BeneficiaryModel>? beneficiaries;
   final String? maxAcceptedPayout;
   final int? percentHBD;
+  final bool visited ;
 
   const PostFeedModel({
+    this.visited = false,
     required this.postId,
     required this.author,
-    this.permlink,
+    this.permlink = "",
     this.category,
     required this.title,
     required this.body,
     this.jsonMetadata,
-    this.created,
+    required this.created,
     this.lastUpdate,
     this.depth,
     this.children,
@@ -99,6 +101,7 @@ class PostFeedModel extends Equatable {
     List<BeneficiaryModel>? beneficiaries,
     String? maxAcceptedPayout,
     int? percentHBD,
+    bool? visited
   }) =>
       PostFeedModel(
         postId: postId ?? this.postId,
@@ -130,16 +133,17 @@ class PostFeedModel extends Equatable {
         beneficiaries: beneficiaries ?? this.beneficiaries,
         maxAcceptedPayout: maxAcceptedPayout ?? this.maxAcceptedPayout,
         percentHBD: percentHBD ?? this.percentHBD,
+        visited: visited ?? this.visited,
       );
 
   factory PostFeedModel.fromJson(Map<String, dynamic> json) => PostFeedModel(
         postId: json["post_id"],
         author: asString(json, "author"),
-        permlink: json["permlink"],
+        permlink: asString(json, "permlink"),
         category: json["category"],
         title: asString(json, "title"),
         body: asString(json, "body"),
-        jsonMetadata: _parseJsonMetaData(json['json_metadata']),
+        jsonMetadata: parseJsonMetaData(json['json_metadata']),
         created: DateTime.parse(json["created"]),
         lastUpdate: json["last_update"] != null
             ? DateTime.parse(json["last_update"])
@@ -172,7 +176,7 @@ class PostFeedModel extends Equatable {
         percentHBD: json["percent_hbd"],
       );
 
-  static PostJsonMetadata? _parseJsonMetaData(dynamic data) {
+  static PostJsonMetadata? parseJsonMetaData(dynamic data) {
     if (data != null) {
       if (data is String) {
         Map<String, dynamic> map = json.decode(data);

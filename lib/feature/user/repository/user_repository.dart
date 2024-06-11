@@ -1,8 +1,11 @@
 import 'package:hive_mobile_app/core/models/action_response.dart';
 import 'package:hive_mobile_app/core/services/data_service/api_service.dart';
+import 'package:hive_mobile_app/core/utilities/enum.dart';
+import 'package:hive_mobile_app/feature/user/models/account_history_model/account_history_model.dart';
 import 'package:hive_mobile_app/feature/user/models/badge_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_count_model.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_info_model.dart';
+import 'package:hive_mobile_app/feature/user/models/global_props_model.dart';
 import 'package:hive_mobile_app/feature/user/models/subscribed_communities/subscribed_community_model.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 
@@ -37,13 +40,25 @@ class UserRepository {
     return await _apiService.getUserReputation(accountName);
   }
 
-   Future<ActionListDataResponse<SubscribedCommunityModel>> getSubscribedCommunities(
-      String accountName) async {
+  Future<ActionListDataResponse<SubscribedCommunityModel>>
+      getSubscribedCommunities(String accountName) async {
     return await _apiService.getSubscribedCommunities(accountName);
   }
 
-   Future<ActionListDataResponse<BadgeModel>> getUserBadges(
+  Future<ActionListDataResponse<BadgeModel>> getUserBadges(
       String accountName) async {
     return await _apiService.getUserBadges(accountName);
+  }
+
+  Future<ActionSingleDataResponse<GlobalChainPropsModel>>
+      getGlobalChainProperties() async {
+    return await _apiService.getGlobalChainProperties();
+  }
+
+  Future<ActionListDataResponse<AccountHistoryModel>> getAccountHistory(
+      String accountName, int limit, List<AccountHistoryType> filters,
+      {int startId = -1}) async {
+    return await _apiService.getAccountHistory(
+        accountName, startId, limit, filters);
   }
 }

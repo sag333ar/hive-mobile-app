@@ -10,6 +10,7 @@ class Routes {
   static const String userCommentsView = 'comments';
   static const String userRepliesView = 'replies';
   static const String userCommunitiesView = 'communities';
+  static const String userWalletView = 'wallet';
 
   static const String userFollowInfoListView = 'userFollowInfo';
 
@@ -18,4 +19,6 @@ class Routes {
   static const String communityHotView = 'hot';
   static const String communityCreatedView = 'created';
   static const String communitySubscribersView = 'subscribers';
+
+  static const String postDetailView = 'postDetailView';
 }

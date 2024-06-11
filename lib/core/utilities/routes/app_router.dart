@@ -8,6 +8,7 @@ import 'package:hive_mobile_app/feature/community/presentation/community_profile
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/view/community_subscribers/view/community_subscribers_list_widget.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/view/proposal_view.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/view/witnesses_view.dart';
+import 'package:hive_mobile_app/feature/post/presentation/views/post_detail/view/post_detail_view.dart';
 import 'package:hive_mobile_app/feature/user/models/navigation_model/user_follow_info_list_navigation_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/view/subscribed_communities_widget.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_follow_info_list/view/user_follow_info_list_widget.dart';
@@ -135,6 +136,14 @@ class AppRouter {
               return const SubscribedCommunitiesWidget();
             },
           ),
+          GoRoute(
+            path: '/@:${RouteKeys.accountName}/${Routes.userWalletView}',
+            name: Routes.userWalletView,
+            parentNavigatorKey: _userProfileShellNavigatorKey,
+            builder: (context, state) {
+              return const SubscribedCommunitiesWidget();
+            },
+          ),
         ],
       ),
       GoRoute(
@@ -225,6 +234,18 @@ class AppRouter {
             },
           ),
         ],
+      ),
+      GoRoute(
+        path: '/@:${RouteKeys.accountName}/:${RouteKeys.permlink}',
+        name: Routes.postDetailView,
+        builder: (context, state) {
+          String accountName = state.pathParameters[RouteKeys.accountName]!;
+          String permlink = state.pathParameters[RouteKeys.permlink]!;
+          return PostDetailView(
+            author: accountName,
+            permlink: permlink,
+          );
+        },
       ),
     ];
   }

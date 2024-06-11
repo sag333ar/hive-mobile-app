@@ -39,10 +39,12 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+  <script type="application/javascript" src="/assets/packages/flutter_inappwebview_web/assets/web/web_support.js" defer></script>
 </head>
 
 <body>
   <script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
+  <script async="" defer src="./hive-content-renderer.min.js"></script>
   <script>
     var client = new dhive.Client([
       "https://api.hive.blog",
@@ -62,159 +64,56 @@
       "https://hive.roelandp.nl",
     ]);
 
-    async function getChainProps(identifier) {
-      const props = await client.database.getChainProperties();
-      return replyToNative({
-        id: identifier,
-        type: "getChainProps",
-        data: props,
-        valid: true,
-        error: "",
-      });
-    }
 
-    async function getFeed(identifier, type) {
-      var response = await client.database.getDiscussions(type);
+    async function evaluateJavaScript(jsCode) {
+      const response = await eval(jsCode);
       return replyToNative({
-        id: identifier,
-        type: "getFeed",
         data: response,
         valid: true,
         error: "",
       });
     }
 
-    async function getListOfCommunities(identifier, limit, lastName) {
-      const response = await client.hivemind.listCommunities(
-        { sort: "rank", last: lastName, limit: limit, }
-      );
+    async function getAccountHistory(accountName, startId, limit, filters) {
+      const op = dhive.utils.operationOrders
+      const operationsBitmask = dhive.utils.makeBitMaskFilter(JSON.parse(filters).map(value => dhive.utils.operationOrders[value],));
+      const response = await client.database.getAccountHistory(accountName, startId, limit, operationsBitmask)
       return replyToNative({
-        id: identifier,
-        type: "getListOfCommunities",
         data: response,
         valid: true,
         error: "",
       });
     }
 
-    async function getWitnesses(identifier, limit, lastName) {
-      const response = await client.database.call("get_witnesses_by_vote", [lastName, limit]);
-      return replyToNative({
-        id: identifier,
-        type: "getWitnesses",
-        data: response,
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getProposals(identifier, limit) {
-      const response = await client.database.call("list_proposals", [[-1], limit, "by_total_votes", "descending", "votable"]);
-      return replyToNative({
-        id: identifier,
-        type: "getProposals",
-        data: response,
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getFollowCount(identifier, accountName) {
-      const response = await client.database.call("get_follow_count", [accountName]);
-      return replyToNative({
-        id: identifier,
-        type: "getFollowCount",
-        data: response,
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getAccountInfo(identifier, accountName) {
-      const response = await client.database.call("get_accounts", [[accountName]]);
-      return replyToNative({
-        id: identifier,
-        type: "getAccountInfo",
-        data: response[0],
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getFollowing(identifier, accountName, lastName, limit) {
-      const response = await client.database.call("get_following", [accountName, lastName, "blog", limit]);
-      return replyToNative({
-        id: identifier,
-        type: "getFollowing",
-        data: response,
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getFollowers(identifier, accountName, lastName, limit) {
-      const response = await client.database.call("get_followers", [accountName, lastName, "blog", limit]);
-      return replyToNative({
-        id: identifier,
-        type: "getFollowers",
-        data: response,
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getAccountPosts(identifier, accountName, type, lastAuthor, lastPermlink, limit) {
-      const response = await client.hivemind.getAccountPosts({ account: accountName, sort: type, start_author: lastAuthor, start_permlink: lastPermlink, limit: limit });
-      return replyToNative({
-        id: identifier,
-        type: "getAccountPosts",
-        data: response,
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getCommunityDetails(identifier, communityId) {
-      const response = await client.hivemind.getCommunity({ "name": communityId });
-      return replyToNative({
-        id: identifier,
-        type: "getCommunityDetails",
-        data: response,
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getCommunityFeed(identifier, communityId, type, lastAuthor, lastPermlink, limit) {
-      const response = await client.hivemind.getRankedPosts({ tag: communityId, sort: type, start_author: lastAuthor, start_permlink: lastPermlink, limit: limit });
-      return replyToNative({
-        id: identifier,
-        type: "getCommunityFeed",
-        data: response,
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getCommunitySubscribers(identifier, communityId, limit, lastName) {
-      const response = await client.hivemind.call('list_subscribers', { community: communityId, limit: limit, last: lastName });
-      return replyToNative({
-        id: identifier,
-        type: "getCommunitySubscribers",
-        data: response,
-        valid: true,
-        error: "",
-      });
-    }
-
-    async function getSubscribedCommunities(identifier,accountName) {
-      const response = await client.hivemind.listAllSubscriptions([accountName]);
-      return replyToNative({
-        id: identifier,
-        type: "getSubscribedCommunities",
-        data: response,
-        valid: true,
-        error: "",
+    async function getHtml(iString, width) {
+      const inputString = atob(iString);
+      return new Promise(function (resolve, reject) {
+        const renderer = new HiveContentRenderer.DefaultRenderer({
+          baseUrl: `https://app.blurt.blog/`,
+          breaks: true,
+          skipSanitization: false,
+          allowInsecureScriptTags: false,
+          addExternalCssClassToMatchingLinks: false,
+          addNofollowToLinks: true,
+          doNotShowImages: false,
+          ipfsPrefix: "",
+          assetsWidth: width,
+          assetsHeight: 600,
+          imageProxyFn: (Y) =>
+            /^http(s)?:\/\/img\.blurt\.world/i.test(Y) ||
+              /^http(s)?:\/\/imgp\.blurt\.world/i.test(Y) ||
+              /^http(s)?:\/\/images\.ecency\.com/i.test(Y) ||
+              /^http(s)?:\/\/images\.hive\.blog/i.test(Y) ||
+              /^http(s)?:\/\/i\.imgur\.com/i.test(Y) ||
+              /\.gif$/i.test(Y)
+              ? Y
+              : `https://imgp.blurt.world/1920x0/` + Y,
+          usertagUrlFn: (Y) => "/@" + Y,
+          hashtagUrlFn: (Y) => "/trending/" + Y,
+          isLinkSafeFn: (Y) => true,
+        });
+        const output = renderer.render(inputString);
+        resolve(output);
       });
     }
 

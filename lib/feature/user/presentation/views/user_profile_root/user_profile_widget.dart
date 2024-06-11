@@ -11,10 +11,12 @@ import 'package:hive_mobile_app/feature/user/models/user_model/user_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/controllers/user_profile_controller.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/controller/subscribed_communities_controller.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/view/subscribed_communities_widget.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/user_account_history/user_account_history_controller.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_badges/widgets/user_profile_badges.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_posts/controller/user_post_controller.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_posts/view/user_posts_view.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_profile_root/user_profile_view.dart';
+import 'package:hive_mobile_app/feature/user/presentation/views/user_wallet/user_wallet_widget.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/mobile_and_tablet/user_profile_user_info.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/profile_menu_template.dart';
 import 'package:hive_mobile_app/feature/user/presentation/widgets/profile_navigating_sliver_appbar.dart';
@@ -48,6 +50,7 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
   UserPostController? commentsController;
   UserPostController? repliesController;
   SubscribedCommunitiesController? subscribedCommunitiesController;
+  UserAccountHistoryController? userAccountHistoryController;
 
   @override
   void initState() {
@@ -83,6 +86,11 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
     } else if (widget.routeType == UserProfileRouteType.communities &&
         subscribedCommunitiesController == null) {
       subscribedCommunitiesController = SubscribedCommunitiesController(
+        accountName: widget.accountName,
+      );
+    } else if (widget.routeType == UserProfileRouteType.wallet &&
+        userAccountHistoryController == null) {
+      userAccountHistoryController = UserAccountHistoryController(
         accountName: widget.accountName,
       );
     }
@@ -229,6 +237,10 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
               displayName: 'Communities',
               routeName: Routes.userCommunitiesView,
             ),
+            RoutedTabBarItem(
+              displayName: 'Wallet',
+              routeName: Routes.userWalletView,
+            ),
           ],
           onChange: () {
             scrollController.jumpTo(0);
@@ -250,6 +262,8 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
         return _feedBody(AccountPostType.replies, repliesController!);
       case UserProfileRouteType.communities:
         return _subscribedCommunitiesFeed(subscribedCommunitiesController!);
+      case UserProfileRouteType.wallet:
+        return _walletFeed(userAccountHistoryController!);
     }
   }
 
@@ -285,12 +299,31 @@ class _UserProfileViewWidgetState extends State<UserProfileViewWidget> {
     return SliverPadding(
       padding: EdgeInsets.symmetric(
           vertical: 10, horizontal: !context.isMobileSize ? 10 : 0),
+      sliver:SubscribedCommunitiesWidget(
+            controller: controller,
+          )
+    );
+  }
+
+  SliverPadding _walletFeed(UserAccountHistoryController controller) {
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(
+          vertical: 10, horizontal: !context.isMobileSize ? 10 : 0),
       sliver: ChangeNotifierProvider.value(
         value: controller,
         builder: (context, child) {
           loadNextPageCallback = controller.loadNextPage;
-          return SubscribedCommunitiesWidget(
-            controller: controller,
+          return SliverMainAxisGroup(
+            slivers: [
+              UserWalletWidget(controller: controller,data: widget.data,),
+              SliverToBoxAdapter(
+                child: PaginationLoader(
+                  pageVisibilityListener: (context) =>
+                      context.select<UserAccountHistoryController, bool>(
+                          (value) => value.isNextPageLoading),
+                ),
+              )
+            ],
           );
         },
       ),

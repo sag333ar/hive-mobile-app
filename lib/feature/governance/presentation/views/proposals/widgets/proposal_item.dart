@@ -8,6 +8,7 @@ import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/core/utilities/routes/route_keys.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
+import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/widgets/sender_to_receiver.dart';
 import 'package:intl/intl.dart';
 
 class ProposalItem extends StatelessWidget {
@@ -36,27 +37,7 @@ class ProposalItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    UserImageName(
-                      onTap: () => context.platformPushNamed(Routes.userView,
-                          pathParameters: {RouteKeys.accountName: item.creator}),
-                      name: item.creator,
-                    ),
-                    Expanded(
-                        child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: context.isMobile ? 8 : 15),
-                      child: const Divider(),
-                    )),
-                    UserImageName(
-                       onTap: () => context.platformPushNamed(Routes.userView,
-                          pathParameters: {RouteKeys.accountName: item.receiver}),
-                      reverse: true,
-                      name: item.receiver,
-                    ),
-                  ],
-                ),
+                SenderToReceiver(from: item.creator, to: item.receiver),
                 Row(
                   children: [
                     Expanded(

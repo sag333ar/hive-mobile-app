@@ -1,146 +1,43 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
-import 'package:hive_mobile_app/core/utilities/enum.dart';
 
 const String channel = 'app.the-hive-mobile/bridge';
 const platform = MethodChannel(channel);
 
-Future<String> getChainPropsFromPlatform() async {
-  final String chainPropId =
-      'getChainProps_${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getChainProps', {
-    'id': chainPropId,
+
+Future<String> evaluateJavaScriptFromPlatform(String jsCode) async {
+  final String reqId = 'evaluateJavaScript${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('evaluateJavaScript', {
+    'id': reqId,
+    'jsCode': jsCode,
   });
-  return response;
+  return response;  
 }
 
-Future<String> getFeedTypeFromPlatform(FeedType feedType) async {
-  final String feedId = 'getFeed_${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getFeed', {
-    'id': feedId,
-    'feed_type': enumToString(feedType), // trending, hot, created
-  });
-  return response;
-}
-
-Future<String> getListOfCommunitiesFromPlatform(
-    int limit, String? lastName) async {
-  final String id = 'getListOfCommunities${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod(
-      'getListOfCommunities', {'id': id, 'limit': limit, 'lastName': lastName});
-  return response;
-}
-
-Future<String> getWitnessesFromPlatform(int limit, String? lastName) async {
-  final String id = 'getWitnesses${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod(
-      'getWitnesses', {'id': id, 'limit': limit, 'lastName': lastName});
-  return response;
-}
-
-Future<String> getProposalsFromPlatform(int limit) async {
-  final String id = 'getProposals${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getProposals', {
+Future<String> getAccountHistoryFromPlatform(
+    String accountName, int startId, int limit, String filters) async {
+  final String id = 'getAccountHistory${DateTime.now().toIso8601String()}';
+  final String response = await platform.invokeMethod('getAccountHistory', {
     'id': id,
+    'accountName': accountName,
+    'startId': startId,
     'limit': limit,
+    'filters': filters
   });
   return response;
 }
 
-Future<String> getFollowCountFromPlatform(String accountName) async {
-  final String id = 'getFollowCount${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getFollowCount', {
+Future<String> getHtmlFromPlatform(
+  String inputString,
+  int width,
+) async {
+  final String id =  'getHtml${DateTime.now().toIso8601String()}';
+  var encodedString = base64.encode(utf8.encode(inputString));
+  final response = await platform.invokeMethod('getHtml', {
     'id': id,
-    'accountName': accountName,
-  });
-  return response;
-}
-
-Future<String> getAccountInfoFromPlatform(String accountName) async {
-  final String id = 'getAccountInfo${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getAccountInfo', {
-    'id': id,
-    'accountName': accountName,
-  });
-  return response;
-}
-
-Future<String> getFollowingFromPlatform(
-    String accountName, String? lastName, int limit) async {
-  final String id = 'getFollowing${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getFollowing', {
-    'id': id,
-    'accountName': accountName,
-    'lastName': lastName,
-    'limit': limit
-  });
-  return response;
-}
-
-Future<String> getFollowersFromPlatform(
-    String accountName, String? lastName, int limit) async {
-  final String id = 'getFollowers${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getFollowers', {
-    'id': id,
-    'accountName': accountName,
-    'lastName': lastName,
-    'limit': limit
-  });
-  return response;
-}
-
-Future<String> getAccountPostsFromPlatform(String accountName, String type,
-    String? lastAuthor, String? lastPermlink, int limit) async {
-  final String id = 'getAccountPosts${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getAccountPosts', {
-    'id': id,
-    'accountName': accountName,
-    'type': type,
-    'lastAuthor': lastAuthor,
-    'lastPermlink': lastPermlink,
-    'limit': limit
-  });
-  return response;
-}
-
-Future<String> getCommunityDetailsFromPlatform(String communityId) async {
-  final String id = 'getCommunityDetails${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getCommunityDetails', {
-    'id': id,
-    'communityId': communityId,
-  });
-  return response;
-}
-
-Future<String> getCommunityFeedFromPlatform(String communityId, String type,
-    String? lastAuthor, String? lastPermlink, int limit) async {
-  final String id = 'getCommunityFeed${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getCommunityFeed', {
-    'id': id,
-    'communityId': communityId,
-    'type': type,
-    'lastAuthor': lastAuthor,
-    'lastPermlink': lastPermlink,
-    'limit': limit
-  });
-  return response;
-}
-
-Future<String> getCommunitySubscribersFromPlatform(String communityId,int limit,String? lastName) async {
-  final String id = 'getCommunitySubscribers${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getCommunitySubscribers', {
-    'id': id,
-    'communityId': communityId,
-    'limit': limit,
-    'lastName': lastName
-  });
-  return response;
-}
-
-Future<String> getSubscribedCommunitiesFromPlatform(String accountName) async {
-  final String id = 'getSubscribedCommunities${DateTime.now().toIso8601String()}';
-  final String response = await platform.invokeMethod('getSubscribedCommunities', {
-    'id': id,
-    'accountName': accountName
+    'inputString': encodedString,
+    'width': width,
   });
   return response;
 }

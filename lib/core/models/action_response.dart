@@ -1,10 +1,7 @@
 import 'dart:convert';
-
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 
 class ActionListDataResponse<T> {
-  final String? id;
-  final String? type;
   final List<T>? data;
   final bool valid;
   final String errorMessage;
@@ -12,8 +9,6 @@ class ActionListDataResponse<T> {
   final bool isSuccess;
 
   ActionListDataResponse({
-    this.id,
-    this.type,
     this.data,
     this.isSuccess = false,
     this.valid = false,
@@ -28,8 +23,6 @@ class ActionListDataResponse<T> {
   factory ActionListDataResponse.fromJson(
       Map<String, dynamic> json, T Function(dynamic) fromJson) {
     return ActionListDataResponse(
-      id: json['id'] as String,
-      type: json['type'] as String,
       data: (json['data'] as List<dynamic>?)
               ?.map((dynamic item) => fromJson(item))
               .toList() ??
@@ -45,8 +38,6 @@ class ActionListDataResponse<T> {
 }
 
 class ActionSingleDataResponse<T> {
-  final String? id;
-  final String? type;
   final T? data;
   final bool valid;
   final String errorMessage;
@@ -54,8 +45,7 @@ class ActionSingleDataResponse<T> {
   final bool isSuccess;
 
   ActionSingleDataResponse(
-      {this.id,
-      this.type,
+      {
       this.data,
       this.isSuccess = false,
       this.valid = false,
@@ -63,15 +53,13 @@ class ActionSingleDataResponse<T> {
       required this.status});
 
   factory ActionSingleDataResponse.fromJsonString(
-          String string, T Function(Map<String, dynamic>) fromJson) =>
-      ActionSingleDataResponse.fromJson(json.decode(string), fromJson);
+          String string, T Function(Map<String, dynamic>) fromJson,{bool parseFromList = false}) =>
+      ActionSingleDataResponse.fromJson(json.decode(string), fromJson,parseFromList: parseFromList);
 
   factory ActionSingleDataResponse.fromJson(
-      Map<String, dynamic> json, T Function(Map<String, dynamic>) fromJson) {
+      Map<String, dynamic> json, T Function(Map<String, dynamic>) fromJson,{bool parseFromList = false}) {
     return ActionSingleDataResponse(
-      id: json['id'] as String,
-      type: json['type'] as String, 
-      data: fromJson(json['data']),
+      data: parseFromList ? fromJson(json['data'][0]) : fromJson(json['data']),
       valid: json['valid'] as bool,
       status: json['valid'] && json['error'].isEmpty
           ? ResponseStatus.success

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:hive_mobile_app/core/utilities/save_convert.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/active_model.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/delayed_vote_model.dart';
 import 'package:hive_mobile_app/feature/user/models/user_model/downvote_manarbar_model.dart';
@@ -14,7 +15,7 @@ String userModelToJson(List<UserModel> data) =>
 
 class UserModel {
   final ActiveModel? active;
-  final String? balance;
+  final String balance;
   final bool? canVote;
   final int? commentCount;
   final DateTime created;
@@ -24,7 +25,7 @@ class UserModel {
   final DownvoteManabarModel? downvoteManabar;
   final DateTime? governanceVoteExpirationTs;
   final List<dynamic>? guestBloggers;
-  final String? hbdBalance;
+  final String hbdBalance;
   final DateTime? hbdLastInterestPayment;
   final String? hbdSeconds;
   final DateTime? hbdSecondsLastUpdate;
@@ -87,7 +88,7 @@ class UserModel {
 
   UserModel({
     this.active,
-    this.balance,
+    required this.balance,
     this.canVote,
     this.commentCount,
     required this.created,
@@ -97,7 +98,7 @@ class UserModel {
     this.downvoteManabar,
     this.governanceVoteExpirationTs,
     this.guestBloggers,
-    this.hbdBalance,
+    required this.hbdBalance,
     this.hbdLastInterestPayment,
     this.hbdSeconds,
     this.hbdSecondsLastUpdate,
@@ -158,6 +159,24 @@ class UserModel {
     this.witnessVotes,
     this.witnessesVotedFor,
   });
+
+  double _vestingToDouble(String? arg) {
+    double? value = 0;
+    String result = arg ?? "";
+    if (result.isNotEmpty) {
+      int index = result.indexOf(" ");
+      value = double.tryParse(result.substring(0, index));
+    }
+    return value ?? 0;
+  }
+
+  double get delegatedVestingSharesValue =>
+      _vestingToDouble(delegatedVestingShares);
+
+  double get receivedVestingSharesValue =>
+      _vestingToDouble(receivedVestingShares);
+
+  double get vestingSharesValue => _vestingToDouble(vestingShares);
 
   UserModel copyWith({
     ActiveModel? active,
@@ -328,7 +347,7 @@ class UserModel {
         active: json["active"] == null
             ? null
             : ActiveModel.fromJson(json["active"]),
-        balance: json["balance"],
+        balance: asString(json, "balance"),
         canVote: json["can_vote"],
         commentCount: json["comment_count"],
         created: DateTime.parse(json["created"]),
@@ -348,7 +367,7 @@ class UserModel {
         guestBloggers: json["guest_bloggers"] == null
             ? []
             : List<dynamic>.from(json["guest_bloggers"]!.map((x) => x)),
-        hbdBalance: json["hbd_balance"],
+        hbdBalance: asString(json, "hbd_balance"),
         hbdLastInterestPayment: json["hbd_last_interest_payment"] == null
             ? null
             : DateTime.parse(json["hbd_last_interest_payment"]),

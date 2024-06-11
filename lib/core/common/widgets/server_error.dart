@@ -16,47 +16,53 @@ class ErrorState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return isSliver ? SliverFillRemaining(
-      child: _widget(theme),
-    ) : _widget(theme);
+    return isSliver
+        ? SliverFillRemaining(
+            child: _widget(theme),
+          )
+        : _widget(theme);
   }
 
-  Container _widget(ThemeData theme) {
-    return Container(
-      color: Colors.transparent,
-      padding: const EdgeInsets.only(
-          bottom: 70,
-          left: kScreenHorizontalPaddingDigit,
-          right: kScreenHorizontalPaddingDigit),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Icon(
-            Icons.error,
-            color: theme.primaryColorDark,
-            size: 80,
+  Center _widget(ThemeData theme) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          color: Colors.transparent,
+          padding: const EdgeInsets.only(
+              bottom: 70,
+              left: kScreenHorizontalPaddingDigit,
+              right: kScreenHorizontalPaddingDigit),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Icon(
+                Icons.error,
+                color: theme.primaryColorDark,
+                size: 80,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Sorry, we're unable to reach our server",
+                style: theme.textTheme.displaySmall,
+                textAlign: TextAlign.center,
+              ),
+              showRetryButton
+                  ? CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: onTapRetryButton,
+                      child: Text(
+                        "Try Again",
+                        style: theme.textTheme.displaySmall!
+                            .copyWith(color: theme.primaryColor),
+                      ))
+                  : const SizedBox.shrink(),
+            ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            "Sorry, we're unable to reach our server",
-            style: theme.textTheme.displaySmall,
-            textAlign: TextAlign.center,
-          ),
-          showRetryButton
-              ? CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: onTapRetryButton,
-                  child: Text(
-                    "Try Again",
-                    style: theme.textTheme.displaySmall!
-                        .copyWith(color: theme.primaryColor),
-                  ))
-              : const SizedBox.shrink(),
-        ],
+        ),
       ),
     );
   }
