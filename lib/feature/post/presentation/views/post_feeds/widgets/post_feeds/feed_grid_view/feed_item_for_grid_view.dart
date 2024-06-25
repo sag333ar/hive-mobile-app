@@ -7,7 +7,6 @@ import 'package:hive_mobile_app/core/utilities/constants.dart';
 import 'package:hive_mobile_app/core/utilities/routes/route_keys.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
-import 'package:hive_mobile_app/feature/post/presentation/views/post_detail/view/post_detail_view.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/widgets/post_feeds/comment_icon_button.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/widgets/post_feeds/post_earnings.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/widgets/post_feeds/post_image.dart';

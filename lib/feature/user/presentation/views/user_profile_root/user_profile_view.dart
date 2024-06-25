@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_mobile_app/core/common/widgets/empty_state.dart';
 import 'package:hive_mobile_app/core/common/widgets/loading_state.dart';
 import 'package:hive_mobile_app/core/common/widgets/server_error.dart';
@@ -8,7 +9,14 @@ import 'package:hive_mobile_app/feature/user/presentation/controllers/user_profi
 import 'package:hive_mobile_app/feature/user/presentation/views/user_profile_root/user_profile_widget.dart';
 import 'package:provider/provider.dart';
 
-enum UserProfileRouteType {blog,posts,comments,replies,communities,wallet}
+enum UserProfileRouteType {
+  blog,
+  posts,
+  comments,
+  replies,
+  communities,
+  wallet
+}
 
 class UserProfileView extends StatelessWidget {
   const UserProfileView(
@@ -54,6 +62,13 @@ class UserProfileView extends StatelessWidget {
       builder: (context, child) {
         final controller = context.read<UserProfileController>();
         return Scaffold(
+            appBar: AppBar(
+              leading: BackButton(
+                onPressed: () {
+                  context.pop();
+                },
+              ),
+            ),
             backgroundColor: theme.colorScheme.tertiaryContainer,
             body: Selector<UserProfileController, ViewState>(
               selector: (_, provider) => provider.viewState,

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:auth/core/configs/get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_mobile_app/core/services/data_service/api_service.dart';
@@ -7,13 +10,15 @@ import 'package:hive_mobile_app/core/utilities/routes/app_router.dart';
 import 'package:hive_mobile_app/core/utilities/theme/theme_mode.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
-
 import 'core/dependency_injection/dependency_injection.dart' as get_it;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy();
   await get_it.init();
   await GetStorage.init();
+  await Config.init(getItInstance:  get_it.getIt);
+
   runApp(const MyApp());
 }
 
@@ -26,18 +31,20 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeController())
       ],
-      child: Consumer<ThemeController>(
-        builder: (context, themeController, child) {
-          return MaterialApp.router(
-            routerConfig: AppRouter.router,
-            title: 'Hive Mobile App',
-            scrollBehavior: AppScrollBehavior(),
-            theme: themeController.getLightTheme(),
-            darkTheme: themeController.getDarkTheme(),
-            themeMode: themeController.themeMode,
-            debugShowCheckedModeBanner: false,
-          );
-        },
+      child: UserProviderWrapper(
+        child: Consumer<ThemeController>(
+          builder: (context, themeController, child) {
+            return MaterialApp.router(
+              routerConfig: AppRouter.router,
+              title: 'Hive Mobile App',
+              scrollBehavior: AppScrollBehavior(),
+              theme: themeController.getLightTheme(),
+              darkTheme: themeController.getDarkTheme(),
+              themeMode: themeController.themeMode,
+              debugShowCheckedModeBanner: false,
+            );
+          },
+        ),
       ),
     );
   }

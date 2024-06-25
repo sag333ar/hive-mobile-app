@@ -19,7 +19,7 @@ class InteractionTile extends StatelessWidget {
   Widget _extraRow(ThemeData theme) {
     final iconColor = theme.primaryColorDark.withOpacity(0.7);
     const iconGap = 5.0;
-    var timeAgo = timeago.format(item.created ?? DateTime.now());
+    var timeAgo = timeago.format(item.created);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Row(

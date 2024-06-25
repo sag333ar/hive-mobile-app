@@ -21,4 +21,6 @@ class Routes {
   static const String communitySubscribersView = 'subscribers';
 
   static const String postDetailView = 'postDetailView';
+
+  static const String authView = 'auth';
 }

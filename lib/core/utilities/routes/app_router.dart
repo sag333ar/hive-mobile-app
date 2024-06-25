@@ -1,3 +1,4 @@
+import 'package:auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
@@ -49,6 +50,13 @@ class AppRouter {
         name: Routes.witnessesView,
         builder: (context, state) {
           return const WitnessesView();
+        },
+      ),
+      GoRoute(
+        path: '/${Routes.authView}',
+        name: Routes.authView,
+        builder: (context, state) {
+          return const AuthView();
         },
       ),
       GoRoute(

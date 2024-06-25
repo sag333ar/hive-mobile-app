@@ -14,6 +14,32 @@ extension PlatformNavigation on BuildContext {
     }
   }
 
+  void popAndPlatformPushNamed(
+    String name, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) {
+    pop();
+    platformPushNamed(name,
+        pathParameters: pathParameters,
+        queryParameters: queryParameters,
+        extra: extra);
+  }
+
+  void popAndPushNamed(
+    String name, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) {
+    pop();
+    pushNamed(name,
+        pathParameters: pathParameters,
+        queryParameters: queryParameters,
+        extra: extra);
+  }
+
   void platformPushNamed(
     String name, {
     Map<String, String> pathParameters = const <String, String>{},
