@@ -1,59 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hive Mobile App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
-    <script>
-      var client = new dhive.Client([
-        "https://api.hive.blog",
-        "https://api.deathwings.me",
-        "https://hive-api.arcange.eu",
-        "https://hived.emre.sh",
-        "https://api.openhive.network",
-        "https://rpc.ausbit.dev",
-        "https://rpc.mahdiyari.info",
-        "https://hive-api.3speak.tv",
-        "https://anyx.io",
-        "https://techcoderx.com",
-        "https://api.hive.blue",
-        "https://api.c0ff33a.uk",
-        "https://api.pharesim.me",
-        "https://hived.privex.io",
-        "https://hive.roelandp.nl",
-      ]);
 
-      async function getChainProps(identifier) {
-        const props = await client.database.getChainProperties();
-        replyToNative({
-          id: identifier,
-          type: "getChainProps",
-          data: JSON.stringify(props),
-          valid: true,
-          error: "",
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hive Mobile App</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
+  <script async="" defer src="./hive-content-renderer.min.js"></script>
+  <script>
+    var client = new dhive.Client([
+      "https://api.hive.blog",
+      "https://api.deathwings.me",
+      "https://hive-api.arcange.eu",
+      "https://hived.emre.sh",
+      "https://api.openhive.network",
+      "https://rpc.ausbit.dev",
+      "https://rpc.mahdiyari.info",
+      "https://hive-api.3speak.tv",
+      "https://anyx.io",
+      "https://techcoderx.com",
+      "https://api.hive.blue",
+      "https://api.c0ff33a.uk",
+      "https://api.pharesim.me",
+      "https://hived.privex.io",
+      "https://hive.roelandp.nl",
+    ]);
+
+    async function evaluateJavaScript(jsCode, id) {
+      const response = await eval(jsCode);
+      return replyToNative({
+        data: response,
+        valid: true,
+        error: "",
+      }, id);
+    }
+
+    async function getAccountHistory(identifier, accountName, startId, limit, filters) {
+      const op = dhive.utils.operationOrders
+      const operationsBitmask = dhive.utils.makeBitMaskFilter(JSON.parse(filters).map(value => dhive.utils.operationOrders[value],));
+      const response = await client.database.getAccountHistory(accountName, startId, limit, operationsBitmask)
+      replyToNative({
+        data: response,
+        valid: true,
+        error: "",
+      }, identifier);
+    }
+
+    async function getHtml(id, iString, width) {
+      const inputString = atob(iString);
+      return new Promise(function (resolve, reject) {
+        const renderer = new HiveContentRenderer.DefaultRenderer({
+          baseUrl: `https://app.blurt.blog/`,
+          breaks: true,
+          skipSanitization: false,
+          allowInsecureScriptTags: false,
+          addExternalCssClassToMatchingLinks: false,
+          addNofollowToLinks: true,
+          doNotShowImages: false,
+          ipfsPrefix: "",
+          assetsWidth: width,
+          assetsHeight: 600,
+          imageProxyFn: (Y) =>
+            /^http(s)?:\/\/img\.blurt\.world/i.test(Y) ||
+              /^http(s)?:\/\/imgp\.blurt\.world/i.test(Y) ||
+              /^http(s)?:\/\/images\.ecency\.com/i.test(Y) ||
+              /^http(s)?:\/\/images\.hive\.blog/i.test(Y) ||
+              /^http(s)?:\/\/i\.imgur\.com/i.test(Y) ||
+              /\.gif$/i.test(Y)
+              ? Y
+              : `https://imgp.blurt.world/1920x0/` + Y,
+          usertagUrlFn: (Y) => "/@" + Y,
+          hashtagUrlFn: (Y) => "/trending/" + Y,
+          isLinkSafeFn: (Y) => true,
         });
-      }
+        const output = renderer.render(inputString);
+        replyToNative(output, id, false);
+      });
+    }
 
-      async function getFeed(identifier, type) {
-        var response = await client.database.getDiscussions(type);
-        console.log(`Response: ${JSON.stringify(response)}`);
-        replyToNative({
-          id: identifier,
-          type: "getFeed",
-          data: JSON.stringify(response),
-          valid: true,
-          error: "",
-        });
+    function replyToNative(result, id, stringifyResult = true) {
+      if (stringifyResult) {
+        Android.postMessage(JSON.stringify(result), id);
+      } else {
+        Android.postMessage(result, id);
       }
+    }
+  </script>
+</body>
 
-      function replyToNative(result) {
-        // window.webkit.messageHandlers.app.postMessage(result);
-        Android.postMessage(JSON.stringify(result));
-      }
-    </script>
-  </body>
 </html>

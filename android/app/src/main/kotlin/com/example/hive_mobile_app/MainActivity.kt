@@ -23,6 +23,37 @@ class MainActivity: FlutterActivity() {
     private var webView: WebView? = null
     var handlers: MutableMap<String, MethodChannel.Result> = mutableMapOf()
 
+      fun getValue(value: String?): String {
+        if (value == null) {
+            return "null"
+        }
+        return "'$value'";
+    }
+
+    fun getIntValue(value: Int?): String {
+        if (value == null) {
+            return "null"
+        }
+        return "$value";
+    }
+
+    fun getBoolValue(value: Boolean?): String {
+        if (value == null) {
+            return "null"
+        }
+        if (value == true) {
+            return "true"
+        }
+        return "false"
+    }
+
+    fun getDoubleValue(value: Double?): String {
+        if (value == null) {
+            return "null"
+        }
+        return "$value";
+    }
+
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         if (webView == null) {
@@ -42,18 +73,27 @@ class MainActivity: FlutterActivity() {
                 return@setMethodCallHandler
             } else {
                 handlers[id] = result
-                if (call.method == "getChainProps" ) {
+
+                val limit = call.argument<Int?>("limit")
+                val accountName = call.argument<String?>("accountName") 
+                val startId = call.argument<Int?>("startId") 
+                val filters = call.argument<String?>("filters") 
+                val jsCode = call.argument<String?>("jsCode")
+                val width = call.argument<Int?>("width")
+                val inputString = call.argument<String?>("inputString")
+                if (call.method == "evaluateJavaScript" && jsCode != null) {
+                webView?.evaluateJavascript(
+                    "evaluateJavaScript(\"$jsCode\", \"$id\");",
+                    null
+                )
+            } else if (call.method == "getAccountHistory" && accountName != null && startId != null && limit !=null && filters != null) {
                     webView?.evaluateJavascript(
-                        "getChainProps('$id');",
+                        "getAccountHistory('$id','$accountName',${getIntValue(startId)},${getIntValue(limit)},'$filters');",
                         null
                     )
-                } else if (call.method == "getFeed" ) {
-                    val feedType = call.argument<String?>("feed_type") ?: "trending"
-                    webView?.evaluateJavascript(
-                        "getFeed('$id', '$feedType');",
-                        null
-                    )
-                }
+                } else if (call.method == "getHtml" && inputString != null && width != null) {
+                webView?.evaluateJavascript("getHtml('$id','$inputString',${getIntValue(width)});", null)
+            } 
             }
         }
     }
@@ -96,19 +136,14 @@ class MainActivity: FlutterActivity() {
 
 class WebAppInterface(private val mContext: Context) {
     @JavascriptInterface
-    fun postMessage(message: String) {
+    fun postMessage(message: String, id: String) {
         val main = mContext as? MainActivity ?: return
-        val gson = Gson()
-        val dataObject = gson.fromJson(message, JSEvent::class.java)
-        main.handlers[dataObject.id]?.success(message)
-        main.handlers.remove(dataObject.id)
+        main.handlers[id]?.success(message)
+        main.handlers.remove(id)
     }
 }
 
 data class JSEvent(
-    val type: String,
-    val error: String,
-    val data: String,
     var id: String,
 )
 

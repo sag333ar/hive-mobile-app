@@ -1,9 +1,19 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:hive_mobile_app/core/services/data_service/api_service.dart';
+import 'package:hive_mobile_app/core/utilities/app_scroll_behaviour.dart';
+import 'package:hive_mobile_app/core/utilities/enum.dart';
+import 'package:hive_mobile_app/core/utilities/routes/app_router.dart';
+import 'package:hive_mobile_app/core/utilities/theme/theme_mode.dart';
+import 'package:provider/provider.dart';
+import 'package:url_strategy/url_strategy.dart';
 
-void main() {
+import 'core/dependency_injection/dependency_injection.dart' as get_it;
+
+void main() async {
+  setPathUrlStrategy();
+  await get_it.init();
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -12,13 +22,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hive Mobile App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeController())
+      ],
+      child: Consumer<ThemeController>(
+        builder: (context, themeController, child) {
+          return MaterialApp.router(
+            routerConfig: AppRouter.router,
+            title: 'Hive Mobile App',
+            scrollBehavior: AppScrollBehavior(),
+            theme: themeController.getLightTheme(),
+            darkTheme: themeController.getDarkTheme(),
+            themeMode: themeController.themeMode,
+            debugShowCheckedModeBanner: false,
+          );
+        },
       ),
-      home: const MyHomePage(title: 'Hive Mobile App - Home Page'),
     );
   }
 }
@@ -45,12 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          const platform = MethodChannel('app.the-hive-mobile/bridge');
-          var id = 'getChainProps_${DateTime.now().toIso8601String()}';
-          final String response = await platform.invokeMethod('getChainProps', {
-            'id': id,
-          });
-          log('Response received from platform is - $response');
+          ApiService().getChainProps();
+          ApiService().getFeed(FeedType.trending);
         },
         child: const Icon(Icons.bolt),
       ),

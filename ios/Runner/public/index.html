@@ -1,46 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hive Mobile App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
-    <script>
-      var client = new dhive.Client([
-        "https://api.hive.blog",
-        "https://api.deathwings.me",
-        "https://hive-api.arcange.eu",
-        "https://hived.emre.sh",
-        "https://api.openhive.network",
-        "https://rpc.ausbit.dev",
-        "https://rpc.mahdiyari.info",
-        "https://hive-api.3speak.tv",
-        "https://anyx.io",
-        "https://techcoderx.com",
-        "https://api.hive.blue",
-        "https://api.c0ff33a.uk",
-        "https://api.pharesim.me",
-        "https://hived.privex.io",
-        "https://hive.roelandp.nl",
-      ]);
 
-      async function getChainProps(identifier) {
-        const props = await client.database.getChainProperties();
-        replyToNative({
-          id: identifier,
-          type: "getChainProps",
-          data: JSON.stringify(props),
-          valid: true,
-          error: "",
-        });
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hive Mobile App</title>
+</head>
 
-      function replyToNative(result) {
-        window.webkit.messageHandlers.app.postMessage(result);
-      }
-    </script>
-  </body>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
+  <script async="" defer src="./hive-content-renderer.min.js"></script>
+  <script>
+    var client = new dhive.Client([
+      "https://api.hive.blog",
+      "https://api.deathwings.me",
+      "https://hive-api.arcange.eu",
+      "https://hived.emre.sh",
+      "https://api.openhive.network",
+      "https://rpc.ausbit.dev",
+      "https://rpc.mahdiyari.info",
+      "https://hive-api.3speak.tv",
+      "https://anyx.io",
+      "https://techcoderx.com",
+      "https://api.hive.blue",
+      "https://api.c0ff33a.uk",
+      "https://api.pharesim.me",
+      "https://hived.privex.io",
+      "https://hive.roelandp.nl",
+    ]);
+
+    async function evaluateJavaScript(jsCode, id) {
+      const response = await eval(jsCode);
+      return replyToNative({
+        data: response,
+        valid: true,
+        error: "",
+      }, id);
+    }
+
+    async function getAccountHistory(identifier, accountName, startId, limit, filters) {
+      const op = dhive.utils.operationOrders
+      const operationsBitmask = dhive.utils.makeBitMaskFilter(JSON.parse(filters).map(value => dhive.utils.operationOrders[value],));
+      const response = await client.database.getAccountHistory(accountName, startId, limit, operationsBitmask)
+      replyToNative({
+        id: identifier,
+        type: "getAccountHistory",
+        data: response,
+        valid: true,
+        error: "",
+      });
+    }
+
+    
+
+    function replyToNative(result) {
+      window.webkit.messageHandlers.app.postMessage(JSON.stringify(result));
+    }
+  </script>
+</body>
+
 </html>
