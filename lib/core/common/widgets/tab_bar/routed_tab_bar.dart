@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/tab_bar/routed_tab_bar_item.dart';
 import 'package:hive_mobile_app/core/utilities/constants.dart';
-import 'package:hive_mobile_app/core/utilities/routes/app_router.dart';
 import 'package:hive_mobile_app/core/common/widgets/tab_bar/routed_tab_bar_tile.dart';
 
 class RoutedTabBar extends StatefulWidget {
@@ -25,8 +25,7 @@ class RoutedTabBar extends StatefulWidget {
 class _RoutedTabBarState extends State<RoutedTabBar> {
   @override
   Widget build(BuildContext context) {
-    final String currentRoute = AppRouter.currentRoute();
-    log(currentRoute);
+    final String currentRoute = context.currentRoute();
     return Padding(
       padding: const EdgeInsets.only(
           left: kScreenHorizontalPaddingDigit,

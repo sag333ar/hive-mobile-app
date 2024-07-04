@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:auth/core/configs/get_it.dart';
+import 'package:auth/feature/user/view/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_mobile_app/core/services/data_service/api_service.dart';
@@ -17,34 +18,40 @@ void main() async {
   setPathUrlStrategy();
   await get_it.init();
   await GetStorage.init();
-  await Config.init(getItInstance:  get_it.getIt);
+  await Config.init(getItInstance: get_it.getIt);
 
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final _currentUser = UserController();
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ThemeController())
+        ChangeNotifierProvider(create: (context) => ThemeController()),
+        ChangeNotifierProvider.value(value: _currentUser)
       ],
-      child: UserProviderWrapper(
-        child: Consumer<ThemeController>(
-          builder: (context, themeController, child) {
-            return MaterialApp.router(
-              routerConfig: AppRouter.router,
-              title: 'Hive Mobile App',
-              scrollBehavior: AppScrollBehavior(),
-              theme: themeController.getLightTheme(),
-              darkTheme: themeController.getDarkTheme(),
-              themeMode: themeController.themeMode,
-              debugShowCheckedModeBanner: false,
-            );
-          },
-        ),
+      child: Consumer<ThemeController>(
+        builder: (context, themeController, child) {
+          return MaterialApp.router(
+            routerConfig: AppRouter(_currentUser).router,
+            title: 'Hive Mobile App',
+            scrollBehavior: AppScrollBehavior(),
+            theme: themeController.getLightTheme(),
+            darkTheme: themeController.getDarkTheme(),
+            themeMode: themeController.themeMode,
+            debugShowCheckedModeBanner: false,
+          );
+        },
       ),
     );
   }

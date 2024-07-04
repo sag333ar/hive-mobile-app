@@ -1,3 +1,4 @@
+import 'package:auth/auth.dart';
 import 'package:auth/core/extensions/ui.dart';
 import 'package:auth/core/widgets/drawer_header.dart';
 import 'package:auth/feature/user/presentation/view/multi_account_dialog_view.dart';
@@ -44,9 +45,11 @@ class DrawerMenu extends StatelessWidget {
                   children: [
                     MyDrawerHeader(
                       onAccountSelect: () => onProfileTap(context),
-                      loginTap: () => context.popAndPushNamed(
-                        Routes.authView,
-                      ),
+                      loginTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const AuthView()));
+                      },
                       profileTap: () => context.popAndPlatformPushNamed(
                           Routes.userView,
                           pathParameters: {
@@ -59,10 +62,12 @@ class DrawerMenu extends StatelessWidget {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            DrawerTile(
-                                onTap: () {},
-                                text: 'Profile',
-                                icon: Icons.person),
+                            if (isLoggedIn)
+                              DrawerTile(
+                                  onTap: () => context.popAndPlatformPushNamed(
+                                      Routes.inboxView),
+                                  text: 'Inbox',
+                                  icon: Icons.inbox),
                             DrawerTile(
                                 onTap: () {},
                                 text: 'Bookmarks',

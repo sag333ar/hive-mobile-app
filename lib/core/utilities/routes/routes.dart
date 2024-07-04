@@ -23,4 +23,6 @@ class Routes {
   static const String postDetailView = 'postDetailView';
 
   static const String authView = 'auth';
+
+  static const String inboxView = 'inbox';
 }

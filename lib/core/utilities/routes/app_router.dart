@@ -1,4 +1,5 @@
 import 'package:auth/auth.dart';
+import 'package:auth/feature/user/view/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
@@ -9,6 +10,7 @@ import 'package:hive_mobile_app/feature/community/presentation/community_profile
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/view/community_subscribers/view/community_subscribers_list_widget.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/view/proposal_view.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/view/witnesses_view.dart';
+import 'package:hive_mobile_app/feature/inbox/presentation/inbox_view.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_detail/view/post_detail_view.dart';
 import 'package:hive_mobile_app/feature/user/models/navigation_model/user_follow_info_list_navigation_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/view/subscribed_communities_widget.dart';
@@ -18,14 +20,42 @@ import 'package:hive_mobile_app/feature/user/presentation/views/user_profile_roo
 import 'package:hive_mobile_app/home_view.dart';
 
 class AppRouter {
+  final UserController _userController;
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _userProfileShellNavigatorKey = GlobalKey<NavigatorState>();
   static final _communityProfileShellNavigatorKey = GlobalKey<NavigatorState>();
+  String? targetPath;
 
-  static GoRouter router = GoRouter(
-      navigatorKey: _rootNavigatorKey, initialLocation: '/', routes: routes());
+  AppRouter(this._userController);
 
-  static List<RouteBase> routes() {
+  late final GoRouter router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: '/',
+    routes: routes(),
+    refreshListenable: _userController,
+    redirect: (context, state) async {
+      final bool isLoggedIn = _userController.isUserLoggedIn;
+      if (state.matchedLocation == "/${Routes.inboxView}" && !isLoggedIn) {
+        await _userController.loadUserFromLocal();
+        if (!_userController.isUserLoggedIn) {
+          targetPath = "/${Routes.inboxView}";
+          return "/${Routes.authView}?redirect=${state.matchedLocation}";
+        }
+        return null;
+      } else if (state.matchedLocation == "/${Routes.authView}" &&
+          isLoggedIn &&
+          targetPath != null) {
+        String redirectionPath = targetPath!;
+        targetPath = null;
+        return redirectionPath;
+      } else if (state.matchedLocation == "/${Routes.authView}" && isLoggedIn) {
+        return "/";
+      }
+      return null;
+    },
+  );
+
+  List<RouteBase> routes() {
     return [
       GoRoute(
         path: '/',
@@ -56,7 +86,9 @@ class AppRouter {
         path: '/${Routes.authView}',
         name: Routes.authView,
         builder: (context, state) {
-          return const AuthView();
+          return AuthView(
+            redirectionPath: targetPath,
+          );
         },
       ),
       GoRoute(
@@ -64,6 +96,13 @@ class AppRouter {
         name: Routes.proposalsView,
         builder: (context, state) {
           return const ProposalView();
+        },
+      ),
+      GoRoute(
+        path: '/${Routes.inboxView}',
+        name: Routes.inboxView,
+        builder: (context, state) {
+          return const InboxView();
         },
       ),
       ShellRoute(
@@ -258,12 +297,11 @@ class AppRouter {
     ];
   }
 
-  static String currentRoute() {
-    return AppRouter.router.routerDelegate.currentConfiguration.uri.path
-        .toString();
+  String currentRoute() {
+    return router.routerDelegate.currentConfiguration.uri.path.toString();
   }
 
-  static void popTillFirstScreen(
+  void popTillFirstScreen(
     BuildContext context,
   ) {
     while (router

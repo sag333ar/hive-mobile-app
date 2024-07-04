@@ -59,4 +59,13 @@ extension PlatformNavigation on BuildContext {
               queryParameters: queryParameters,
               extra: extra,
             );
+
+  String currentRoute() {
+    return GoRouter.of(this)
+        .routerDelegate
+        .currentConfiguration
+        .uri
+        .path
+        .toString();
+  }
 }

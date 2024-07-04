@@ -23,12 +23,12 @@ class Controller<T> extends ChangeNotifier
     ActionListDataResponse<T> response = await initCallBack!();
     if (response.isSuccess) {
       if (response.data!.isNotEmpty) {
-        if(!reverseData){
+        if (!reverseData) {
           items = response.data!;
-        }else{
+        } else {
           items = response.data!.reversed.toList();
         }
-        
+
         viewState = ViewState.data;
         if (items.length < super.pageLimit) {
           super.isPageEnded = true;
@@ -75,14 +75,14 @@ class Controller<T> extends ChangeNotifier
   @override
   void refresh() {
     viewState = ViewState.loading;
-    initCallBack!();
+    init();
   }
 
   @protected
   void addItems(List<T> newItems) {
-    if(!reverseData){
+    if (!reverseData) {
       items = [...items, ...newItems];
-    }else{
+    } else {
       items = [...items, ...newItems.reversed.toList()];
     }
     items = items.toSet().toList();

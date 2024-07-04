@@ -38,7 +38,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: cbf5a93b648e94c8c7e537024621ee8d973c960f
+      resolved-ref: "1b85fcda9e2c81d237834c7b9222fea5b0dc701c"
       url: "https://github.com/sag333ar/hive_flutter_plugin.git"
     source: git
     version: "0.0.1"

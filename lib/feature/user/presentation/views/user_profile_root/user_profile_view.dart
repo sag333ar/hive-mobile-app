@@ -62,13 +62,6 @@ class UserProfileView extends StatelessWidget {
       builder: (context, child) {
         final controller = context.read<UserProfileController>();
         return Scaffold(
-            appBar: AppBar(
-              leading: BackButton(
-                onPressed: () {
-                  context.pop();
-                },
-              ),
-            ),
             backgroundColor: theme.colorScheme.tertiaryContainer,
             body: Selector<UserProfileController, ViewState>(
               selector: (_, provider) => provider.viewState,
