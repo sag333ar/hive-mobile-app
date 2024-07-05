@@ -12,7 +12,7 @@ class ThemeController extends ChangeNotifier {
   final Color _successColor = Colors.lightGreen;
   final Color _staticColor = Colors.white;
   final Color _lightGrey = const Color(0xFFf0f0f8);
-  final Color _secondaryPrimaryColor = Colors.tealAccent;
+  final Color _secondaryPrimaryColor = Colors.blue;
 
   final String _fontFamily = 'Poppins';
 
@@ -40,6 +40,7 @@ class ThemeController extends ChangeNotifier {
       cardColor: _lightGrey,
       dividerTheme: DividerThemeData(color: _primaryColor.withOpacity(0.1)),
       colorScheme: ColorScheme.light(
+        
           onPrimary: _staticColor,
           onSecondary: _lightGrey,
           onTertiary: _successColor, // color used for success

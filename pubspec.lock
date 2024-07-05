@@ -38,7 +38,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "1b85fcda9e2c81d237834c7b9222fea5b0dc701c"
+      resolved-ref: "0a725b14ca77f58fcaed407be178cd7b922f3b16"
       url: "https://github.com/sag333ar/hive_flutter_plugin.git"
     source: git
     version: "0.0.1"
@@ -360,10 +360,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_markdown
-      sha256: "9921f9deda326f8a885e202b1e35237eadfc1345239a0f6f0f1ff287e047547f"
+      sha256: "2e8a801b1ded5ea001a4529c97b1f213dcb11c6b20668e081cafb23468593514"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.1"
+    version: "0.7.3"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -859,6 +859,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "87cbeee9b916e013eedbd43bf07f253c34dd5184c88325e5227434e0f8b89a68"
+      url: "https://pub.dev"
+    source: hosted
+    version: "26.1.40"
+  syncfusion_flutter_sliders:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_sliders
+      sha256: e2ef998ad1078f564487c56b8b57ecd2215f8b87ea4acc9e4743b9502cb980fc
+      url: "https://pub.dev"
+    source: hosted
+    version: "26.1.40"
   term_glyph:
     dependency: transitive
     description:

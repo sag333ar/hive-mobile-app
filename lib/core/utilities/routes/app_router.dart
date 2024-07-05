@@ -1,4 +1,4 @@
-import 'package:auth/auth.dart';
+import 'package:auth/auth.dart' as auth;
 import 'package:auth/feature/user/view/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +10,9 @@ import 'package:hive_mobile_app/feature/community/presentation/community_profile
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/view/community_subscribers/view/community_subscribers_list_widget.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/view/proposal_view.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/view/witnesses_view.dart';
-import 'package:hive_mobile_app/feature/inbox/presentation/inbox_view.dart';
+import 'package:hive_mobile_app/feature/inbox/presentation/replies/view/inbox_view.dart';
+import 'package:hive_mobile_app/feature/inbox/presentation/reply_detail/view/inbox_detail_view.dart';
+import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_detail/view/post_detail_view.dart';
 import 'package:hive_mobile_app/feature/user/models/navigation_model/user_follow_info_list_navigation_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/view/subscribed_communities_widget.dart';
@@ -86,7 +88,7 @@ class AppRouter {
         path: '/${Routes.authView}',
         name: Routes.authView,
         builder: (context, state) {
-          return AuthView(
+          return auth.AuthView(
             redirectionPath: targetPath,
           );
         },
@@ -104,6 +106,17 @@ class AppRouter {
         builder: (context, state) {
           return const InboxView();
         },
+      ),
+      GoRoute(
+        path: '/${Routes.inboxDetailView}',
+        name: Routes.inboxDetailView,
+        builder: (context, state) {
+          return InboxDetailView(
+            item: state.extra as PostFeedModel,
+          );
+        },
+        redirect: (context, state) => _redirection(
+            condition: state.extra != null, routeName: Routes.inboxView),
       ),
       ShellRoute(
         navigatorKey: _userProfileShellNavigatorKey,
@@ -296,6 +309,13 @@ class AppRouter {
       ),
     ];
   }
+
+  static String? _redirection({bool condition = true, String? routeName}) =>
+      !condition
+          ? routeName != null
+              ? "/$routeName"
+              : '/'
+          : null;
 
   String currentRoute() {
     return router.routerDelegate.currentConfiguration.uri.path.toString();

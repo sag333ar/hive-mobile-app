@@ -1,0 +1,136 @@
+import 'package:auth/core/utils/constants/ui_constants.dart';
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
+import 'package:hive_mobile_app/core/common/widgets/dense_icon_button.dart';
+import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
+import 'package:hive_mobile_app/core/utilities/parser.dart';
+import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
+import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
+class InboxItem extends StatelessWidget {
+  const InboxItem(
+      {super.key, required this.item, required this.selectedPostDetailView});
+
+  final PostFeedModel item;
+  final ValueNotifier<PostFeedModel?>? selectedPostDetailView;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    String body = Parser.parseAndFilterText(
+      item.body,
+    );
+    var timeInString = timeago.format(item.created);
+    return InkWell(
+      onTap: () {
+        if (context.isMobileSize) {
+          context.pushNamed(Routes.inboxDetailView, extra: item);
+        } else {
+          if (selectedPostDetailView != null) {
+            selectedPostDetailView!.value = item;
+          }
+        }
+      },
+      child: Container(
+        color: theme.colorScheme.tertiaryContainer,
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kScreenHorizontalPaddingDigit, vertical: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      UserProfileimage(
+                        url: item.author,
+                      ),
+                      const Gap(15),
+                      Expanded(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  item.author,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text(
+                                "  •  $timeInString",
+                                style: theme.textTheme.labelSmall!.copyWith(
+                                    color: theme.primaryColorDark
+                                        .withOpacity(0.7)),
+                              )
+                            ],
+                          ),
+                          const Gap(4),
+                          Text(item.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.w600,
+                              )),
+                          if (body.isNotEmpty)
+                            Text(body,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.bodyMedium!.copyWith(
+                                    fontSize: 13,
+                                    color:
+                                        theme.primaryColorDark.withOpacity(0.9),
+                                    fontWeight: FontWeight.w300)),
+                        ],
+                      )),
+                      const Gap(45)
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+                left: 0,
+                top: 0,
+                bottom: 0,
+                child: Container(
+                  width: 3,
+                  height: double.infinity,
+                  color: theme.primaryColor,
+                )),
+            Positioned(
+              top: 0,
+              bottom: 0,
+              right: kScreenHorizontalPaddingDigit,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DenseIconButton(
+                    onPressed: () {},
+                    icon: Icons.bookmark,
+                  ),
+                  DenseIconButton(
+                    onPressed: () {},
+                    icon: Icons.block,
+                    color: Colors.red,
+                  ),
+                  DenseIconButton(
+                    onPressed: () {},
+                    icon: Icons.check,
+                    color: Colors.green,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

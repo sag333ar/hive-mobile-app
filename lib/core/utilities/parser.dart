@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
-class Parser{
-   static int parseAuthorReputation(int rawRep) {
+class Parser {
+  static int parseAuthorReputation(int rawRep) {
     String rep = rawRep.toString();
     bool neg = rep.startsWith("-");
     rep = neg ? rep.substring(1) : rep;
@@ -17,5 +17,20 @@ class Parser{
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
 
     return htmlText.replaceAll(exp, '');
+  }
+
+  static String removeTagsAndLinks(String htmlText) {
+    RegExp exp = RegExp(
+      r'<[^>]*>|!\[.*?\]\(.*?\)|\[(.*?)\]\(.*?\)|!\[.*?\]\[.*?\]|\[.*?\]\[.*?\]|\[.*?\]\[.*?\]',
+      multiLine: true,
+      caseSensitive: false,
+    );
+    return htmlText.replaceAll(exp, '');
+  }
+
+  static String parseAndFilterText(String htmlText) {
+    String parsedBody = Parser.removeTagsAndLinks(htmlText);
+    int index = parsedBody.indexOf('\n');
+    return parsedBody.substring(0, index != -1 ? index : null);
   }
 }

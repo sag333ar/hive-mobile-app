@@ -25,4 +25,7 @@ class Routes {
   static const String authView = 'auth';
 
   static const String inboxView = 'inbox';
+  static const String inboxDetailView = 'inboxDetailView';
+
+
 }
