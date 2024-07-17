@@ -10,9 +10,9 @@ import 'package:hive_mobile_app/feature/community/presentation/community_profile
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/view/community_subscribers/view/community_subscribers_list_widget.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/view/proposal_view.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/view/witnesses_view.dart';
+import 'package:hive_mobile_app/feature/inbox/models/inbox_detail_navigaiton_model.dart';
 import 'package:hive_mobile_app/feature/inbox/presentation/replies/view/inbox_view.dart';
 import 'package:hive_mobile_app/feature/inbox/presentation/reply_detail/view/inbox_detail_view.dart';
-import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_detail/view/post_detail_view.dart';
 import 'package:hive_mobile_app/feature/user/models/navigation_model/user_follow_info_list_navigation_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/subscribed_communities/view/subscribed_communities_widget.dart';
@@ -111,8 +111,11 @@ class AppRouter {
         path: '/${Routes.inboxDetailView}',
         name: Routes.inboxDetailView,
         builder: (context, state) {
+          InboxDetailNavigaitonModel data =
+              state.extra as InboxDetailNavigaitonModel;
           return InboxDetailView(
-            item: state.extra as PostFeedModel,
+            item: data.postFeedModel,
+            controller: data.controller,
           );
         },
         redirect: (context, state) => _redirection(

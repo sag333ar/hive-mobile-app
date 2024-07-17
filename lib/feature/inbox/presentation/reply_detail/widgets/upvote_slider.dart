@@ -57,7 +57,7 @@ class _UpvoteSliderState extends State<UpvoteSlider> {
             inactiveColor: theme.primaryColorDark,
             value: sliderValue,
             labelFormatterCallback: (actualValue, formattedText) =>
-                displayWeight(value: actualValue),
+                displayWeight(value: actualValue.toInt()),
             interval: 10,
             showTicks: false,
             showLabels: true,
@@ -90,7 +90,7 @@ class _UpvoteSliderState extends State<UpvoteSlider> {
     );
   }
 
-  String displayWeight({double? value}) {
+  String displayWeight({int? value}) {
     var voteValue = (value ?? sliderValue);
     var intVoteValue = voteValue.round();
     return "$intVoteValue %";

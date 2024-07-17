@@ -24,9 +24,11 @@ class _InboxViewState extends State<InboxView> {
 
   @override
   Widget build(BuildContext context) {
-    final String currentUserName = context.read<UserController>().userName!;
+    final userController = context.read<UserController>();
+    final String currentUserName = userController.userName!;
     return ChangeNotifierProvider(
       create: (context) => InboxController(
+        token: userController.loginToken!,
         accountName: currentUserName,
       ),
       builder: (context, child) {
@@ -44,6 +46,7 @@ class _InboxViewState extends State<InboxView> {
                   return const Emptystate(text: "No Replies found");
                 } else if (state == ViewState.error) {
                   return ErrorState(
+                    showRetryButton: true,
                     onTapRetryButton: () => controller.refresh(),
                   );
                 } else {

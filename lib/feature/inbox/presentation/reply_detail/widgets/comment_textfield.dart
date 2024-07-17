@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class InboxCommentTextField extends StatelessWidget {
-  const InboxCommentTextField({super.key});
+  const InboxCommentTextField({super.key, required this.textEditingController});
+
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return TextField(
+      controller: textEditingController,
       maxLines: 20,
       minLines: 6,
       decoration: InputDecoration(

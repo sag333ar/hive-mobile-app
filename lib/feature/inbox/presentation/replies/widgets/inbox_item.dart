@@ -7,7 +7,9 @@ import 'package:hive_mobile_app/core/common/widgets/dense_icon_button.dart';
 import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/utilities/parser.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
+import 'package:hive_mobile_app/feature/inbox/models/inbox_detail_navigaiton_model.dart';
 import 'package:hive_mobile_app/feature/inbox/presentation/replies/controller/inbox_controller.dart';
+import 'package:hive_mobile_app/feature/inbox/presentation/replies/widgets/bookmark_icon.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -30,7 +32,9 @@ class InboxItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (context.isMobileSize) {
-          context.pushNamed(Routes.inboxDetailView, extra: item);
+          context.pushNamed(Routes.inboxDetailView,
+              extra: InboxDetailNavigaitonModel(
+                  controller: controller, postFeedModel: item));
         } else {
           if (selectedPostDetailView != null) {
             selectedPostDetailView!.value = item;
@@ -114,10 +118,7 @@ class InboxItem extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  DenseIconButton(
-                    onPressed: () {},
-                    icon: Icons.bookmark,
-                  ),
+                  BookmarkIcon(item: item),
                   DenseIconButton(
                     onPressed: () {
                       controller.ignoreAuthor(item.author);

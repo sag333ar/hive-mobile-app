@@ -11,6 +11,7 @@ import 'package:hive_mobile_app/feature/community/models/community_detail/commun
 import 'package:hive_mobile_app/feature/community/models/community_detail/community_team_model.dart';
 import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
+import 'package:hive_mobile_app/feature/inbox/models/inbox_model.dart';
 import 'package:hive_mobile_app/feature/post/models/post_detail/comment_model.dart';
 import 'package:hive_mobile_app/feature/post/models/post_detail/post_detail_model.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
@@ -360,6 +361,70 @@ class ApiService {
     } catch (e) {
       return ActionListDataResponse(
           status: ResponseStatus.failed, errorMessage: e.toString());
+    }
+  }
+
+  Future<ActionSingleDataResponse<InboxModel>> readInboxData(
+      String token) async {
+    try {
+      var headers = {'Authorization': token};
+      http.Response response = await http.get(
+          Uri.parse(
+            'https://inbox-api.the-hive-mobile.app/data',
+          ),
+          headers: headers);
+
+      if (response.statusCode == 200) {
+        return ActionSingleDataResponse<InboxModel>(
+            errorMessage: "",
+            status: ResponseStatus.success,
+            isSuccess: true,
+            data: InboxModel.fromRawJson(response.body));
+      } else {
+        return ActionSingleDataResponse(
+          errorMessage: "Something went wrong",
+          status: ResponseStatus.failed,
+        );
+      }
+    } catch (e) {
+      return ActionSingleDataResponse(
+        errorMessage: "Something went wrong",
+        status: ResponseStatus.failed,
+      );
+    }
+  }
+
+  Future<ActionSingleDataResponse<InboxModel>> writeInboxData(
+      String token, InboxModel data) async {
+    try {
+      var headers = {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+      };
+      http.Response response = await http.post(
+          Uri.parse(
+            'https://inbox-api.the-hive-mobile.app/data',
+          ),
+          headers: headers,
+          body: data.toRawJson());
+
+      if (response.statusCode == 200) {
+        return ActionSingleDataResponse<InboxModel>(
+            errorMessage: "",
+            status: ResponseStatus.success,
+            isSuccess: true,
+            data: InboxModel.fromRawJson(response.body));
+      } else {
+        return ActionSingleDataResponse(
+          errorMessage: "Something went wrong",
+          status: ResponseStatus.failed,
+        );
+      }
+    } catch (e) {
+      return ActionSingleDataResponse(
+        errorMessage: "Something went wrong",
+        status: ResponseStatus.failed,
+      );
     }
   }
 }

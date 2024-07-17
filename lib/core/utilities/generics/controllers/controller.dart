@@ -20,36 +20,41 @@ class Controller<T> extends ChangeNotifier
   @override
   @protected
   void init() async {
-    if (initCallBack == null) throw UnimplementedError('init api is not set');
-    ActionListDataResponse<T> response = await initCallBack!();
-    if (response.isSuccess) {
-      if (response.data!.isNotEmpty) {
-        if (!reverseData) {
-          items = response.data!;
-        } else {
-          items = response.data!.reversed.toList();
-        }
-        if (filterCallBack != null) {
-          await filterCallBack!();
-          if (items.isNotEmpty) {
-            viewState = ViewState.data;
+    try {
+      if (initCallBack == null) throw UnimplementedError('init api is not set');
+      ActionListDataResponse<T> response = await initCallBack!();
+      if (response.isSuccess) {
+        if (response.data!.isNotEmpty) {
+          if (!reverseData) {
+            items = response.data!;
           } else {
-            viewState = ViewState.empty;
+            items = response.data!.reversed.toList();
+          }
+          if (filterCallBack != null) {
+            await filterCallBack!();
+            if (items.isNotEmpty) {
+              viewState = ViewState.data;
+            } else {
+              viewState = ViewState.empty;
+            }
+          } else {
+            viewState = ViewState.data;
+          }
+
+          if (items.length < super.pageLimit) {
+            super.isPageEnded = true;
           }
         } else {
-          viewState = ViewState.data;
-        }
-
-        if (items.length < super.pageLimit) {
-          super.isPageEnded = true;
+          viewState = ViewState.empty;
         }
       } else {
-        viewState = ViewState.empty;
+        viewState = ViewState.error;
       }
-    } else {
+      notifyListeners();
+    } catch (e) {
       viewState = ViewState.error;
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   @required
@@ -90,6 +95,7 @@ class Controller<T> extends ChangeNotifier
   @override
   void refresh() {
     viewState = ViewState.loading;
+    notifyListeners();
     init();
   }
 
