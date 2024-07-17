@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/single_line_header_content_text.dart';
 import 'package:hive_mobile_app/core/common/widgets/custom_vertical_divider.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

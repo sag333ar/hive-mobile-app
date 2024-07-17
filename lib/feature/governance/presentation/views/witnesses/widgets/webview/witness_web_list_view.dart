@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/widgets/pagination_loader.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/controller/witnesses_controller.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/witnesses/widgets/webview/witness_web_list_view_item.dart';

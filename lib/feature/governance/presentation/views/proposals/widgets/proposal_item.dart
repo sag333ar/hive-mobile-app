@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
-import 'package:hive_mobile_app/core/common/extensions/platform_navigation.dart';
 import 'package:hive_mobile_app/core/common/widgets/text_box.dart';
-import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
-import 'package:hive_mobile_app/core/utilities/routes/route_keys.dart';
-import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/feature/governance/models/proposal_model.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/widgets/sender_to_receiver.dart';
 import 'package:intl/intl.dart';

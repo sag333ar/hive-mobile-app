@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
 import 'package:hive_mobile_app/core/common/widgets/custom_vertical_divider.dart';
 import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/feature/community/models/community_detail/community_detail_model.dart';
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/widgets/community_profile_join_add_post_buttons.dart';
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/widgets/mobile_and_tablet/community_profile_mobile_tablet_info_scroll.dart';

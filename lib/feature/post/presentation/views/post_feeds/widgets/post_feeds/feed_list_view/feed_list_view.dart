@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/widgets/pagination_loader.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/controller/post_feeds_controller.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_feeds/widgets/post_feeds/feed_list_view/feed_item_for_list_view.dart';

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auth/auth.dart';
 import 'package:auth/core/extensions/ui.dart';
 import 'package:auth/core/widgets/drawer_header.dart';
@@ -29,6 +31,7 @@ class DrawerMenu extends StatelessWidget {
         child: Consumer<UserController>(
           builder: (context, userController, child) {
             final bool isLoggedIn = userController.isUserLoggedIn;
+            log(context.read<UserController>().loginToken.toString());
             return Container(
               width: 300,
               decoration: BoxDecoration(

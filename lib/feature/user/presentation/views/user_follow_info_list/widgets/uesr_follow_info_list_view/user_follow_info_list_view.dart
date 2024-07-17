@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/widgets/pagination_loader.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/user/models/follow_info_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/views/user_follow_info_list/controller/user_follow_info_list_controller.dart';

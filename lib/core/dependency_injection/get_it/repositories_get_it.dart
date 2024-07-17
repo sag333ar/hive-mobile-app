@@ -2,6 +2,7 @@ import 'package:hive_mobile_app/core/dependency_injection/dependency_injection.d
 import 'package:hive_mobile_app/core/dependency_injection/get_it_feature_interface.dart';
 import 'package:hive_mobile_app/feature/community/repository/community_repository.dart';
 import 'package:hive_mobile_app/feature/governance/repository/governance_repository.dart';
+import 'package:hive_mobile_app/feature/inbox/repository/inbox_repository.dart';
 import 'package:hive_mobile_app/feature/post/repository/post_repository.dart';
 import 'package:hive_mobile_app/feature/user/repository/user_repository.dart';
 
@@ -16,5 +17,7 @@ class RepositoriesGetIt extends GetItFeature {
         () => GovernanceRepository(apiService: getIt.call()));
     getIt.registerFactory<UserRepository>(
         () => UserRepository(apiService: getIt.call()));
+    getIt.registerFactory<InboxRepository>(
+        () => InboxRepository(apiService: getIt.call(),localService: getIt.call()));
   }
 }

@@ -130,7 +130,7 @@ class MainActivity: FlutterActivity() {
         }
         webView?.webViewClient = client
         webView?.addJavascriptInterface(WebAppInterface(this), "Android")
-        webView?.loadUrl("https://appassets.androidplatform.net/assets/index.html")
+        webView?.loadUrl("https://appassets.androidplatform.net/assets/bridges.html")
     }
 }
 

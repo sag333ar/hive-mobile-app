@@ -5,7 +5,7 @@ import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.da
 import 'package:hive_mobile_app/core/common/widgets/inkwell_wrapper.dart';
 import 'package:hive_mobile_app/core/common/widgets/text_box.dart';
 import 'package:hive_mobile_app/core/common/widgets/user_image_name.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/user/models/badge_model.dart';
 import 'package:hive_mobile_app/feature/user/presentation/controllers/user_profile_controller.dart';

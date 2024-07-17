@@ -18,8 +18,10 @@ class InboxListView extends StatelessWidget {
     return Selector<InboxController, List<PostFeedModel>>(
       selector: (_, myType) => myType.items,
       builder: (context, items, child) {
-        if (showMasterView) {
-          selectedPostDetailView?.value = items.first;
+        if (showMasterView && selectedPostDetailView != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            selectedPostDetailView!.value = items.first;
+          });
         }
         return ListView.separated(
           padding: kScreenVerticalPadding.copyWith(left: 5),

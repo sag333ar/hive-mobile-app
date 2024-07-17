@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_mobile_app/core/common/widgets/pagination_loader.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/feature/community/models/community_detail/community_team_model.dart';
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/view/community_subscribers/controller/community_subscribers_controller.dart';
 import 'package:hive_mobile_app/feature/community/presentation/community_profile/view/community_subscribers/widgets/community_subscribers_list_item.dart';

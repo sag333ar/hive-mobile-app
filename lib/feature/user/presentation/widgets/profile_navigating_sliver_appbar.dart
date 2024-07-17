@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 
 class ProfileSliverAppbar extends StatelessWidget {
   const ProfileSliverAppbar({

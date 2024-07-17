@@ -7,7 +7,9 @@ import 'package:hive_mobile_app/core/common/widgets/dense_icon_button.dart';
 import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/utilities/parser.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
+import 'package:hive_mobile_app/feature/inbox/presentation/replies/controller/inbox_controller.dart';
 import 'package:hive_mobile_app/feature/post/models/post_feeds/post_feed_model.dart';
+import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class InboxItem extends StatelessWidget {
@@ -20,6 +22,7 @@ class InboxItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final controller = context.read<InboxController>();
     String body = Parser.parseAndFilterText(
       item.body,
     );
@@ -116,7 +119,9 @@ class InboxItem extends StatelessWidget {
                     icon: Icons.bookmark,
                   ),
                   DenseIconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.ignoreAuthor(item.author);
+                    },
                     icon: Icons.block,
                     color: Colors.red,
                   ),

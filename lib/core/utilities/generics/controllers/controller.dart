@@ -15,6 +15,7 @@ class Controller<T> extends ChangeNotifier
 
   Future<ActionListDataResponse<T>> Function()? initCallBack;
   Future<ActionListDataResponse<T>> Function()? paginationCallBack;
+  Future<void> Function()? filterCallBack;
 
   @override
   @protected
@@ -28,8 +29,17 @@ class Controller<T> extends ChangeNotifier
         } else {
           items = response.data!.reversed.toList();
         }
+        if (filterCallBack != null) {
+          await filterCallBack!();
+          if (items.isNotEmpty) {
+            viewState = ViewState.data;
+          } else {
+            viewState = ViewState.empty;
+          }
+        } else {
+          viewState = ViewState.data;
+        }
 
-        viewState = ViewState.data;
         if (items.length < super.pageLimit) {
           super.isPageEnded = true;
         }
@@ -53,6 +63,11 @@ class Controller<T> extends ChangeNotifier
   void setPaginationApi(
       Future<ActionListDataResponse<T>> Function() paginationApi) {
     paginationCallBack = paginationApi;
+  }
+
+  @protected
+  void setFilterCallBack(Future<void> Function() filterCallBack) {
+    this.filterCallBack = filterCallBack;
   }
 
   @override

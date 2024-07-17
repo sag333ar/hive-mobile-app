@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:auth/core/configs/get_it.dart';
 import 'package:auth/feature/user/view/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_mobile_app/core/services/data_service/api_service.dart';
 import 'package:hive_mobile_app/core/utilities/app_scroll_behaviour.dart';
+import 'package:hive_mobile_app/core/utilities/constants/server_constants.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/utilities/routes/app_router.dart';
 import 'package:hive_mobile_app/core/utilities/theme/theme_mode.dart';
@@ -18,7 +17,8 @@ void main() async {
   setPathUrlStrategy();
   await get_it.init();
   await GetStorage.init();
-  await Config.init(getItInstance: get_it.getIt);
+  await Config.ensureInitialized(
+      getItInstance: get_it.getIt, loginDomain: loginDomain);
 
   runApp(const MyApp());
 }

@@ -4,7 +4,7 @@ import 'package:hive_mobile_app/core/common/widgets/custom_list_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/dialog/link_action_dialog.dart';
 import 'package:hive_mobile_app/core/common/widgets/drawer/expandable_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/core/utilities/routes/route_keys.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';

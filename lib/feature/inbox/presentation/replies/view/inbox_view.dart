@@ -19,7 +19,7 @@ class InboxView extends StatefulWidget {
 }
 
 class _InboxViewState extends State<InboxView> {
-  final ValueNotifier<PostFeedModel?>? selectedPostDetailView =
+  final ValueNotifier<PostFeedModel?> selectedPostDetailView =
       ValueNotifier(null);
 
   @override
@@ -65,6 +65,6 @@ class _InboxViewState extends State<InboxView> {
   }
 
   Widget _tabletAndWebView() {
-    return WebInboxWidgetView(selectedPostDetailView: selectedPostDetailView!);
+    return WebInboxWidgetView(selectedPostDetailView: selectedPostDetailView);
   }
 }

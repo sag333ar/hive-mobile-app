@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/feature/governance/presentation/views/proposals/widgets/sender_to_receiver.dart';
 import 'package:hive_mobile_app/feature/user/models/account_history_model/account_history_model.dart';

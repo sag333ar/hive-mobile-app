@@ -5,7 +5,7 @@ import 'package:hive_mobile_app/core/common/widgets/empty_state.dart';
 import 'package:hive_mobile_app/core/common/widgets/loading_state.dart';
 import 'package:hive_mobile_app/core/common/widgets/scroll_end_listener.dart';
 import 'package:hive_mobile_app/core/common/widgets/server_error.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/core/utilities/enum.dart';
 import 'package:hive_mobile_app/core/utilities/routes/routes.dart';
 import 'package:hive_mobile_app/feature/governance/models/witnesses/witnesses_model.dart';

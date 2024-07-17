@@ -5,7 +5,7 @@ import 'package:hive_mobile_app/core/common/widgets/empty_state.dart';
 import 'package:hive_mobile_app/core/common/widgets/images/user_profile_image.dart';
 import 'package:hive_mobile_app/core/common/widgets/info_tile.dart';
 import 'package:hive_mobile_app/core/common/widgets/text_box.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 import 'package:hive_mobile_app/feature/post/models/post_detail/post_detail_model.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_detail/controller/post_detail_controller.dart';
 import 'package:hive_mobile_app/feature/post/presentation/views/post_detail/widgets/comments/comments_widget_view.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_mobile_app/core/common/widgets/text_box.dart';
-import 'package:hive_mobile_app/core/utilities/constants.dart';
+import 'package:hive_mobile_app/core/utilities/constants/constants.dart';
 
 class ProfileMobileTabletInfoScrollTile extends StatelessWidget {
   const ProfileMobileTabletInfoScrollTile({
