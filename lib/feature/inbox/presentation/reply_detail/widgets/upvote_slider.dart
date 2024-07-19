@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hive_mobile_app/core/common/extensions/layout_adapter.dart';
 import 'package:hive_mobile_app/feature/inbox/presentation/reply_detail/widgets/upvote_percentage_buttons.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -36,10 +37,7 @@ class _UpvoteSliderState extends State<UpvoteSlider> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: Text("Your vote: ${displayWeight()}"),
-        ),
+        Text("Your vote: ${displayWeight()}"),
         SfSliderTheme(
           data: SfSliderThemeData(
               activeLabelStyle: const TextStyle(
@@ -80,9 +78,13 @@ class _UpvoteSliderState extends State<UpvoteSlider> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             percentageButtons(10),
+            const Gap(15),
             percentageButtons(25),
+            const Gap(15),
             percentageButtons(50),
+            const Gap(15),
             percentageButtons(75),
+            const Gap(15),
             percentageButtons(100),
           ],
         ),
@@ -93,7 +95,7 @@ class _UpvoteSliderState extends State<UpvoteSlider> {
   String displayWeight({int? value}) {
     var voteValue = (value ?? sliderValue);
     var intVoteValue = voteValue.round();
-    return "$intVoteValue %";
+    return context.isMobileSize ? intVoteValue.toString() : "$intVoteValue %";
   }
 
   Widget percentageButtons(double value) {

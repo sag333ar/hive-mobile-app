@@ -96,44 +96,35 @@ class InboxItem extends StatelessWidget {
                                     fontWeight: FontWeight.w300)),
                         ],
                       )),
-                      const Gap(45)
+                      
                     ],
                   ),
                 ],
               ),
             ),
-            Positioned(
-                left: 0,
-                top: 0,
-                bottom: 0,
-                child: Container(
-                  width: 3,
-                  height: double.infinity,
-                  color: theme.primaryColor,
-                )),
-            Positioned(
-              top: 0,
-              bottom: 0,
-              right: kScreenHorizontalPaddingDigit,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  BookmarkIcon(item: item),
-                  DenseIconButton(
-                    onPressed: () {
-                      controller.ignoreAuthor(item.author);
-                    },
-                    icon: Icons.block,
-                    color: Colors.red,
-                  ),
-                  DenseIconButton(
-                    onPressed: () {},
-                    icon: Icons.check,
-                    color: Colors.green,
-                  ),
-                ],
-              ),
-            )
+            // Positioned(
+            //   top: 0,
+            //   bottom: 0,
+            //   right: kScreenHorizontalPaddingDigit,
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       BookmarkIcon(item: item),
+            //       DenseIconButton(
+            //         onPressed: () {
+            //           controller.ignoreAuthor(item.author);
+            //         },
+            //         icon: Icons.block,
+            //         color: Colors.red,
+            //       ),
+            //       DenseIconButton(
+            //         onPressed: () {},
+            //         icon: Icons.check,
+            //         color: Colors.green,
+            //       ),
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),

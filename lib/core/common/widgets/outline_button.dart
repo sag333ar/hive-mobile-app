@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-class ColoredButton extends StatelessWidget {
-  const ColoredButton(
+class MyOutlinedButton extends StatelessWidget {
+  const MyOutlinedButton(
       {super.key,
       required this.text,
       this.icon,
@@ -23,11 +23,11 @@ class ColoredButton extends StatelessWidget {
   SizedBox _button(ThemeData theme) {
     return SizedBox(
       height: 32,
-      child: FilledButton(
-          style: FilledButton.styleFrom(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              backgroundColor: backgroundColor ?? theme.primaryColor),
+      child: OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+          ),
           onPressed: onPressed,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -10,19 +10,16 @@ class UpVotePercentageButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(right: 15.0),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: () {
-            onTap(percentageValue);
-          },
-          child: CircleAvatar(
-            radius: 20,
-            child: Text("${(percentageValue).round()}",
-                style: theme.textTheme.bodyMedium),
-          ),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () {
+          onTap(percentageValue);
+        },
+        child: CircleAvatar(
+          radius: 20,
+          child: Text("${(percentageValue).round()}",
+              style: theme.textTheme.bodyMedium),
         ),
       ),
     );
